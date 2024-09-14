@@ -8,3 +8,6 @@ Testing desktop connection
 Success!
 
 Now testing Windows Command Prompt
+
+Also success! :)
+I love Git and GitHub
