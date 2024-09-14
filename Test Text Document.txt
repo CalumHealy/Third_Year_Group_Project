@@ -6,3 +6,5 @@ Testing laptop connection
 Testing desktop connection
 
 Success!
+
+Now testing Windows Command Prompt
