@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register an Account</title>
+    <link href="css/auth.css" rel="stylesheet">
+</head>
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form action= "/register" method="POST" id="registerForm" >
+        <h3>Registration</h3>
+
+        <label for="username">Username:
+            <input type="email" placeholder="Email" name="username" required>
+        </label>
+        <label for="password">Password: 
+            <input type="password" placeholder="Password" name="password" id="password" required>
+        </label>
+        <label for="confirmPassword">Confirm Password: 
+            <input type="password" placeholder="Confirm Password" name="confirmPassword" id="confirmPassword" required>
+        </label>
+        <label for="phoneNo">Contact Number: 
+            <input type="tel" placeholder="Phone Number" name="phoneNo">
+        </label>
+        <br>
+        <button type="submit">Create Account</button>
+        <br>
+
+        <div id="errorMessage" class="error"></div>
+    </form>
+    <script>
+        //js for form submission
+        document.getElementById('registerForm').addEventListener('submit',function(event){
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirmPassword').value;
+            //check match
+            if (password != confirmPassword){
+                event.preventDefault();
+                //display error message
+                document.getElementById('errorMessage').textContent = "Passwords not a match";
+            }else{
+                document.getElementById('errorMessage').textContent = "";
+            }
+        });
+    </script>
+
+</body>
+</html>
