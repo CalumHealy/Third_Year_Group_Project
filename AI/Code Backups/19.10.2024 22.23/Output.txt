@@ -1,0 +1,23 @@
+"C:\Users\calum\OneDrive\Desktop\CrewAI Pycharm Test\PyCharm\Scripts\python.exe" "C:\Users\calum\OneDrive\Desktop\CrewAI Pycharm Test\main.py" 
+sagemaker.config INFO - Not applying SDK defaults from location: C:\ProgramData\sagemaker\sagemaker\config.yaml
+sagemaker.config INFO - Not applying SDK defaults from location: C:\Users\calum\AppData\Local\sagemaker\sagemaker\config.yaml
+C:\Users\calum\OneDrive\Desktop\CrewAI Pycharm Test\main.py:25: LangChainDeprecationWarning: The class `LLMChain` was deprecated in LangChain 0.1.17 and will be removed in 1.0. Use RunnableSequence, e.g., `prompt | llm` instead.
+  llm_chain = LLMChain(llm=llm, prompt=prompt)
+Traceback (most recent call last):
+  File "C:\Users\calum\OneDrive\Desktop\CrewAI Pycharm Test\main.py", line 36, in <module>
+    researcher = Agent(
+  File "C:\Users\calum\OneDrive\Desktop\CrewAI Pycharm Test\PyCharm\lib\site-packages\pydantic\main.py", line 212, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+  File "C:\Users\calum\OneDrive\Desktop\CrewAI Pycharm Test\PyCharm\lib\site-packages\crewai\agent.py", line 173, in post_init_setup
+    self._setup_agent_executor()
+  File "C:\Users\calum\OneDrive\Desktop\CrewAI Pycharm Test\PyCharm\lib\site-packages\crewai\agent.py", line 180, in _setup_agent_executor
+    self.set_cache_handler(self.cache_handler)
+  File "C:\Users\calum\OneDrive\Desktop\CrewAI Pycharm Test\PyCharm\lib\site-packages\crewai\agents\agent_builder\base_agent.py", line 262, in set_cache_handler
+    self.create_agent_executor()
+  File "C:\Users\calum\OneDrive\Desktop\CrewAI Pycharm Test\PyCharm\lib\site-packages\crewai\agent.py", line 290, in create_agent_executor
+    tools_names=self.__tools_names(parsed_tools),
+  File "C:\Users\calum\OneDrive\Desktop\CrewAI Pycharm Test\PyCharm\lib\site-packages\crewai\agent.py", line 412, in __tools_names
+    return ", ".join([t.name for t in tools])
+TypeError: sequence item 1: expected str instance, NoneType found
+
+Process finished with exit code 1
