@@ -81,7 +81,6 @@ fun LoginPage (modifier: Modifier = Modifier, navController: NavController, auth
         Button(onClick = {
             authModel.login(email, password)
         },
-            enabled = authState.value == AuthState.Loading
             ) {
             Text(text = "Login")
         }
