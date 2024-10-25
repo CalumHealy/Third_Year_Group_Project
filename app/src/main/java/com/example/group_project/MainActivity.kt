@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import com.example.group_project.navigation.AppNavigation
 import com.example.group_project.ui.theme.Group_projectTheme
 
 class MainActivity : ComponentActivity() {

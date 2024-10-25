@@ -1,6 +1,7 @@
 package com.example.group_project.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
@@ -20,6 +21,14 @@ fun HomePage (modifier: Modifier = Modifier, navController: NavController, authM
     when(authState.value) {
         is AuthState.Unauthenticated -> navController.navigate("login")
         else -> Unit
+    }
+
+    Box (modifier = Modifier
+        .fillMaxSize(),
+        contentAlignment = Alignment.Center) {
+        Text(text = "Home Screen",
+            fontSize = 22.sp
+        )
     }
     Column(
         modifier = modifier.fillMaxSize(),
