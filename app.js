@@ -8,6 +8,7 @@ import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import router from "./routes/routing.js";
+import session from "express-session";
 
 dotenv.config();//load environment vars from .env
 const app = express();
@@ -38,6 +39,15 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine','ejs');
 //serve static files (css, images etc.) from public folder
 app.use(express.static(path.join(__dirname,'public')));
+
+//session middleware to remember login account
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false
+    })
+);
 
 //Use router
 app.use('/',router);
