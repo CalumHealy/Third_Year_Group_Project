@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -29,6 +30,7 @@ fun HomePage(modifier: Modifier = Modifier, navController: NavController, authMo
 
     val navItemsList = listOf(
         NavItems("Home", Icons.Default.Home),
+        NavItems("Invest", Icons.Default.ShoppingCart),
         NavItems("Investments", Icons.Default.Star),
         NavItems("More", Icons.Default.Menu),
         NavItems("Profile", Icons.Default.Person)
@@ -74,8 +76,10 @@ fun ContentScreen(
     authModel: AuthModel
 ) {
     when (selectedIndex) {
-        1 -> MyInvestmentsPage()
-        2 -> MenuPage()
-        3 -> ProfilePage(navController = navController, authModel = authModel)
+
+        1 -> InvestPage()
+        2 -> MyInvestmentsPage()
+        3 -> MenuPage()
+        4 -> ProfilePage(navController = navController, authModel = authModel)
     }
 }

@@ -1,5 +1,6 @@
 package com.example.group_project.navigation
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
@@ -11,19 +12,18 @@ import com.example.group_project.screens.LoginPage
 import com.example.group_project.screens.SignUpPage
 
 @Composable
-fun AppNavigation (modifier: Modifier = Modifier, authModel : AuthModel) {
+fun AppNavigation(modifier: Modifier = Modifier, authModel: AuthModel) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "login", builder = {
+    NavHost(navController = navController, startDestination = "login") {
         composable("login") {
-            LoginPage(modifier, navController, authModel)
+            LoginPage(modifier = modifier.fillMaxSize(), navController = navController, authModel = authModel)
         }
         composable("signup") {
-            SignUpPage(modifier, navController, authModel)
+            SignUpPage(modifier = modifier.fillMaxSize(), navController = navController, authModel = authModel)
         }
         composable("home") {
-            HomePage(modifier, navController, authModel)
+            HomePage(modifier = modifier.fillMaxSize(), navController = navController, authModel = authModel)
         }
-    })
-
+    }
 }

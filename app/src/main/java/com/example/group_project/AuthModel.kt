@@ -61,11 +61,11 @@ class AuthModel: ViewModel() {
     }
 
     fun signOut() {
-        auth.signOut()
+        FirebaseAuth.getInstance().signOut()
         _authState.value = AuthState.Unauthenticated
     }
-
 }
+
 
 sealed class AuthState {
     object Authenticated : AuthState()
