@@ -17,7 +17,7 @@ import com.example.group_project.screens.ProfilePage
 fun AppNavigation(
     modifier: Modifier = Modifier,
     authModel: AuthModel,
-    walletViewModel: WalletViewModel // Ensure walletViewModel is a parameter here
+    walletViewModel: WalletViewModel
 ) {
     val navController = rememberNavController()
 

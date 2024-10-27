@@ -23,7 +23,7 @@ class CryptoViewModel : ViewModel() {
         _favorites.remove(crypto)
     }
 
-    // Check if crypto is a favorite
+    //check if crypto is a favorite
     fun isFavorite(crypto: Crypto): Boolean {
         return _favorites.contains(crypto)
     }

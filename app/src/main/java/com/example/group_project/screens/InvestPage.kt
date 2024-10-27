@@ -18,7 +18,7 @@ import com.example.group_project.Crypto
 fun InvestPage() {
     val viewModel: CryptoViewModel = viewModel()
 
-    // Sample cryptocurrency data
+    //sample crypto data
     val cryptos = listOf(
         Crypto("1", "Bitcoin", "BTC"),
         Crypto("2", "Ethereum", "ETH"),
@@ -29,8 +29,8 @@ fun InvestPage() {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp), // Add padding around the entire list
-        verticalArrangement = Arrangement.spacedBy(8.dp) // Space between items
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(cryptos) { crypto ->
             CryptoItem(crypto = crypto, viewModel = viewModel)
@@ -45,14 +45,14 @@ fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 12.dp, horizontal = 16.dp) // Adjust padding for each item
-            .height(64.dp), // Set a fixed height for each item
+            .padding(vertical = 12.dp, horizontal = 16.dp)
+            .height(64.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
             modifier = Modifier
                 .weight(1f)
-                .padding(end = 8.dp) // Space between text and button
+                .padding(end = 8.dp)
         ) {
             Text(text = crypto.name, fontSize = 20.sp)
             Text(text = crypto.symbol, fontSize = 16.sp)
@@ -65,7 +65,7 @@ fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel) {
                     viewModel.addToFavorites(crypto)
                 }
             },
-            modifier = Modifier.height(48.dp) // Set a consistent button height
+            modifier = Modifier.height(48.dp)
         ) {
             Text(text = if (isFavorite) "Sell" else "Buy")
         }

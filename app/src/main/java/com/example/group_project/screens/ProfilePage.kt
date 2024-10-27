@@ -81,8 +81,8 @@ private fun payWithPayPal(walletViewModel: WalletViewModel, userId: String, cont
         .clientId("AWV4GLCPZmL5T9YwkZNujubrxujWZiUYqT2TepuTGkzYP-vqOco5ESVGaO_qgxTCr68GGb2jL8_TXP3N") // Replace with your actual client ID
 
     val payment = PayPalPayment(
-        BigDecimal("10.00"),  // Amount to be added
-        "USD",                // Currency
+        BigDecimal("10.00"),
+        "GBP",
         "Adding funds to wallet",
         PayPalPayment.PAYMENT_INTENT_SALE
     )
@@ -97,19 +97,16 @@ private fun payWithPayPal(walletViewModel: WalletViewModel, userId: String, cont
 
 private const val PAYPAL_REQUEST_CODE = 1234
 
-// Handle PayPal result
+//handle PayPal result
 fun handlePayPalResult(requestCode: Int, resultCode: Int, data: Intent?, walletViewModel: WalletViewModel, userId: String) {
     if (requestCode == PAYPAL_REQUEST_CODE) {
         when (resultCode) {
             Activity.RESULT_OK -> {
-                // On successful payment, add funds to the user's wallet
                 walletViewModel.addFunds(userId, 10.00)
             }
             Activity.RESULT_CANCELED -> {
-                // Handle cancellation
             }
             PaymentActivity.RESULT_EXTRAS_INVALID -> {
-                // Handle invalid extras
             }
         }
     }
