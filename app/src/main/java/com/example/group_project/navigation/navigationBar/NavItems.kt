@@ -11,28 +11,5 @@ import androidx.compose.ui.graphics.vector.ImageVector
 data class NavItems (
     val label: String,
     val icon: ImageVector,
-    val route: String
 )
 
-val listOfNavItems = listOf(
-    NavItems (
-        label = "Home",
-        icon = Icons.Default.Home,
-        route = Screens.HomePage.name
-    ),
-    NavItems (
-        label = "Investments",
-        icon = Icons.Default.Star,
-        route = Screens.MyInvestmentsPage.name
-    ),
-    NavItems (
-        label = "More",
-        icon = Icons.AutoMirrored.Filled.List,
-        route = Screens.MenuPage.name
-    ),
-    NavItems (
-        label = "Profile",
-        icon = Icons.Default.Person,
-        route = Screens.ProfilePage.name
-    ),
-)

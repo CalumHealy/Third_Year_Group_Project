@@ -42,7 +42,9 @@ android {
 }
 
 dependencies {
-
+        implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")  // ViewModel
+        implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")   // LiveData
+        implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")     // Lifecycle runtime for Compose
     implementation ("androidx.compose.foundation:foundation:1.4.3")
     implementation ("androidx.compose.ui:ui:1.4.0")
     implementation ("androidx.compose.material3:material3:1.0.0")
@@ -63,6 +65,7 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
