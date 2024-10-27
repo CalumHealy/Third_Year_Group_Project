@@ -1,0 +1,70 @@
+*::after, *::before {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+}
+
+.background {
+    width: 430px; /* Fixed width for the background */
+    max-width: 100%; /* Ensure it doesn't exceed screen width */
+}
+
+form {
+    background-color: rgba(255, 255, 255, 0.6); /* Slightly more opaque */
+    border-radius: 10px;
+    padding: 50px 35px;
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+}
+
+form h3 {
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 42px;
+    text-align: center;
+}
+
+form label {
+    display: block;
+    margin-top: 30px;
+    font-size: 18px;
+}
+
+input {
+    width: 100%;
+    display: block;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.0713);
+    border-radius: 3px;
+    padding: 0 5px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+#paypal-button-container {
+    margin-top: 20px; /* Space above the PayPal button */
+    max-width: 100%; /* Limit button container width */
+    overflow: hidden; /* Prevent overflow */
+}
+
+::placeholder {
+    color: black; /* Adjust placeholder color for better visibility */
+}
+
+p {
+    margin-top: 20px; /* Adjust spacing for result message */
+    color: black;
+    text-align: center; /* Center-align result message */
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+}

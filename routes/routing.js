@@ -1,6 +1,6 @@
 import express from 'express';
 import { db } from '../app.js';
-import { ref,set,get } from 'firebase/database';
+import { ref,set,get,update } from 'firebase/database';
 import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail} from 'firebase/auth'
 import argon2  from 'argon2'; //for password hashing
 
@@ -55,7 +55,10 @@ router.post('/register',async (req,res) =>{
         await set(userRef, {
             username,
             password: hashedPassword,
-            phoneNo
+            phoneNo, 
+            wallet: {
+                balance: 0 //init wallet balance
+            }
         });
 
         console.log('User registered successfully');
@@ -142,7 +145,43 @@ router.get('/buycrypto',async (req,res)=>{
 
 // add funds route
 router.get('/add_funds',async (req,res)=>{
-    res.render('add_funds'); //renders add_funds.ejs
+    res.render('add_funds', {PAYPAL_CLIENT_ID: process.env.PAYPAL_CLIENT_ID }); //renders add_funds.ejs
+});
+
+// update wallet funds
+router.post('/api/update-wallet', async (req,res)=>{
+    const username = req.session.username; //get logged in's username
+    const amount = parseFloat(req.body.amount); // get amount from req body
+
+    if (!username || !amount){
+        return res.status(400).send("Username and amount are required.");
+    }
+
+    try{
+        const safeUsername = safeEmail(username);
+        const WalletRef = ref(db, 'users/' + safeUsername + '/wallet'); 
+
+        //get current balance
+        const snapshot = await get(WalletRef);
+        if (!snapshot.exists()){
+            return res.status(400).send("Wallet not found.");
+        }
+
+        const currentBal = snapshot.val().balance;
+
+        //update balance
+        const newBal = currentBal + amount;
+
+        await update(WalletRef, {
+            balance: newBal //update balance
+        });
+
+        console.log(`Wallet updated. New bal: €${newBal}`);
+        res.send(`Funds added successfully. New bal: €${newBal}`);
+    }catch (error){
+        console.error("Error updating wallet", error);
+        res.status(500).send("Error updating wallet.")
+    }
 });
 
 // buy confirm route
@@ -173,10 +212,15 @@ router.get('/helpform', async (req,res)=>{
 // settings route
 router.get('/settings',async (req,res)=>{
     const username = req.session.username;
+    const WalletRef = ref(db, 'users/' + safeEmail(username) + '/wallet');
+
     if(!username){
         res.redirect('/'); //if no username redirect back to login
     }
-    res.render('settings', {username}); //renders setting.ejs and passes username to ejs
+    const walletSnapshot = await get(WalletRef);
+    const balance = walletSnapshot.exists() ? walletSnapshot.val().balance: 0;
+
+    res.render('settings', {username, balance}); //renders setting.ejs and passes username to ejs
 });
 
 // upgrade plan route
