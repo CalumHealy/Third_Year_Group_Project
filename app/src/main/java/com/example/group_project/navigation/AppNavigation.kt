@@ -10,9 +10,15 @@ import com.example.group_project.AuthModel
 import com.example.group_project.screens.HomePage
 import com.example.group_project.screens.LoginPage
 import com.example.group_project.screens.SignUpPage
+import com.example.group_project.wallet.WalletViewModel
+import com.example.group_project.screens.ProfilePage
 
 @Composable
-fun AppNavigation(modifier: Modifier = Modifier, authModel: AuthModel) {
+fun AppNavigation(
+    modifier: Modifier = Modifier,
+    authModel: AuthModel,
+    walletViewModel: WalletViewModel // Ensure walletViewModel is a parameter here
+) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "login") {
@@ -23,7 +29,10 @@ fun AppNavigation(modifier: Modifier = Modifier, authModel: AuthModel) {
             SignUpPage(modifier = modifier.fillMaxSize(), navController = navController, authModel = authModel)
         }
         composable("home") {
-            HomePage(modifier = modifier.fillMaxSize(), navController = navController, authModel = authModel)
+            HomePage(modifier = modifier.fillMaxSize(), navController = navController, authModel = authModel) // Pass the walletViewModel to HomePage
+        }
+        composable("profile") {
+            ProfilePage(modifier = modifier.fillMaxSize(), navController = navController, authModel = authModel, walletViewModel = walletViewModel) // Pass to ProfilePage
         }
     }
 }

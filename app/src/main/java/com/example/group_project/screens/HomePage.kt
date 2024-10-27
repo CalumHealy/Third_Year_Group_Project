@@ -14,19 +14,18 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.example.group_project.AuthModel
-
 import com.example.group_project.navigation.navigationBar.NavItems
+import com.example.group_project.wallet.WalletViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel // Import this
 
 @Composable
-fun HomePage(modifier: Modifier = Modifier, navController: NavController, authModel: AuthModel){
+fun HomePage(modifier: Modifier = Modifier, navController: NavController, authModel: AuthModel) {
+    // Create an instance of WalletViewModel
+    val walletViewModel: WalletViewModel = viewModel()
 
     val navItemsList = listOf(
         NavItems("Home", Icons.Default.Home),
@@ -36,15 +35,13 @@ fun HomePage(modifier: Modifier = Modifier, navController: NavController, authMo
         NavItems("Profile", Icons.Default.Person)
     )
 
-    var selectedIndex by remember {
-        mutableStateOf(0)
-    }
+    var selectedIndex by remember { mutableStateOf(0) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             NavigationBar {
-                navItemsList.forEachIndexed{index, navItem ->
+                navItemsList.forEachIndexed { index, navItem ->
                     NavigationBarItem(
                         selected = selectedIndex == index,
                         onClick = { selectedIndex = index },
@@ -58,28 +55,29 @@ fun HomePage(modifier: Modifier = Modifier, navController: NavController, authMo
                 }
             }
         }
-        ) { innerPadding ->
-            ContentScreen(modifier = Modifier.padding(innerPadding),
-                selectedIndex = selectedIndex,
-                navController = navController,
-                authModel = authModel
-            )
+    ) { innerPadding ->
+        ContentScreen(
+            modifier = Modifier.padding(innerPadding),
+            selectedIndex = selectedIndex,
+            navController = navController,
+            authModel = authModel,
+            walletViewModel = walletViewModel // Pass the instance
+        )
     }
 }
-
 
 @Composable
 fun ContentScreen(
     modifier: Modifier = Modifier,
     selectedIndex: Int,
     navController: NavController,
-    authModel: AuthModel
+    authModel: AuthModel,
+    walletViewModel: WalletViewModel
 ) {
     when (selectedIndex) {
-
         1 -> InvestPage()
         2 -> MyInvestmentsPage()
         3 -> MenuPage()
-        4 -> ProfilePage(navController = navController, authModel = authModel)
+        4 -> ProfilePage(navController = navController, authModel = authModel, walletViewModel = walletViewModel)
     }
 }

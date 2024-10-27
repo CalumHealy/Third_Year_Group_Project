@@ -1,4 +1,3 @@
-
 package com.example.group_project.screens
 
 import androidx.compose.foundation.layout.*
@@ -14,6 +13,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.group_project.CryptoViewModel
 import com.example.group_project.Crypto
+
 @Composable
 fun InvestPage() {
     val viewModel: CryptoViewModel = viewModel()
@@ -26,7 +26,12 @@ fun InvestPage() {
         Crypto("4", "Litecoin", "LTC")
     )
 
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp), // Add padding around the entire list
+        verticalArrangement = Arrangement.spacedBy(8.dp) // Space between items
+    ) {
         items(cryptos) { crypto ->
             CryptoItem(crypto = crypto, viewModel = viewModel)
         }
@@ -40,22 +45,29 @@ fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(vertical = 12.dp, horizontal = 16.dp) // Adjust padding for each item
+            .height(64.dp), // Set a fixed height for each item
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column(modifier = Modifier.weight(1f)) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 8.dp) // Space between text and button
+        ) {
             Text(text = crypto.name, fontSize = 20.sp)
             Text(text = crypto.symbol, fontSize = 16.sp)
         }
-        Button(onClick = {
-            if (isFavorite) {
-                viewModel.removeFromFavorites(crypto)
-            } else {
-                viewModel.addToFavorites(crypto)
-            }
-        }) {
+        Button(
+            onClick = {
+                if (isFavorite) {
+                    viewModel.removeFromFavorites(crypto)
+                } else {
+                    viewModel.addToFavorites(crypto)
+                }
+            },
+            modifier = Modifier.height(48.dp) // Set a consistent button height
+        ) {
             Text(text = if (isFavorite) "Sell" else "Buy")
         }
     }
 }
-

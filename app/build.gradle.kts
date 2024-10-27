@@ -42,9 +42,10 @@ android {
 }
 
 dependencies {
-        implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")  // ViewModel
-        implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")   // LiveData
-        implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")     // Lifecycle runtime for Compose
+    implementation ("com.paypal.sdk:paypal-android-sdk:2.16.0")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation ("androidx.compose.foundation:foundation:1.4.3")
     implementation ("androidx.compose.ui:ui:1.4.0")
     implementation ("androidx.compose.material3:material3:1.0.0")
@@ -66,6 +67,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.storage)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.billing)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
