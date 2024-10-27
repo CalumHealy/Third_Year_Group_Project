@@ -32,7 +32,8 @@ fun AppNavigation(
             HomePage(modifier = modifier.fillMaxSize(), navController = navController, authModel = authModel) // Pass the walletViewModel to HomePage
         }
         composable("profile") {
-            ProfilePage(modifier = modifier.fillMaxSize(), navController = navController, authModel = authModel, walletViewModel = walletViewModel) // Pass to ProfilePage
+            ProfilePage(modifier = modifier.fillMaxSize(), navController = navController, authModel = authModel)
         }
+
     }
 }

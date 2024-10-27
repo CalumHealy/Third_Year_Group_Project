@@ -1,6 +1,5 @@
 package com.example.group_project.screens
 
-
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -61,7 +60,7 @@ fun HomePage(modifier: Modifier = Modifier, navController: NavController, authMo
             selectedIndex = selectedIndex,
             navController = navController,
             authModel = authModel,
-            walletViewModel = walletViewModel // Pass the instance
+            walletViewModel = walletViewModel
         )
     }
 }
@@ -78,6 +77,6 @@ fun ContentScreen(
         1 -> InvestPage()
         2 -> MyInvestmentsPage()
         3 -> MenuPage()
-        4 -> ProfilePage(navController = navController, authModel = authModel, walletViewModel = walletViewModel)
+        4 -> ProfilePage(navController = navController, authModel = authModel)
     }
 }
