@@ -49,7 +49,7 @@ router.post('/register',async (req,res) =>{
 
         //create reference to user data in firebase and encode email so it can be pushed to firebase
         const safeUsername = safeEmail(username);
-        const userRef = ref(db,'users/'+ safeUsername);
+        const userRef = ref(db,'users/'+ user.uid);
 
         //set user data
         await set(userRef, {
@@ -152,6 +152,7 @@ router.get('/add_funds',async (req,res)=>{
 router.post('/api/update-wallet', async (req,res)=>{
     const username = req.session.username; //get logged in's username
     const amount = parseFloat(req.body.amount); // get amount from req body
+    
 
     if (!username || !amount){
         return res.status(400).send("Username and amount are required.");
@@ -159,7 +160,13 @@ router.post('/api/update-wallet', async (req,res)=>{
 
     try{
         const safeUsername = safeEmail(username);
-        const WalletRef = ref(db, 'users/' + safeUsername + '/wallet'); 
+        const user = auth.currentUser;
+
+        if (!user){
+            return res.status(400).send("User not authenticated");
+        }
+
+        const WalletRef = ref(db, 'users/' + user.uid + '/wallet'); 
 
         //get current balance
         const snapshot = await get(WalletRef);
@@ -212,11 +219,14 @@ router.get('/helpform', async (req,res)=>{
 // settings route
 router.get('/settings',async (req,res)=>{
     const username = req.session.username;
-    const WalletRef = ref(db, 'users/' + safeEmail(username) + '/wallet');
+    const auth = getAuth();
+    const user = auth.currentUser;
 
-    if(!username){
+    if(!username || !user){
         res.redirect('/'); //if no username redirect back to login
     }
+
+    const WalletRef = ref(db, 'users/' + user.uid + '/wallet');
     const walletSnapshot = await get(WalletRef);
     const balance = walletSnapshot.exists() ? walletSnapshot.val().balance: 0;
 
