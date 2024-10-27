@@ -77,6 +77,6 @@ fun ContentScreen(
         1 -> InvestPage()
         2 -> MyInvestmentsPage()
         3 -> MenuPage()
-        4 -> ProfilePage(navController = navController, authModel = authModel)
+        4 -> ProfilePage(navController = navController, authModel = authModel,  walletViewModel = walletViewModel)
     }
 }

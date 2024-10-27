@@ -23,9 +23,13 @@ fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, aut
 
     LaunchedEffect(authState.value) {
         if (authState.value is AuthState.Unauthenticated) {
-            navController.navigate("login")
+            navController.navigate("login") {
+                // Clear the back stack to prevent going back to the profile page
+                popUpTo("login") { inclusive = true }
+            }
         }
     }
+
 
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
