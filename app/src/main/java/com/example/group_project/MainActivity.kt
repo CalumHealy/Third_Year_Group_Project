@@ -12,8 +12,8 @@ import com.example.group_project.wallet.WalletViewModel
 import com.paypal.android.sdk.payments.PayPalConfiguration
 
 class MainActivity : ComponentActivity() {
-    private lateinit var payPalConfig: PayPalConfiguration // Declare the PayPalConfiguration
-    private val walletViewModel: WalletViewModel by viewModels() // Initialize WalletViewModel
+    private lateinit var payPalConfig: PayPalConfiguration
+    private val walletViewModel: WalletViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
