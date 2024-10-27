@@ -13,22 +13,19 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.group_project.AuthModel
 import com.example.group_project.AuthState
+import com.example.group_project.wallet.WalletViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, authModel: AuthModel) {
+fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, authModel: AuthModel, walletViewModel: WalletViewModel) {
     val authState = authModel.authState.observeAsState()
     val currentUser = FirebaseAuth.getInstance().currentUser
 
     LaunchedEffect(authState.value) {
         if (authState.value is AuthState.Unauthenticated) {
-            navController.navigate("login") {
-                // Clear the back stack to avoid returning to profile after login
-                popUpTo("login") { inclusive = true }
-            }
+            navController.navigate("login")
         }
     }
-
 
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -47,11 +44,12 @@ fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, aut
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Pay for Premium Button
+        // Add Balance Button
         Button(onClick = {
-            navController.navigate("paypal_checkout")
+            // Navigate to the Add Balance screen or show a dialog here
+            navController.navigate("add_balance")
         }) {
-            Text(text = "Pay for Premium")
+            Text(text = "Add Balance")
         }
 
         Spacer(modifier = Modifier.height(16.dp))

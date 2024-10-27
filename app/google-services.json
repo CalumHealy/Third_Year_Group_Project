@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "461885547735",
-    "project_id": "group-project-f3a14",
-    "storage_bucket": "group-project-f3a14.appspot.com"
+    "project_number": "826845466167",
+    "firebase_url": "https://actproject-76027-default-rtdb.europe-west1.firebasedatabase.app/",
+    "project_id": "actproject-76027",
+    "storage_bucket": "actproject-76027.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:461885547735:android:9559723900e8dc51957c92",
+        "mobilesdk_app_id": "1:826845466167:android:8e898ba900e29f7a1839b2",
         "android_client_info": {
           "package_name": "com.example.group_project"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyA22uUnuz0aXG8A4yivBdrsx-obdOo7DS8"
+          "current_key": "AIzaSyA1nRcKr7sVx95RGYlW4sE6qHPvUT-M0rQ"
         }
       ],
       "services": {
