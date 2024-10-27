@@ -21,14 +21,29 @@
         </div>
         <div class="main">
             <div class="titlebar">My Account</div> <!-- Title bar to show the title neatly-->
-            <div class="header">Welcome!</div>
-            <div class="info">
-                <div>This is the settings page</div>
-            </div>
             <div class="manager">
+                <p>Signed In As: </p>
                 <div>Manager: <%= username %></div>
-                <div>Company: </div>
-        </div>
+                <br>
+                <div>Company:Placeholder company name</div>
+            </div>
+            <br>
+            <div class="account">
+                <p>Account: € 100 (Placeholder amount)</p>
+                <div class="button-container">
+                    <a href="/add_funds" class="button">Add</a>
+                    <a href="/upgrade" class="button">Upgrade</a>
+                </div>
+            </div>
+            <br>
+            <div class="held">
+                <p># Stocks Held: (Data Pulled from FB DB)</p>
+                <br>
+                <p># Crypto Held: (Data Pulled from FB DB)</p>
+            </div>
+            <div class="switch">
+                <a href="/select_company" class="button">Switch Company</a>
+            </div>
     </div>
 </body>
 </html>
