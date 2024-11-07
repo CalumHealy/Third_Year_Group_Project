@@ -85,4 +85,3 @@ crew = Crew(
 )
 
 result = crew.kickoff()
-# Hello

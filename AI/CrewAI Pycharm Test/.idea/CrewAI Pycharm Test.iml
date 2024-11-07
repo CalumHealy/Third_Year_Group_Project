@@ -4,7 +4,11 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/PyCharm" />
     </content>
+<<<<<<< HEAD:CrewAI Pycharm Test/.idea/CrewAI Pycharm Test.iml
     <orderEntry type="jdk" jdkName="Python 3.10" jdkType="Python SDK" />
+=======
+    <orderEntry type="jdk" jdkName="Python 3.9" jdkType="Python SDK" />
+>>>>>>> 4b682350c37bf0339f3df982465430c3f61df55a:AI/CrewAI Pycharm Test/.idea/CrewAI Pycharm Test.iml
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
