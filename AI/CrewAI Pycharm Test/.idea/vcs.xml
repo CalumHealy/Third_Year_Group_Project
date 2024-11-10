@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="VcsDirectoryMappings">
-<<<<<<< HEAD:CrewAI Pycharm Test/.idea/vcs.xml
-    <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
-=======
     <mapping directory="$PROJECT_DIR$/../.." vcs="Git" />
->>>>>>> 4b682350c37bf0339f3df982465430c3f61df55a:AI/CrewAI Pycharm Test/.idea/vcs.xml
   </component>
 </project>
