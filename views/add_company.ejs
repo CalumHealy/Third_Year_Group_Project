@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Company</title>
+    <link href="css/auth.css" rel="stylesheet">
+</head>
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form action="/add_company" method="POST">
+        <h3>Add a Company to Manage</h3>
+        <label for="company_name">Company Name:
+            <input id="company_name" name="company_name" placeholder="Company Name" required>
+        </label>
+        <button type="submit">Add Company</button>
+    </form>
+</body>
+</html>

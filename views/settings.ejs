@@ -25,11 +25,11 @@
                 <p>Signed In As: </p>
                 <div>Manager: <%= username %></div>
                 <br>
-                <div>Company:Placeholder company name</div>
+                <div>Company: <%= companyName %></div>
             </div>
             <br>
             <div class="account">
-                <p>Account: € <%= balance %></p>
+                <p>Account: $ <%= balance %></p>
                 <div class="button-container">
                     <a href="/add_funds" class="button">Add</a>
                     <a href="/upgrade" class="button">Upgrade</a>
@@ -37,9 +37,9 @@
             </div>
             <br>
             <div class="held">
-                <p># Stocks Held: 0<!--Data Will be Pulled from FB DB --></p>
+                <p># Stocks Held: 0/10<!--Data Will be Pulled from FB DB --></p>
                 <br>
-                <p># Crypto Held: 0<!--Data Will be Pulled from FB DB --></p>
+                <p># Crypto Held: 0/3<!--Data Will be Pulled from FB DB --></p>
             </div>
             <div class="switch">
                 <a href="/select_company" class="button">Switch Company</a>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Company</title>
+    <link href="css/auth.css" rel="stylesheet">
+</head>
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form action="/select_company" method="POST">
+        <h2>Select a company to Manage:</h2>
+        <ul>
+            <% if (companies.length === 0) { %>
+                <p>No companies available. Please add a company first.</p>
+            <% } else { %> 
+                <% for (const companyId in companies) { %>
+                    <li>
+                        <label for="company_<%= companyId %>"><%= companies[companyId].company_name %></label>
+                        <input type="radio" id="company_<%= companyId %>" name="companyId" value="<%= companyId %>" required>
+                    </li>
+                <% } %>
+            <% } %>
+        </ul>
+        <a href="/add_company" class="button">Add company</a> 
+        <button type="submit">Select Company</button>
+    </form>
+</body>
+</html>

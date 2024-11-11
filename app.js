@@ -35,6 +35,7 @@ const auth = getAuth(firebaseApp);
 
 //middleware 
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.json());
 //setting ejs as templating engine
 app.set('view engine','ejs');
 //serve static files (css, images etc.) from public folder

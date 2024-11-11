@@ -1,8 +1,9 @@
 import express from 'express';
 import { db } from '../app.js';
-import { ref,set,get,update } from 'firebase/database';
+import { ref,set,get,update, push, getDatabase } from 'firebase/database';
 import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail} from 'firebase/auth'
 import argon2  from 'argon2'; //for password hashing
+import e from 'express';
 
 const router = express.Router();
 
@@ -55,10 +56,7 @@ router.post('/register',async (req,res) =>{
         await set(userRef, {
             username,
             password: hashedPassword,
-            phoneNo, 
-            wallet: {
-                balance: 0 //init wallet balance
-            }
+            phoneNo
         });
 
         console.log('User registered successfully');
@@ -115,22 +113,89 @@ router.post('/login', async (req,res) =>{
 
         req.session.username = username; //store username in session
         console.log("User logged in successfully.");
-        res.redirect('/home'); //if login is a success then send the fund manager through to the home screen
+        res.redirect('/select_company'); //if login is a success then send the fund manager through to the select company screen
 
     }catch(error){
         console.error("Error logging into website",error);
-        res.status("402").send("Failed to login.");
+        res.status(402).send("Failed to login.");
     }
 });
 
 // select_company route
 router.get('/select_company',async (req,res)=>{
-    res.render('select_company'); //renders select_company.ejs
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (!user){
+        return res.render('/'); //ensure user auth
+    }
+    try{
+        const companiesRef = ref(db, `users/${user.uid}/companies`);
+        const snapshot = await get(companiesRef);
+
+        //check companies exist
+        const companies = snapshot.exists() ? snapshot.val(): [];
+
+        console.log(companies);
+        res.render('select_company', {companies}); //renders select_company.ejs and passes company data to ejs
+    }catch (error){
+        console.log("Error fetching companies: ",error);
+        res.status(500).send("Error fetching companies");
+    }
+    
+});
+
+// select_company post
+router.post('/select_company',async (req,res)=>{
+    const {companyId}= req.body
+
+    if (!companyId){
+        return res.status(400).send("Company ID is required.");
+    }
+
+    req.session.companyId = companyId; //store companyId in session
+    console.log(`Company selected ${companyId}`);
+    res.redirect('/home') //redirect to home screen
 });
 
 //add_company route
 router.get('/add_company',async (req,res)=>{
     res.render('add_company'); //renders add_company.ejs
+});
+
+//add_company post
+router.post('/add_company',async (req,res)=>{
+    const {company_name} = req.body;
+
+    if (!company_name){
+        return res.status(400).send("Company name is required.");
+    }
+
+    try{
+        const auth = getAuth();
+        const user = auth.currentUser;
+        if (!user){
+            return res.redirect('/')
+        }
+        const db = getDatabase();
+
+        const companiesRef = ref(db,`users/${user.uid}/companies`);
+        //push new companies into companies node
+        const newCompanyRef = push(companiesRef);
+
+        //set up company data
+        await set(newCompanyRef,{
+            company_name,
+            wallet: {
+                balance: 0 //init wallet balance
+            }
+        });
+        console.log(`Company ${company_name} added successfully`);
+        res.redirect('/select_company');
+    }catch (error){
+        console.error("Error adding company: ",error);
+        res.status(500).send("Company could not successfully be added.");
+    }
 });
 
 // stock invest route
@@ -150,28 +215,28 @@ router.get('/add_funds',async (req,res)=>{
 
 // update wallet funds
 router.post('/api/update-wallet', async (req,res)=>{
-    const username = req.session.username; //get logged in's username
     const amount = parseFloat(req.body.amount); // get amount from req body
-    
+    const companyId = req.session.companyId; ///get companyId from session
+    console.log(req.body);
 
-    if (!username || !amount){
-        return res.status(400).send("Username and amount are required.");
+    if (!companyId || !amount){
+        return res.status(400).send("Selected Company and amount are required.");
     }
 
     try{
-        const safeUsername = safeEmail(username);
+        const auth = getAuth();
         const user = auth.currentUser;
 
         if (!user){
             return res.status(400).send("User not authenticated");
         }
 
-        const WalletRef = ref(db, 'users/' + user.uid + '/wallet'); 
+        const WalletRef = ref(db, `users/${user.uid}/companies/${companyId}/wallet`); 
 
         //get current balance
         const snapshot = await get(WalletRef);
         if (!snapshot.exists()){
-            return res.status(400).send("Wallet not found.");
+            return res.status(404).send("Wallet not found.");
         }
 
         const currentBal = snapshot.val().balance;
@@ -187,7 +252,7 @@ router.post('/api/update-wallet', async (req,res)=>{
         res.send(`Funds added successfully. New bal: €${newBal}`);
     }catch (error){
         console.error("Error updating wallet", error);
-        res.status(500).send("Error updating wallet.")
+        res.status(500).send("Error updating wallet.");
     }
 });
 
@@ -221,16 +286,32 @@ router.get('/settings',async (req,res)=>{
     const username = req.session.username;
     const auth = getAuth();
     const user = auth.currentUser;
+    const companyId = req.session.companyId;
 
     if(!username || !user){
         res.redirect('/'); //if no username redirect back to login
     }
+    try{
+        //ref to company in firebase
+        const companyRef = ref(db, `users/${user.uid}/companies/${companyId}`);
+        const companySnapshot = await get(companyRef);
 
-    const WalletRef = ref(db, 'users/' + user.uid + '/wallet');
-    const walletSnapshot = await get(WalletRef);
-    const balance = walletSnapshot.exists() ? walletSnapshot.val().balance: 0;
+        //check if company exists and retrieve its data
+        if (companySnapshot.exists()){
+            const companyData = companySnapshot.val();
+            const balance = companyData.wallet ? companyData.wallet.balance : 0;
+            const companyName = companyData.company_name || "Company";
 
-    res.render('settings', {username, balance}); //renders setting.ejs and passes username to ejs
+            res.render('settings', {username, balance, companyName}); //renders setting.ejs and passes username to ejs
+        }else{
+            console.log("Company not found in db");
+            res.redirect('select_company');
+        }
+    } catch (error){
+        console.log("Company not found in db");
+        res.status(500).send("Error fetching company data")
+    }
+
 });
 
 // upgrade plan route
