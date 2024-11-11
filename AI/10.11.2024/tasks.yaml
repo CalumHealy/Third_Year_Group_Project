@@ -1,0 +1,30 @@
+research_task:
+  description: >
+    Conduct a thorough research about past and current major stock and crypto prices
+    Make sure you show general trends in prices which may indicate probable future changes
+    The current year is 2024
+  expected_output: >
+    A list of roughly eight stocks and cryptocurrencies (four of each) with their current prices, and their prices at certain points throughout history
+  agent: researcher
+
+accounting_task:
+  description: >
+    Interpret the researcher's data to discover trends in price histories, and make ratios which show the changes in prices at certain points throughout history
+  expected_output: >
+    A list of date ranges with ratios, representing how the prices of each stock and crypto changed over each period of time, along with the current price
+  agent: accountant
+
+recommendation_task:
+  description: >
+    Interpret the accountant's data to predict how the prices of each stock and crypto will change in the near future, and give a buy, sell, or hold recommendation for each in order to maximise profits for the user
+  expected_output: >
+    A table of the prices of each stock and crypto through history, with the ratios of price changes, and a recommendation of whether the user should buy or sell each one
+  agent: recommender
+
+blogging_task:
+  description: >
+    Format the recommender's table in an attractive and easy to understand way, clearly showing the current price, the general change in price throughout history, and the buy or sell recommendation from the recommender
+  expected_output: >
+    A fully fledged report split into sections for each crypto/stock, clearly showing the current price, changes in price throughout history, and the buy/sell recommendation
+  agent: blogger
+  output_file: report.md
