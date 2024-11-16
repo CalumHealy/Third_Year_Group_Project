@@ -2,6 +2,7 @@ import express from 'express';
 import { db } from '../app.js';
 import { ref,set,get,update, push, getDatabase } from 'firebase/database';
 import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail} from 'firebase/auth'
+import { fetchStocks } from '../services/polygonService.js';
 import argon2  from 'argon2'; //for password hashing
 import e from 'express';
 
@@ -200,7 +201,12 @@ router.post('/add_company',async (req,res)=>{
 
 // stock invest route
 router.get('/buystock',async (req,res)=>{
-    res.render('buystock'); //renders buystock.ejs
+    try{
+        const stocks = await fetchStocks();
+        res.render('buystock', {stocks}); // pass stock data to the buystock.ejs view
+    } catch (error) {
+        res.status(500).send("Failed to fetch stock data.");
+    }
 });
 
 // crypto invest route

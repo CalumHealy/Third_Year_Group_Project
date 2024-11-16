@@ -25,6 +25,20 @@
             <div class="info">
                 <div>This is the stock buy page</div>
             </div>
+            <div class="stocklist">
+    <h1>Available Stocks</h1>
+    <% if (stocks && stocks.length > 0) { %>
+        <ul>
+            <% stocks.forEach(stock => { %>
+                <li>
+                    <strong><%= stock.ticker %></strong> - <%= stock.name %>
+                </li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>No stocks available at the moment.</p>
+    <% } %>
+</div>
         </div>
     </div>
 </body>
