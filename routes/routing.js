@@ -3,6 +3,7 @@ import { db } from '../app.js';
 import { ref,set,get,update, push, getDatabase } from 'firebase/database';
 import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail} from 'firebase/auth'
 import { fetchStocks } from '../services/polygonService.js';
+import { fetchCryptoList } from '../services/cryptoServices.js';
 import argon2  from 'argon2'; //for password hashing
 import e from 'express';
 
@@ -211,7 +212,12 @@ router.get('/buystock',async (req,res)=>{
 
 // crypto invest route
 router.get('/buycrypto',async (req,res)=>{
-    res.render('buycrypto'); //renders buycrypto.ejs
+    try {
+        const cryptoData = await fetchCryptoList()
+        res.render('buycrypto', { cryptoData }); // pass crypto data to buycrypto.ejs view
+    } catch (error) {
+        res.status(500).send("Error retrieving crypto data");
+    }
 });
 
 // add funds route
