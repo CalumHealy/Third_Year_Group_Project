@@ -50,6 +50,8 @@ dependencies {
     implementation ("androidx.compose.ui:ui:1.4.0")
     implementation ("androidx.compose.material3:material3:1.0.0")
     implementation ("androidx.activity:activity-compose:1.6.1")
+    implementation("com.google.firebase:firebase-database-ktx:21.0.0")
+    implementation("com.google.firebase:firebase-auth-ktx:23.1.0")
     implementation(platform("com.google.firebase:firebase-bom:33.4.0"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
