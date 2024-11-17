@@ -1,4 +1,4 @@
-package com.example.group_project.screens
+package com.example.group_project
 
 data class Crypto(
     val id: String,

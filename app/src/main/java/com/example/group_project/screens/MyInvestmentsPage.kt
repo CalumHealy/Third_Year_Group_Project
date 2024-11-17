@@ -1,8 +1,6 @@
 package com.example.group_project.screens
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
@@ -17,19 +15,20 @@ import com.example.group_project.CryptoViewModel
 @Composable
 fun MyInvestmentsPage() {
     val viewModel: CryptoViewModel = viewModel()
-    val favorites = viewModel.favorites
+    val invested =viewModel.invested
 
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(favorites) { crypto ->
+    LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        items(invested.toList()) { crypto ->
+            // Each crypto item should be in a Row or Column
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                contentAlignment = Alignment.Center
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp), // Added vertical padding for spacing between items
+                contentAlignment = Alignment.CenterStart
             ) {
                 Text(
                     text = "${crypto.name} (${crypto.symbol})",
-                    fontSize = 22.sp
+                    fontSize = 18.sp // Slightly smaller font size for readability
                 )
             }
         }

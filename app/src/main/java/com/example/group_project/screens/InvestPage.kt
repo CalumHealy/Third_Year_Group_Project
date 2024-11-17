@@ -18,13 +18,8 @@ import com.example.group_project.Crypto
 fun InvestPage() {
     val viewModel: CryptoViewModel = viewModel()
 
-    //sample crypto data
-    val cryptos = listOf(
-        Crypto("1", "Bitcoin", "BTC"),
-        Crypto("2", "Ethereum", "ETH"),
-        Crypto("3", "Ripple", "XRP"),
-        Crypto("4", "Litecoin", "LTC")
-    )
+    //Fetch only the first 30 cryptos
+    val cryptos = viewModel.cryptos.take(30)
 
     LazyColumn(
         modifier = Modifier
@@ -40,7 +35,7 @@ fun InvestPage() {
 
 @Composable
 fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel) {
-    val isFavorite = viewModel.isFavorite(crypto)
+    val isInvested = viewModel.isInvested(crypto)
 
     Row(
         modifier = Modifier
@@ -59,15 +54,15 @@ fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel) {
         }
         Button(
             onClick = {
-                if (isFavorite) {
-                    viewModel.removeFromFavorites(crypto)
+                if (isInvested) {
+                    viewModel.removeFromInvested(crypto)
                 } else {
-                    viewModel.addToFavorites(crypto)
+                    viewModel.addToInvested(crypto)
                 }
             },
             modifier = Modifier.height(48.dp)
         ) {
-            Text(text = if (isFavorite) "Sell" else "Buy")
+            Text(text = if (isInvested) "Sell" else "Buy")
         }
     }
 }
