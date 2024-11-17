@@ -9,11 +9,7 @@ load_dotenv()
 sys.path.append("C:\\Users\\calum\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\site-packages")
 search_tool = DuckDuckGoSearchRun()
 
-os.environ["OPENAI_API_KEY"] = "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"
 llm = OpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"))
-# llm = OpenAI(openai_api_key="OPENAI_API_KEY")
-# llm = OpenAI(openai_api_key=os.getenv("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"))
-# llm = OpenAI(openai_api_key="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")
 
 # The following stocks are in the form [company, stock price on date, date]
 stocks_and_cryptos = [
@@ -61,7 +57,8 @@ blogger = Agent(
 )
 
 task1 = Task(
-    description='Look through the stocks_and_cryptos variable and make a table showing each stock/crypto price at each point in time',
+    # description='Look through the stocks_and_cryptos variable and make a table showing each stock/crypto price at each point in time',
+    description='Search the internet for the current and past prices of four popular stocks and four popular cryptocurrencies',
     expected_output='A table with current stock and crypto names and current prices, as well as prices through history with the dates for each price',
     agent=researcher)
 task2 = Task(
@@ -74,7 +71,7 @@ task3 = Task(
     agent=recommender)
 task4 = Task(
     description='Output the price data and the recommenders recommendations in a suitable and attractive format',
-    expected_output='A table with stock and crypto names, their current prices, ratios of price now vs prices at point in the past, and recommendations of whether somebody should buy or sell that stock or crypto',
+    expected_output='A table with stock and crypto names, their current prices, ratios of price now vs prices at point in the past, and recommendations of whether somebody should buy or sell that stock or crypto, all in a single table',
     agent=blogger)
 
 crew = Crew(
