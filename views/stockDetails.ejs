@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= stockDetails.name %> - Details</title>
+    <link rel="stylesheet" href="css/main.css"> <!-- Link to the same CSS file -->
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar section copied from buystock.ejs -->
+        <div class="sidebar">
+            <h2>ACT-Web</h2>
+            <ul>
+                <li><a href="/home">My Invest</a></li>
+                <li><a href="/buystock">Stock Invest</a></li>
+                <li><a href="/buycrypto">Crypto Invest</a></li>
+                <li><a href="/help">Help</a></li>
+                <li><a href="/settings">My Account</a></li>
+                <li><a href="/review">Reviews</a></li>
+            </ul>    
+        </div>
+
+        <!-- Main content area where stock details will be shown -->
+        <div class="main">
+            <div class="titlebar">Stock Details</div> <!-- Title bar, same as in buystock.ejs -->
+            <div class="header">Welcome!</div>
+            
+            <!-- Stock Details Section -->
+            <h1><%= stockDetails.name %> - Stock Details</h1>
+            
+            <p><strong>Ticker Symbol:</strong> <%= stockDetails.symbol %></p>
+            <p><strong>Current Price:</strong> $<%= stockDetails.price || "N/A" %></p>
+            <p><strong>Open Price:</strong> $<%= stockDetails.open || "N/A" %></p>
+            <p><strong>Today's High:</strong> $<%= stockDetails.high || "N/A" %></p>
+            <p><strong>Today's Low:</strong> $<%= stockDetails.low || "N/A" %></p>
+            <p><strong>Volume:</strong> <%= stockDetails.volume || "N/A" %> shares</p>
+            <p><strong>Market Cap:</strong> $<%= stockDetails.market_cap || "N/A" %></p>
+            <p><strong>PE Ratio:</strong> <%= stockDetails.pe_ratio || "N/A" %></p>
+            <p><strong>52-Week High:</strong> $<%= stockDetails.year_52_high || "N/A" %></p>
+            <p><strong>52-Week Low:</strong> $<%= stockDetails.year_52_low || "N/A" %></p>
+            <p><strong>Dividend Yield:</strong> <%= stockDetails.dividend_yield || "N/A" %></p>
+            <p><strong>Last Trade Time:</strong> <%= stockDetails.last_trade_time || "N/A" %></p>
+            <p><strong>Price Change:</strong> $<%= stockDetails.price_change || "N/A" %></p>
+
+            <!-- Back button to return to the stock list -->
+            <a href="/buystock">Back to List</a>
+        </div>
+    </div>
+</body>
+</html>

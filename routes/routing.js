@@ -2,8 +2,8 @@ import express from 'express';
 import { db } from '../app.js';
 import { ref,set,get,update, push, getDatabase } from 'firebase/database';
 import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail} from 'firebase/auth'
-import { fetchStocks } from '../services/polygonService.js';
-import { fetchCryptoList } from '../services/cryptoServices.js';
+import { fetchStocks, fetchStockDetails} from '../services/polygonService.js';
+import { fetchCryptoList, fetchCryptoDetails} from '../services/cryptoServices.js';
 import argon2  from 'argon2'; //for password hashing
 import e from 'express';
 
@@ -210,6 +210,18 @@ router.get('/buystock',async (req,res)=>{
     }
 });
 
+// Route for displaying stock details
+router.get('/stock/details/:ticker', async (req, res) => {
+    const ticker = req.params.ticker; // Get the stock ticker from the URL
+    try {
+        const stockDetails = await fetchStockDetails(ticker); // Fetch details based on the ticker
+        res.render('stockDetails', { stockDetails }); // Render the details page with the data
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error retrieving stock details.');
+    }
+});
+
 // crypto invest route
 router.get('/buycrypto',async (req,res)=>{
     try {
@@ -220,6 +232,15 @@ router.get('/buycrypto',async (req,res)=>{
     }
 });
 
+router.get('/crypto/details/:id', async (req, res) => {
+    const cryptoId = req.params.id; // Get the crypto ID from the URL
+    try {
+      const cryptoDetails = await fetchCryptoDetails(cryptoId); // Fetch details based on the ID
+      res.render('cryptoDetails', { cryptoDetails }); // Render the details page with the data
+    } catch (error) {
+      res.status(500).send('Error retrieving crypto details');
+    }
+});
 // add funds route
 router.get('/add_funds',async (req,res)=>{
     res.render('add_funds', {PAYPAL_CLIENT_ID: process.env.PAYPAL_CLIENT_ID }); //renders add_funds.ejs

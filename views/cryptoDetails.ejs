@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= cryptoDetails.name %> Details</title>
+    <link rel="stylesheet" href="css/main.css"><!--Linking to css file-->
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sidebar"> <!-- sidebar for the links to other pages-->
+            <h2>ACT-Web</h2>
+            <ul>
+                <li><a href="/home">My Invest</a></li>
+                <li><a href="/buystock">Stock Invest</a></li>
+                <li><a href="/buycrypto">Crypto Invest</a></li>
+                <li><a href="/help">Help</a></li>
+                <li><a href="/settings">My Account</a></li>
+                <li><a href="/review">Reviews</a></li>
+            </ul>    
+        </div>
+        <div class="main">
+            <div class="titlebar">Crypto Details</div> <!-- Title bar to show the title neatly-->
+            <div class="header"><%= cryptoDetails.name %> Details</div>
+            <div class="info">
+                <div><strong>Symbol:</strong> <%= cryptoDetails.symbol.toUpperCase() %></div>
+                <div><strong>Price:</strong> <%= cryptoDetails.price %> USD</div>
+                <div><strong>Market Cap:</strong> <%= cryptoDetails.market_cap %> USD</div>
+                <div><strong>24h Volume:</strong> <%= cryptoDetails.volume_24h %> USD</div>
+                <div><strong>Price Change 24h:</strong> <%= cryptoDetails.price_change_24h %> %</div>
+                <div><strong>Circulating Supply:</strong> <%= cryptoDetails.circulating_supply %></div>
+                <div><strong>All Time High (ATH):</strong> <%= cryptoDetails.ath %> USD</div>
+                <div><strong>All Time Low (ATL):</strong> <%= cryptoDetails.atl %> USD</div>
+                <div><strong>Hashing Algorithm:</strong> <%= cryptoDetails.hashing_algorithm %></div>
+                <div><strong>Description:</strong> <%= cryptoDetails.description %></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
