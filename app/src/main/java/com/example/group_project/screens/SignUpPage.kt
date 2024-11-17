@@ -61,29 +61,19 @@ fun SignUpPage (modifier: Modifier = Modifier, navController: NavController, aut
 
         OutlinedTextField (
             value = email,
-            onValueChange = {
-                email = it
-            },
-            label = {
-                Text(text = "Email")
-            }
+            onValueChange = { email = it },
+            label = { Text(text = "Email") }
         )
         Spacer(modifier = Modifier.height(8.dp))
 
         OutlinedTextField (
             value = password,
-            onValueChange = {
-                password = it
-            },
-            label = {
-                Text(text = "Password")
-            }
+            onValueChange = { password = it },
+            label = { Text(text = "Password") }
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = {
-            authModel.signup(email,password)
-        }) {
+        Button(onClick = { authModel.signup(email,password) }) {
             Text(text = "Create account")
         }
 
