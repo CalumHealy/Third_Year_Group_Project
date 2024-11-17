@@ -1,3 +1,5 @@
+# Use Python 3.10
+
 import sys
 import os
 from crewai import Agent, Task, Crew, Process
