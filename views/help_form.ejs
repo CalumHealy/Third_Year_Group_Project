@@ -21,9 +21,20 @@
         </div>
         <div class="main">
             <div class="titlebar">Help Form</div> <!-- Title bar to show the title neatly-->
-            <div class="header">Welcome!</div>
-            <div class="info">
-                <div>This is the Help Form page</div>
+            <div class="header">Welcome to the help form!<br> Here you can send queries to our advisors</div>
+            <div class="form-container">
+                <h2>Contact Us</h2>
+                <form action="/help_form" method="POST">
+                    <label for="name">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    <br>
+                    <label for="message">Query:</label>
+                    <textarea id="message" name="message" placeholder="Enter Your query or question here" required></textarea>
+                    <br>
+                    <button type="submit" class="button">Submit</button>
+                </form>
+                <br>
+                <a href="/help">Back to Help</a>
             </div>
         </div>
     </div>

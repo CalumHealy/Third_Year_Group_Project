@@ -314,6 +314,37 @@ router.get('/helpform', async (req,res)=>{
     res.render('help_form'); //renders help_form.ejs
 });
 
+//help form post route
+router.post('/help_form',async (req,res)=>{
+    const {email,message} = req.body;
+
+    if(!email || !message){
+        return res.status(400).send("All fields are required");
+    }
+    try{
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if(!user){
+            return res.status(400).send("Unauthorised. Please log in.");
+        }
+        
+        const queryRef = ref(db,'queries/');
+        await push(queryRef,{
+            email,
+            message,
+            userId: user.uid,
+            timestamp: Date.now()
+        });
+
+        console.log("Query submitted to db");
+        res.status(200).send("Query successfully submitted!");
+    } catch(error){
+        console.error("Error sending query:",error);
+    }
+});
+
+
 // settings route
 router.get('/settings',async (req,res)=>{
     const username = req.session.username;

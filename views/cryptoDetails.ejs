@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= cryptoDetails.name %> Details</title>
-    <link rel="stylesheet" href="css/main.css"><!--Linking to css file-->
+    <link rel="stylesheet" href="/css/main.css"><!--Linking to css file-->
 </head>
 <body>
     <div class="wrapper">
@@ -34,6 +34,8 @@
                 <div><strong>Hashing Algorithm:</strong> <%= cryptoDetails.hashing_algorithm %></div>
                 <div><strong>Description:</strong> <%= cryptoDetails.description %></div>
             </div>
+            <!-- Back button to return to the crypto list -->
+            <a href="/buycrypto">Back to List</a>
         </div>
     </div>
 </body>
