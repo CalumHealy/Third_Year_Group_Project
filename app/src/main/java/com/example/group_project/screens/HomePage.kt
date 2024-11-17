@@ -1,5 +1,5 @@
 package com.example.group_project.screens
-
+import com.example.group_project.screens.MyInvestmentsPage
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -18,13 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.example.group_project.AuthModel
 import com.example.group_project.navigation.navigationBar.NavItems
-import com.example.group_project.wallet.WalletViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel // Import this
 
 @Composable
 fun HomePage(modifier: Modifier = Modifier, navController: NavController, authModel: AuthModel) {
     // Create an instance of WalletViewModel
-    val walletViewModel: WalletViewModel = viewModel()
 
     val navItemsList = listOf(
         NavItems("Home", Icons.Default.Home),
@@ -59,8 +57,7 @@ fun HomePage(modifier: Modifier = Modifier, navController: NavController, authMo
             modifier = Modifier.padding(innerPadding),
             selectedIndex = selectedIndex,
             navController = navController,
-            authModel = authModel,
-            walletViewModel = walletViewModel
+            authModel = authModel
         )
     }
 }
@@ -71,12 +68,11 @@ fun ContentScreen(
     selectedIndex: Int,
     navController: NavController,
     authModel: AuthModel,
-    walletViewModel: WalletViewModel
 ) {
     when (selectedIndex) {
         1 -> InvestPage()
         2 -> MyInvestmentsPage()
         3 -> MenuPage()
-        4 -> ProfilePage(navController = navController, authModel = authModel,  walletViewModel = walletViewModel)
+        4 -> ProfilePage(navController = navController, authModel = authModel)
     }
 }

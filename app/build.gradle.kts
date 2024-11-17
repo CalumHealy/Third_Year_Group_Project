@@ -17,17 +17,28 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Use BuildConfig to inject the API key
+        buildConfigField("String", "POLYGON_API_KEY", "\"${project.findProperty("POLYGON_API_KEY") ?: "default_value"}\"")
     }
 
     buildTypes {
         release {
+            // Ensure the API key is available in the release build
+            buildConfigField("String", "POLYGON_API_KEY", "\"${project.findProperty("POLYGON_API_KEY") ?: "default_value"}\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
+
+        debug {
+            // Same for debug builds
+            buildConfigField("String", "POLYGON_API_KEY", "\"${project.findProperty("POLYGON_API_KEY") ?: "default_value"}\"")
+        }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -35,13 +46,22 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
     buildFeatures {
         compose = true
         viewBinding = true
+        buildConfig = true
     }
 }
 
 dependencies {
+    // Retrofit and OkHttp for API calls
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // Other dependencies
     implementation ("com.paypal.sdk:paypal-android-sdk:2.16.0")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
@@ -77,5 +97,4 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
 }

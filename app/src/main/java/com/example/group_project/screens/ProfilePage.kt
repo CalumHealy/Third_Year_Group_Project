@@ -13,23 +13,20 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.group_project.AuthModel
 import com.example.group_project.AuthState
-import com.example.group_project.wallet.WalletViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, authModel: AuthModel, walletViewModel: WalletViewModel) {
+fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, authModel: AuthModel) {
     val authState = authModel.authState.observeAsState()
     val currentUser = FirebaseAuth.getInstance().currentUser
 
     LaunchedEffect(authState.value) {
         if (authState.value is AuthState.Unauthenticated) {
             navController.navigate("login") {
-                // Clear the back stack to prevent going back to the profile page
                 popUpTo("login") { inclusive = true }
             }
         }
     }
-
 
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -40,7 +37,6 @@ fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, aut
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Display user information only if the user is logged in
         currentUser?.let { user ->
             Text(text = "Email: ${user.email ?: "No Email"}", fontSize = 20.sp)
             Text(text = "UID: ${user.uid}", fontSize = 20.sp)
@@ -48,13 +44,6 @@ fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, aut
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Add Balance Button
-        Button(onClick = {
-            // Navigate to the Add Balance screen or show a dialog here
-            navController.navigate("add_balance")
-        }) {
-            Text(text = "Add Balance")
-        }
 
         Spacer(modifier = Modifier.height(16.dp))
 

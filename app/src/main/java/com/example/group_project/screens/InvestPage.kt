@@ -1,73 +1,138 @@
 package com.example.group_project.screens
 
+import StockViewModel
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.group_project.CryptoViewModel
-import com.example.group_project.Crypto
+import com.example.group_project.network.PolygonApiService
+import com.example.group_project.ui.theme.ViewModel.StockViewModelFactory
+import com.example.group_project.data.StockRepository
+import com.example.group_project.model.Stock
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 @Composable
 fun InvestPage() {
-    val viewModel: CryptoViewModel = viewModel()
+    // Create Retrofit instance for PolygonApiService
+    val apiService = Retrofit.Builder()
+        .baseUrl("https://api.polygon.io/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(PolygonApiService::class.java)
 
-    //sample crypto data
-    val cryptos = listOf(
-        Crypto("1", "Bitcoin", "BTC"),
-        Crypto("2", "Ethereum", "ETH"),
-        Crypto("3", "Ripple", "XRP"),
-        Crypto("4", "Litecoin", "LTC")
-    )
+    // Create the StockRepository
+    val repository = StockRepository(apiService)
 
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(cryptos) { crypto ->
-            CryptoItem(crypto = crypto, viewModel = viewModel)
+    // Create the StockViewModel using the ViewModelFactory
+    val stockViewModel: StockViewModel = viewModel(factory = StockViewModelFactory(repository))
+
+    // Collect the investments from the ViewModel
+    val investments by stockViewModel.investments.collectAsState()
+
+    // Call to fetch live stocks
+    LaunchedEffect(Unit) {
+        stockViewModel.fetchLiveStocks("2023-11-16", "ieZvxvRmzI_3GYjP7aSQc2yylFbr7Adq") // Use your actual API key here
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        if (investments.isEmpty()) {
+            // Show a loading spinner while fetching data
+            Column(
+                modifier = Modifier.fillMaxSize().padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "Fetching the latest stocks...",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
+                )
+            }
+        } else {
+            // Show the list of stocks
+            LazyColumn(
+                modifier = Modifier.fillMaxSize().padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                contentPadding = PaddingValues(bottom = 16.dp)
+            ) {
+                items(investments) { stock ->
+                    StockItem(
+                        stock = stock,
+                        onAddToPortfolio = { stockViewModel.addToInvestments(stock) }
+                    )
+                }
+            }
         }
     }
 }
 
 @Composable
-fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel) {
-    val isFavorite = viewModel.isFavorite(crypto)
-
-    Row(
+fun StockItem(stock: Stock, onAddToPortfolio: () -> Unit) {
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 12.dp, horizontal = 16.dp)
-            .height(64.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(horizontal = 4.dp),
+        shape = MaterialTheme.shapes.medium,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        )
     ) {
-        Column(
+        Row(
             modifier = Modifier
-                .weight(1f)
-                .padding(end = 8.dp)
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = crypto.name, fontSize = 20.sp)
-            Text(text = crypto.symbol, fontSize = 16.sp)
-        }
-        Button(
-            onClick = {
-                if (isFavorite) {
-                    viewModel.removeFromFavorites(crypto)
-                } else {
-                    viewModel.addToFavorites(crypto)
-                }
-            },
-            modifier = Modifier.height(48.dp)
-        ) {
-            Text(text = if (isFavorite) "Sell" else "Buy")
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(
+                    text = stock.ticker,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = "Price: ${stock.close} USD",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = "Volume: ${stock.volume}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            // Add to Portfolio Button
+            Button(
+                onClick = onAddToPortfolio,
+                modifier = Modifier.padding(start = 16.dp)
+            ) {
+                Text(text = "Add to Portfolio")
+            }
         }
     }
 }
+
+

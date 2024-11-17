@@ -3,7 +3,6 @@ package com.example.group_project
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 
 class AuthModel: ViewModel() {

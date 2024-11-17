@@ -10,14 +10,12 @@ import com.example.group_project.AuthModel
 import com.example.group_project.screens.HomePage
 import com.example.group_project.screens.LoginPage
 import com.example.group_project.screens.SignUpPage
-import com.example.group_project.wallet.WalletViewModel
 import com.example.group_project.screens.ProfilePage
 
 @Composable
 fun AppNavigation(
     modifier: Modifier = Modifier,
-    authModel: AuthModel,
-    walletViewModel: WalletViewModel
+    authModel: AuthModel
 ) {
     val navController = rememberNavController()
 
@@ -32,8 +30,8 @@ fun AppNavigation(
             HomePage(modifier = modifier.fillMaxSize(), navController = navController, authModel = authModel)
         }
         composable("profile") {
-            ProfilePage(modifier = modifier.fillMaxSize(), navController = navController, authModel = authModel,  walletViewModel = walletViewModel)
+            ProfilePage(modifier = modifier.fillMaxSize(), navController = navController, authModel = authModel)
         }
-
     }
 }
+
