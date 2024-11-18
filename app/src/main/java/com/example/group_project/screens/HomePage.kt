@@ -22,8 +22,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel // Import this
 
 @Composable
 fun HomePage(modifier: Modifier = Modifier, navController: NavController, authModel: AuthModel) {
-    // Create an instance of WalletViewModel
-
+    // Create an instance of WalletViewModel (if needed, you can pass the ViewModel here)
     val navItemsList = listOf(
         NavItems("Home", Icons.Default.Home),
         NavItems("Invest", Icons.Default.ShoppingCart),
@@ -56,7 +55,7 @@ fun HomePage(modifier: Modifier = Modifier, navController: NavController, authMo
         ContentScreen(
             modifier = Modifier.padding(innerPadding),
             selectedIndex = selectedIndex,
-            navController = navController,
+            navController = navController,  // Pass NavController here
             authModel = authModel
         )
     }
@@ -70,9 +69,10 @@ fun ContentScreen(
     authModel: AuthModel,
 ) {
     when (selectedIndex) {
-        1 -> InvestPage()
+        1 -> InvestPage(navController = navController)
         2 -> MyInvestmentsPage()
         3 -> MenuPage()
         4 -> ProfilePage(navController = navController, authModel = authModel)
     }
 }
+

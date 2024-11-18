@@ -1,0 +1,109 @@
+package com.example.group_project.screens
+
+import android.util.Log
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import com.example.group_project.CryptoViewModel
+import androidx.compose.ui.Modifier
+
+@Composable
+fun CryptoDetailPage(cryptoId: String?, navController: NavController) {
+    val viewModel: CryptoViewModel = viewModel()
+    val cryptos by viewModel.cryptos.collectAsState()
+    val crypto = cryptos.find { it.id == cryptoId }
+
+    var amount by remember { mutableStateOf("") }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .padding(16.dp)
+        ) {
+            // Back Button
+            IconButton(onClick = { navController.popBackStack() }) {
+                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Back")
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Title centered
+            Text(
+                text = "Invest in ${crypto?.name}",
+                fontSize = 24.sp,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Displaying the crypto price and description
+            crypto?.let {
+                Text(
+                    text = "Price: $${it.price}",
+                    fontSize = 20.sp,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = it.description ?: "No description available",
+                    fontSize = 16.sp,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
+            // Input for amount
+            TextField(
+                value = amount,
+                onValueChange = { amount = it },
+                label = { Text("Amount to Invest") },
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally)
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Invest button
+            Button(
+                onClick = {
+                    val amountToInvest = amount.toDoubleOrNull()
+                    if (amountToInvest != null && amountToInvest > 0) {
+                        // Ensure `crypto` is not null before passing it
+                        crypto?.let {
+                            viewModel.addToInvested(it, amountToInvest)
+                        }
+                        navController.navigate("my_investments")
+                    }
+                },
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            ) {
+                Text(text = "Invest")
+            }
+        }
+    }
+}
