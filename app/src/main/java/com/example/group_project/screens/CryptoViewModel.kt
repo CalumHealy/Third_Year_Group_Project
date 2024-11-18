@@ -4,12 +4,17 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.group_project.network.RetrofitClient
+import com.example.group_project.network.StockCompany
+import com.example.group_project.network.StockCompanyResponse
 import kotlinx.coroutines.launch
 
 class CryptoViewModel : ViewModel() {
 
     private val _cryptos = mutableListOf<Crypto>()
     val cryptos: List<Crypto> get() = _cryptos
+
+    private val _stocks = mutableListOf<StockCompany>()
+    val stocks: List<StockCompany> get() = _stocks
 
     // Placeholder function for invested
     private val _invested = mutableSetOf<Crypto>()
@@ -30,6 +35,10 @@ class CryptoViewModel : ViewModel() {
         fetchCryptos()
     }
 
+    init {
+        fetchStockCompanies()
+    }
+
     // Fetch cryptos from CoinGecko
     private fun fetchCryptos(){
         viewModelScope.launch {
@@ -45,6 +54,26 @@ class CryptoViewModel : ViewModel() {
                     handleError("API Error: ${response.code()} - ${response.message()}")
                 }
             } catch (e: Exception){
+                // Handle network failure (e.g., no internet, timeout)
+                handleError("Network Error: ${e.localizedMessage}")
+            }
+        }
+    }
+
+    // Fetch Stocks from Polygon
+    private fun fetchStockCompanies() {
+        viewModelScope.launch {
+            try {
+                val response = RetrofitClient.polygonApiService.getStockCompanies("ieZvxvRmzI_3GYjP7aSQc2yylFbr7Adq")
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        _stocks.clear()
+                        _stocks.addAll(it.results.take(50))  // Limit to 50 companies
+                    }
+                } else {
+                    handleError("API Error: ${response.code()} - ${response.message()}")
+                }
+            } catch (e: Exception) {
                 // Handle network failure (e.g., no internet, timeout)
                 handleError("Network Error: ${e.localizedMessage}")
             }

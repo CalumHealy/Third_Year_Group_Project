@@ -1,83 +1,68 @@
 package com.example.group_project.screens
 
-import StockViewModel
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.group_project.network.PolygonApiService
-import com.example.group_project.ui.theme.ViewModel.StockViewModelFactory
-import com.example.group_project.data.StockRepository
-import com.example.group_project.model.Stock
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.example.group_project.CryptoViewModel
+import com.example.group_project.Crypto
+import com.example.group_project.network.StockCompany
 
 @Composable
 fun InvestPage() {
-    // Create Retrofit instance for PolygonApiService
-    val apiService = Retrofit.Builder()
-        .baseUrl("https://api.polygon.io/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(PolygonApiService::class.java)
+    val viewModel: CryptoViewModel = viewModel()
 
-    // Create the StockRepository
-    val repository = StockRepository(apiService)
+    // Keep track of the selected tab (Crypto or Stock)
+    val selectedTab = remember { mutableStateOf(0) }  // 0 for Crypto, 1 for Stock
 
-    // Create the StockViewModel using the ViewModelFactory
-    val stockViewModel: StockViewModel = viewModel(factory = StockViewModelFactory(repository))
+    //Fetch only the first 30 cryptos and stocks
+    val cryptos = viewModel.cryptos.take(30)
+    val stocks = viewModel.stocks.take(50)
 
-    // Collect the investments from the ViewModel
-    val investments by stockViewModel.investments.collectAsState()
-
-    // Call to fetch live stocks
-    LaunchedEffect(Unit) {
-        stockViewModel.fetchLiveStocks("2023-11-16", "ieZvxvRmzI_3GYjP7aSQc2yylFbr7Adq") // Use your actual API key here
-    }
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        if (investments.isEmpty()) {
-            // Show a loading spinner while fetching data
-            Column(
-                modifier = Modifier.fillMaxSize().padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+    Column(modifier = Modifier.fillMaxSize()) {
+        // TabRow for selecting between Crypto and Stock
+        TabRow(selectedTabIndex = selectedTab.value) {
+            Tab(
+                selected = selectedTab.value == 0,
+                onClick = { selectedTab.value = 0 }
             ) {
-                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
-                Spacer(modifier = Modifier.height(12.dp))
-                Text(
-                    text = "Fetching the latest stocks...",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
-                )
+                Text(text = "Crypto", modifier = Modifier.padding(16.dp))
             }
-        } else {
-            // Show the list of stocks
-            LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                contentPadding = PaddingValues(bottom = 16.dp)
+            Tab(
+                selected = selectedTab.value == 1,
+                onClick = { selectedTab.value = 1 }
             ) {
-                items(investments) { stock ->
-                    StockItem(
-                        stock = stock,
-                        onAddToPortfolio = { stockViewModel.addToInvestments(stock) }
-                    )
+                Text(text = "Stock", modifier = Modifier.padding(16.dp))
+            }
+        }
+
+        // LazyColumn to display either Crypto or Stock
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            if (selectedTab.value == 0) {
+                // Display Crypto items
+                items(cryptos) { crypto ->
+                    CryptoItem(crypto = crypto, viewModel = viewModel)
+                }
+            } else {
+                // Display Stock items
+                items(stocks) { stock ->
+                    StockItem(stock = stock, viewModel = viewModel)
                 }
             }
         }
@@ -85,52 +70,63 @@ fun InvestPage() {
 }
 
 @Composable
-fun StockItem(stock: Stock, onAddToPortfolio: () -> Unit) {
-    Card(
+fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel) {
+    val isInvested = viewModel.isInvested(crypto)
+
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 4.dp),
-        shape = MaterialTheme.shapes.medium,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        )
+            .padding(vertical = 12.dp, horizontal = 16.dp)
+            .height(64.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+                .weight(1f)
+                .padding(end = 8.dp)
         ) {
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text(
-                    text = stock.ticker,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                Text(
-                    text = "Price: ${stock.close} USD",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    text = "Volume: ${stock.volume}",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
+            Text(text = crypto.name, fontSize = 20.sp)
+            Text(text = crypto.symbol, fontSize = 16.sp)
+        }
+        Button(
+            onClick = {
+                if (isInvested) {
+                    viewModel.removeFromInvested(crypto)
+                } else {
+                    viewModel.addToInvested(crypto)
+                }
+            },
+            modifier = Modifier.height(48.dp)
+        ) {
+            Text(text = if (isInvested) "Sell" else "Buy")
+        }
+    }
+}
 
-            // Add to Portfolio Button
-            Button(
-                onClick = onAddToPortfolio,
-                modifier = Modifier.padding(start = 16.dp)
-            ) {
-                Text(text = "Add to Portfolio")
-            }
+@Composable
+fun StockItem(stock: StockCompany, viewModel: CryptoViewModel) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp, horizontal = 16.dp)
+            .height(64.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 8.dp)
+        ) {
+            Text(text = stock.name, fontSize = 20.sp)
+            Text(text = stock.ticker, fontSize = 16.sp)
+        }
+        Button(
+            onClick = {
+                // Handle buy/sell actions here
+            },
+            modifier = Modifier.height(48.dp)
+        ) {
+            Text(text = "Buy")  // Change to "Sell" if needed
         }
     }
 }
