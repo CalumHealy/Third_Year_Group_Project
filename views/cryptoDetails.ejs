@@ -21,21 +21,24 @@
         </div>
         <div class="main">
             <div class="titlebar">Crypto Details</div> <!-- Title bar to show the title neatly-->
-            <div class="header"><%= cryptoDetails.name %> Details</div>
-            <div class="info">
-                <div><strong>Symbol:</strong> <%= cryptoDetails.symbol.toUpperCase() %></div>
-                <div><strong>Price:</strong> <%= cryptoDetails.price %> USD</div>
-                <div><strong>Market Cap:</strong> <%= cryptoDetails.market_cap %> USD</div>
-                <div><strong>24h Volume:</strong> <%= cryptoDetails.volume_24h %> USD</div>
-                <div><strong>Price Change 24h:</strong> <%= cryptoDetails.price_change_24h %> %</div>
-                <div><strong>Circulating Supply:</strong> <%= cryptoDetails.circulating_supply %></div>
-                <div><strong>All Time High (ATH):</strong> <%= cryptoDetails.ath %> USD</div>
-                <div><strong>All Time Low (ATL):</strong> <%= cryptoDetails.atl %> USD</div>
-                <div><strong>Hashing Algorithm:</strong> <%= cryptoDetails.hashing_algorithm %></div>
-                <div><strong>Description:</strong> <%= cryptoDetails.description %></div>
+            <div class="form-container">
+                <div class="header"><%= cryptoDetails.name %> Details</div>
+                <div class="info">
+                    <div><strong>Symbol:</strong> <%= cryptoDetails.symbol.toUpperCase() %></div>
+                    <div><strong>Price:</strong> <%= cryptoDetails.price %> USD</div>
+                    <div><strong>Market Cap:</strong> <%= cryptoDetails.market_cap %> USD</div>
+                    <div><strong>24h Volume:</strong> <%= cryptoDetails.volume_24h %> USD</div>
+                    <div><strong>Price Change 24h:</strong> <%= cryptoDetails.price_change_24h %> %</div>
+                    <div><strong>Circulating Supply:</strong> <%= cryptoDetails.circulating_supply %></div>
+                    <div><strong>All Time High (ATH):</strong> <%= cryptoDetails.ath %> USD</div>
+                    <div><strong>All Time Low (ATL):</strong> <%= cryptoDetails.atl %> USD</div>
+                    <div><strong>Hashing Algorithm:</strong> <%= cryptoDetails.hashing_algorithm %></div>
+                    <div><strong>Description:</strong> <%= cryptoDetails.description %></div>
+                </div>
+                <a href="/crypto_confirm" class="button">Buy</a><br>
+                <!-- Back button to return to the crypto list -->
+                <a href="/buycrypto">Back to List</a>
             </div>
-            <!-- Back button to return to the crypto list -->
-            <a href="/buycrypto">Back to List</a>
         </div>
     </div>
 </body>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Buy Confirmation</title>
+    <link rel="stylesheet" href="/css/main.css"><!--Linking to css file-->
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sidebar"> <!-- sidebar for the links to other pages-->
+            <h2>ACT-Web</h2>
+            <ul>
+                <li><a href="/home">My Invest</a></li>
+                <li><a href="/buystock">Stock Invest</a></li>
+                <li><a href="/buycrypto">Crypto Invest</a></li>
+                <li><a href="/help">Help</a></li>
+                <li><a href="/settings">My Account</a></li>
+                <li><a href="/review">Reviews</a></li>
+            </ul>    
+        </div>
+        <div class="main">
+            <div class="titlebar">Stock Buy Confirm</div> <!-- Title bar to show the title neatly-->
+            <div class="header">Welcome!</div>
+            <div class="form-container">
+                <form action="/stock_confirm" method="POST">
+                    <p><strong>Stock Name:</strong> <%= stockDetails.symbol %></p>
+                    <input type="hidden" name="ticker" id="ticker" value="<%= stockDetails.symbol %>">
+                    <p><strong>Stock Price:</strong> $<%= stockDetails.price %></p>
+                    <label for="quantity">Quantity</label>
+                    <input type="number" name="quantity" id="quantity" placeholder="1" min="1"> 
+                    <p><strong>Wallet Balance:</strong> $<%= balance %></p>
+                    <input type="hidden" name="price" id="priceInput" value="<%= stockDetails.price %>">
+                    <p><strong>Total:</strong>$<span id="total">0</span></p>
+                    <div>
+                    <input type="checkbox" id="confirmStock" name="confirmStock" required>
+                    <label for="confirmStock">Are you sure you want to buy this stock?</label>
+                    </div>
+                    <button type="submit">Buy</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        const quantityInput = document.getElementById('quantity');
+        const totalDisplay = document.getElementById('total');
+        const stockPrice = parseFloat(<%= stockDetails.price %>);
+
+        quantityInput.addEventListener('input', function(){
+            const quantity = quantityInput.value;
+            const total = stockPrice * quantity;
+            totalDisplay.textContent = total.toFixed(2)
+        });
+
+        const priceInput = document.getElementById('priceInput');
+        priceInput.value = stockPrice;
+    </script>
+</body>
+</html>

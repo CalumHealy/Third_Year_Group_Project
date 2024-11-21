@@ -31,9 +31,7 @@
                     <% cryptoData.forEach(crypto => { %>
                     <li>
                         <strong><%= crypto.name %></strong> - <%= crypto.symbol.toUpperCase() %>: <%= crypto.current_price %> USD
-                        <a href="/crypto/details/<%= crypto.id %>">
-                            <button>Details</button>
-                        </a>
+                        <a href="/crypto/details/<%= crypto.id %>"class="button">Details</a>
                     </li>
                     <% }) %>
                 </ul>

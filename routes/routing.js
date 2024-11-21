@@ -222,6 +222,86 @@ router.get('/stock/details/:ticker', async (req, res) => {
     }
 });
 
+
+// stock buy confirm get route
+router.get('/stock_confirm/:ticker',async (req,res)=>{
+    try{
+        const ticker = req.params.ticker;
+        const stockDetails = await fetchStockDetails(ticker);
+        const companyId = req.session.companyId;
+        const auth = getAuth();
+        const user = auth.currentUser;
+    
+        const companyRef = ref(db, `users/${user.uid}/companies/${companyId}`);
+        const companySnapshot = await get(companyRef);
+        if (!companySnapshot.exists()){
+            return res.status(401).send("Company not found")
+        }
+        const companyData = companySnapshot.val();
+        const balance = companyData.wallet ? companyData.wallet.balance : 0;
+        res.render("stock_confirm",{stockDetails, balance});
+    }catch (error){
+        console.error("Error retrieving stock confirmation data",error);
+        res.status(500).send("An error occurred while processing your request");
+    }
+
+});
+
+// stock buy confirm post route
+router.post('/stock_confirm',async (req,res)=>{
+    const username = req.session.username;
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const companyId = req.session.companyId;
+    const {ticker, price,quantity} = req.body;
+    const priceNum = parseFloat(price);
+    const quantNum = parseFloat(quantity);
+    const MAX_STOCKS = 10; //max amount of different stocks per person
+
+    try{
+        if (isNaN(priceNum) || priceNum <= 0) {
+            return res.status(400).send("Invalid price.");
+        }
+        const totalCost = priceNum * quantNum;
+
+        const WalletRef = ref(db, `users/${user.uid}/companies/${companyId}/wallet`); 
+
+        //get current balance
+        const snapshot = await get(WalletRef);
+        if (!snapshot.exists()){
+            return res.status(404).send("Wallet not found.");
+        }
+
+        const currentBal = snapshot.val().balance;
+
+        //update balance
+        const newBal = currentBal - totalCost;
+
+        await update(WalletRef, {
+            balance: newBal //update balance
+        });
+
+        const stockRef = ref(db, `users/${user.uid}/companies/${companyId}/stocks`);
+        const stockSnapshot = await get(stockRef);
+
+        if (stockSnapshot.exists() && Object.keys(stockSnapshot.val()).length >= MAX_STOCKS) {
+            return res.status(400).send(`Cannot add more than ${MAX_STOCKS} stocks.`);
+        }
+
+        const newStock = push(stockRef,{
+                name: ticker,
+                price: priceNum,
+                quantity: quantNum,
+                date: new Date().toISOString()
+        });
+        console.log(`Stock purchase successful for ${ticker}: ${quantNum} at $${priceNum}, wallet balance : $${newBal}`);
+        res.redirect('/home'); //redirect to home
+    }catch (error){
+        console.log("Error buying stock",error);
+        res.status(500).send("Failed to buy crypto");
+    }
+});
+
 // crypto invest route
 router.get('/buycrypto',async (req,res)=>{
     try {
@@ -241,6 +321,12 @@ router.get('/crypto/details/:id', async (req, res) => {
       res.status(500).send('Error retrieving crypto details');
     }
 });
+
+// crypto buy confirm route
+router.get('/crypto_confirm',async (req,res)=>{
+    res.render('crypto_confirm');
+});
+
 // add funds route
 router.get('/add_funds',async (req,res)=>{
     res.render('add_funds', {PAYPAL_CLIENT_ID: process.env.PAYPAL_CLIENT_ID }); //renders add_funds.ejs
@@ -287,11 +373,6 @@ router.post('/api/update-wallet', async (req,res)=>{
         console.error("Error updating wallet", error);
         res.status(500).send("Error updating wallet.");
     }
-});
-
-// buy confirm route
-router.get('/buy_confirm',async (req,res)=>{
-    res.render('buy_confirm'); //render buy_confirm.ejs
 });
 
 // sell confirm route
@@ -366,7 +447,11 @@ router.get('/settings',async (req,res)=>{
             const balance = companyData.wallet ? companyData.wallet.balance : 0;
             const companyName = companyData.company_name || "Company";
 
-            res.render('settings', {username, balance, companyName}); //renders setting.ejs and passes username to ejs
+            const stockRef = ref(db, `users/${user.uid}/companies/${companyId}/stocks`);
+            const stockSnapshot = await get(stockRef);
+            const stockAmount = Object.keys(stockSnapshot.val()).length
+
+            res.render('settings', {username, balance, companyName,stockAmount}); //renders setting.ejs and passes username to ejs
         }else{
             console.log("Company not found in db");
             res.redirect('select_company');
