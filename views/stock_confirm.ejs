@@ -27,10 +27,10 @@
                     <p><strong>Stock Name:</strong> <%= stockDetails.symbol %></p>
                     <input type="hidden" name="ticker" id="ticker" value="<%= stockDetails.symbol %>">
                     <p><strong>Stock Price:</strong> $<%= stockDetails.price %></p>
+                    <input type="hidden" name="price" id="priceInput" value="<%= stockDetails.price %>">
                     <label for="quantity">Quantity</label>
                     <input type="number" name="quantity" id="quantity" placeholder="1" min="1"> 
                     <p><strong>Wallet Balance:</strong> $<%= balance %></p>
-                    <input type="hidden" name="price" id="priceInput" value="<%= stockDetails.price %>">
                     <p><strong>Total:</strong>$<span id="total">0</span></p>
                     <div>
                     <input type="checkbox" id="confirmStock" name="confirmStock" required>
@@ -44,7 +44,7 @@
     <script>
         const quantityInput = document.getElementById('quantity');
         const totalDisplay = document.getElementById('total');
-        const stockPrice = parseFloat(<%= stockDetails.price %>);
+        const stockPrice = parseFloat("<%= stockDetails.price %>");
 
         quantityInput.addEventListener('input', function(){
             const quantity = quantityInput.value;

@@ -25,15 +25,17 @@
             <div class="info">
                 <div>This is the stock buy page</div>
             </div>
-            <div class="stocklist">
+            <div class="item-list">
                 <h1>Available Stocks</h1>
                 <% if (stocks && stocks.length > 0) { %>
                     <ul>
                         <% stocks.forEach(stock => { %>
-                            <li>
-                                <strong><%= stock.ticker %></strong> - <%= stock.name %>
-                                <a href="/stock/details/<%= stock.ticker %>" class="button">Details</a>
-                            </li>
+                            <div class="item">
+                                <li>
+                                    <strong><%= stock.ticker %></strong> - <%= stock.name %>
+                                    <a href="/stock/details/<%= stock.ticker %>" class="button">Details</a>
+                                </li>
+                            </div>
                         <% }) %>
                     </ul>
                 <% } else { %>

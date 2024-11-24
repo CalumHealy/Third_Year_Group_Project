@@ -25,14 +25,16 @@
             <div class="info">
                 <div>This is the crypto buy page</div>
             </div>
-            <div class="Crypto">
+            <div class="item-list">
                 <h1>List of Cryptocurrencies</h1>
                 <ul>
                     <% cryptoData.forEach(crypto => { %>
-                    <li>
-                        <strong><%= crypto.name %></strong> - <%= crypto.symbol.toUpperCase() %>: <%= crypto.current_price %> USD
-                        <a href="/crypto/details/<%= crypto.id %>"class="button">Details</a>
-                    </li>
+                    <div class="item"> 
+                        <li>
+                            <strong><%= crypto.name %></strong> - <%= crypto.symbol.toUpperCase() %>: <%= crypto.current_price %> USD
+                            <a href="/crypto/details/<%= crypto.id %>"class="button">Details</a>
+                        </li>
+                    </div>   
                     <% }) %>
                 </ul>
             </div>

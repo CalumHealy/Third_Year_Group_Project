@@ -22,10 +22,38 @@
         <div class="main">
             <div class="titlebar">Crypto Buy Confirm</div> <!-- Title bar to show the title neatly-->
             <div class="header">Welcome!</div>
-            <div class="info">
-                <div>This is the Buy Confirm page</div>
+            <div class="form-container">
+                <form action="crypto_confirm" method="POST">
+                    <p><strong>Crypto Name: </strong><%= cryptoDetails.symbol %></p>
+                    <input type="hidden" name="ticker" id="ticker" value="<%= cryptoDetails.symbol %>"/>
+                    <p><strong>Crypto Price:</strong> $<%= cryptoDetails.price %></p>
+                    <input type="hidden" name="price" id="priceInput" value="<%= cryptoDetails.price %>">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" name="quantity" id="quantity" placeholder="1" min="1"> 
+                    <p><strong>Wallet Balance:</strong> $<%= balance %></p>
+                    <p><strong>Total:</strong>$<span id="total">0</span></p>
+                    <div>
+                    <input type="checkbox" id="confirmCrypto" name="confirmCrypto" required>
+                    <label for="confirmCrypto">Are you sure you want to buy this crypto?</label>
+                    </div>
+                    <button type="submit">Buy</button>
+                </form>
             </div>
         </div>
     </div>
+    <script>
+        const quantityInput = document.getElementById('quantity');
+        const totalDisplay = document.getElementById('total');
+        const cryptoPrice = parseFloat("<%= cryptoDetails.price %>");
+
+        quantityInput.addEventListener('input', function(){
+            const quantity = quantityInput.value;
+            const total = cryptoPrice * quantity;
+            totalDisplay.textContent = total.toFixed(2)
+        });
+
+        const priceInput = document.getElementById('priceInput');
+        priceInput.value = cryptoPrice;
+    </script>
 </body>
 </html>

@@ -323,8 +323,27 @@ router.get('/crypto/details/:id', async (req, res) => {
 });
 
 // crypto buy confirm route
-router.get('/crypto_confirm',async (req,res)=>{
-    res.render('crypto_confirm');
+router.get('/crypto_confirm/:id',async (req,res)=>{
+    try{
+        const cryptoId = req.params.id;
+        const companyId = req.session.companyId;
+        const cryptoDetails = await fetchCryptoDetails(cryptoId);
+        const auth = getAuth();
+        const user = auth.currentUser;
+    
+        const companyRef = ref(db, `users/${user.uid}/companies/${companyId}`);
+        const companySnapshot = await get(companyRef);
+        if (!companySnapshot.exists()){
+            return res.status(401).send("Company not found")
+        }
+        const companyData = companySnapshot.val();
+        const balance = companyData.wallet ? companyData.wallet.balance : 0;
+        
+        res.render("crypto_confirm",{cryptoDetails, balance});
+    }catch (error){
+        console.error("Error retrieving stock confirmation data",error);
+        res.status(500).send("An error occurred while processing your request");
+    }
 });
 
 // add funds route
@@ -449,7 +468,7 @@ router.get('/settings',async (req,res)=>{
 
             const stockRef = ref(db, `users/${user.uid}/companies/${companyId}/stocks`);
             const stockSnapshot = await get(stockRef);
-            const stockAmount = Object.keys(stockSnapshot.val()).length
+            const stockAmount = stockSnapshot.exists() ? Object.keys(stockSnapshot.val()).length : 0;
 
             res.render('settings', {username, balance, companyName,stockAmount}); //renders setting.ejs and passes username to ejs
         }else{
@@ -470,12 +489,63 @@ router.get('/upgrade', async (req,res)=>{
 
 // review route
 router.get('/review',async (req,res)=>{
-    res.render('review'); //renders review.ejs
+    try{
+        const auth = getAuth();
+        const user = auth.currentUser;
+        if (!user){
+            return res.redirect('/');
+        }
+        const reviewRef = ref(db,'reviews/');
+        const reviewSnapshot = await get(reviewRef);
+        
+        let reviews = [];
+        if(reviewSnapshot.exists()){
+            const reviewData = reviewSnapshot.val();
+            reviews = Object.values(reviewData);
+        }
+
+        res.render('review',{reviews}); //renders review.ejs
+    }catch (error){
+        console.log("Error fetching reviews", error);
+        res.status(404).send("Error fetching reviews.");
+    }
 });
 
 //write review route
 router.get('/write_review', async (req,res)=>{
     res.render('write_review'); //renders write_review.ejs
+});
+
+//write review post route
+router.post('/write_review', async (req,res)=>{
+    const {email,review,rate} = req.body;
+
+    if(!review){
+        return res.status(400).send("Review is required");
+    }
+    try{
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if(!user){
+            return res.status(400).send("Unauthorised. Please log in.");
+        }
+
+        const sanitisedEmail =  email || "Anonymous";
+        const sanitisedRating  = rate || "N/A";
+        
+        const reviewRef = ref(db,'reviews/');
+        await push(reviewRef,{
+            email: sanitisedEmail,
+            review,
+            rating: sanitisedRating
+        });
+
+        console.log("Review submitted to db");
+        res.status(200).send("Review successfully submitted!");
+    } catch(error){
+        console.error("Error sending review:",error);
+    }
 });
 
 export default router;

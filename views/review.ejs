@@ -22,8 +22,21 @@
         <div class="main">
             <div class="titlebar">Review</div> <!-- Title bar to show the title neatly-->
             <div class="write">
-                <p>Write Your Review Today!</p>
+                <p>We would love to hear your thoughts, write your review today!</p>
                 <a href="/write_review" class="button">Write</a>
+            </div>
+            <div class="reviews-list">
+                <% if (reviews.length === 0){ %>
+                    <p>No reviews found.</p>
+                <% } { %>
+                    <% reviews.forEach((review) => { %>
+                        <div class="review">
+                            <h3><%= review.email || "Anonymous" %></h3>
+                            <p><strong>Rating: </strong> <%= review.rating || "N/A" %></p>
+                            <p><%= review.review %></p>
+                        </div>
+                    <% }); %>
+                <% } %>
             </div>
         </div>
     </div>
