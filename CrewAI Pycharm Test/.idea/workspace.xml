@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a6cf1f7e-0336-4d94-a642-18cc9b2b34f6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AI/CrewAI Pycharm Test/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../AI/CrewAI Pycharm Test/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AI/CrewAI Pycharm Test/tasks.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../AI/CrewAI Pycharm Test/tasks.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/CrewAI Pycharm Test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CrewAI Pycharm Test.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,9 +19,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="2mpTdZWShWQWD3jSoqcEpqnd4mp" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -29,7 +33,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/calum/Desktop/Random Documents/College/Third Year/Semester One/Group Project/AI/CrewAI Pycharm Test",
+    "last_opened_file_path": "C:/Users/calum/OneDrive/Desktop/Random Documents/College/Third Year/Semester 1/Group Project/AI/CrewAI Pycharm Test",
     "settings.editor.selected.configurable": "editor.preferences.tabs"
   }
 }]]></component>
@@ -77,16 +81,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>8</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
