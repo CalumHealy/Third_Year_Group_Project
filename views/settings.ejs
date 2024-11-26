@@ -29,7 +29,7 @@
             </div>
             <br>
             <div class="account">
-                <p>Account: $ <%= balance %></p>
+                <p>Account: $ <%= balance.toFixed(2) %></p>
                 <div class="button-container">
                     <a href="/add_funds" class="button">Add</a>
                     <a href="/upgrade" class="button">Upgrade</a>
@@ -39,7 +39,7 @@
             <div class="held">
                 <p># Stocks Held: <%= stockAmount %>/10<!--Data Will be Pulled from FB DB --></p>
                 <br>
-                <p># Crypto Held: 0/3<!--Data Will be Pulled from FB DB --></p>
+                <p># Crypto Held: <%= cryptoAmount %>/3<!--Data Will be Pulled from FB DB --></p>
             </div>
             <div class="switch">
                 <a href="/select_company" class="button">Switch Company</a>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypto Buy Confirmation</title>
-    <link rel="stylesheet" href="css/main.css"><!--Linking to css file-->
+    <link rel="stylesheet" href="/css/main.css"><!--Linking to css file-->
 </head>
 <body>
     <div class="wrapper">
@@ -23,7 +23,7 @@
             <div class="titlebar">Crypto Buy Confirm</div> <!-- Title bar to show the title neatly-->
             <div class="header">Welcome!</div>
             <div class="form-container">
-                <form action="crypto_confirm" method="POST">
+                <form action="/crypto_confirm" method="POST">
                     <p><strong>Crypto Name: </strong><%= cryptoDetails.symbol %></p>
                     <input type="hidden" name="ticker" id="ticker" value="<%= cryptoDetails.symbol %>"/>
                     <p><strong>Crypto Price:</strong> $<%= cryptoDetails.price %></p>

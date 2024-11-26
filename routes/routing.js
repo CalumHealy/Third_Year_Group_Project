@@ -92,12 +92,38 @@ router.post('/forgotPassword',async (req,res) =>{
 });
 
 //Home route
-router.get('/home', (req,res) => {
+router.get('/home',async (req,res) => {
     const username = req.session.username;
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const companyId = req.session.companyId;
+
     if(!username){
         res.redirect('/'); //if no username redirect back to login
     }
-    res.render('home', {username}); //render home.ejs and pass username to ejs
+
+    const stockRef = ref(db, `users/${user.uid}/companies/${companyId}/stocks`);
+    const stockSnapshot = await get(stockRef);
+
+    const stocks = stockSnapshot.exists() ? Object.entries(stockSnapshot.val()).map(([key,value]) => ({
+        key: key,
+        name: value.name,
+        price: value.price,
+        quantity: value.quantity
+    })) : [];
+    
+
+    const cryptoRef = ref(db, `users/${user.uid}/companies/${companyId}/cryptos`);
+    const cryptoSnapshot = await get(cryptoRef);
+
+    const cryptos = cryptoSnapshot.exists() ? Object.entries(cryptoSnapshot.val()).map(([key,value]) => ({
+        key: key,
+        name: value.name,
+        price: value.price,
+        quantity: value.quantity
+    })) : [];
+    
+    res.render('home', {username, stocks, cryptos}); //render home.ejs and pass username to ejs
 });
 
 //login retrieval
@@ -298,7 +324,7 @@ router.post('/stock_confirm',async (req,res)=>{
         res.redirect('/home'); //redirect to home
     }catch (error){
         console.log("Error buying stock",error);
-        res.status(500).send("Failed to buy crypto");
+        res.status(500).send("Failed to buy stock");
     }
 });
 
@@ -325,7 +351,7 @@ router.get('/crypto/details/:id', async (req, res) => {
 // crypto buy confirm route
 router.get('/crypto_confirm/:id',async (req,res)=>{
     try{
-        const cryptoId = req.params.id;
+        const cryptoId = req.params.id.toLowerCase();
         const companyId = req.session.companyId;
         const cryptoDetails = await fetchCryptoDetails(cryptoId);
         const auth = getAuth();
@@ -338,11 +364,66 @@ router.get('/crypto_confirm/:id',async (req,res)=>{
         }
         const companyData = companySnapshot.val();
         const balance = companyData.wallet ? companyData.wallet.balance : 0;
-        
+
         res.render("crypto_confirm",{cryptoDetails, balance});
     }catch (error){
         console.error("Error retrieving stock confirmation data",error);
         res.status(500).send("An error occurred while processing your request");
+    }
+});
+
+// crypto buy confirm post route
+router.post('/crypto_confirm',async (req,res)=>{
+    const username = req.session.username;
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const companyId = req.session.companyId;
+    const {ticker, price,quantity} = req.body;
+    const priceNum = parseFloat(price);
+    const quantNum = parseFloat(quantity);
+    const MAX_CRYPTOS = 3; //max amount of different cryptos per person
+
+    try{
+        if (isNaN(priceNum) || priceNum <= 0) {
+            return res.status(400).send("Invalid price.");
+        }
+        const totalCost = priceNum * quantNum;
+
+        const WalletRef = ref(db, `users/${user.uid}/companies/${companyId}/wallet`); 
+
+        //get current balance
+        const snapshot = await get(WalletRef);
+        if (!snapshot.exists()){
+            return res.status(404).send("Wallet not found.");
+        }
+
+        const currentBal = snapshot.val().balance;
+
+        //update balance
+        const newBal = currentBal - totalCost;
+
+        await update(WalletRef, {
+            balance: newBal //update balance
+        });
+
+        const cryptoRef = ref(db, `users/${user.uid}/companies/${companyId}/cryptos`);
+        const cryptoSnapshot = await get(cryptoRef);
+
+        if (cryptoSnapshot.exists() && Object.keys(cryptoSnapshot.val()).length >= MAX_CRYPTOS){
+            return res.status(400).send(`Cannot add more than ${MAX_CRYPTOS} cryptos.`);
+        }
+
+        const newCrypto = push(cryptoRef,{
+            name: ticker,
+            price: priceNum,
+            quantity: quantNum,
+            date: new Date().toISOString()
+        });
+        console.log(`Crypto purchase successful for ${ticker}: ${quantNum} at $${priceNum},wallet balance: $${newBal}`);
+        res.redirect('/home');
+    }catch (error){
+        console.log("Error buying crypto",error);
+        res.status(500).send("Failed to buy crypto");
     }
 });
 
@@ -470,7 +551,11 @@ router.get('/settings',async (req,res)=>{
             const stockSnapshot = await get(stockRef);
             const stockAmount = stockSnapshot.exists() ? Object.keys(stockSnapshot.val()).length : 0;
 
-            res.render('settings', {username, balance, companyName,stockAmount}); //renders setting.ejs and passes username to ejs
+            const cryptoRef = ref(db,`users/${user.uid}/companies/${companyId}/cryptos`);
+            const cryptoSnapshot = await get(cryptoRef);
+            const cryptoAmount = cryptoSnapshot.exists() ? Object.keys(cryptoSnapshot.val()).length : 0;
+
+            res.render('settings', {username, balance, companyName,stockAmount,cryptoAmount}); //renders setting.ejs and passes username to ejs
         }else{
             console.log("Company not found in db");
             res.redirect('select_company');
