@@ -9,12 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.example.group_project.AuthModel
-import com.example.group_project.screens.HomePage
-import com.example.group_project.screens.LoginPage
-import com.example.group_project.screens.SignUpPage
-import com.example.group_project.screens.ProfilePage
-import com.example.group_project.screens.CryptoDetailPage
-import com.example.group_project.screens.StockDetailPage
+import com.example.group_project.screens.*
 
 @Composable
 fun AppNavigation(
@@ -36,28 +31,40 @@ fun AppNavigation(
         composable("profile") {
             ProfilePage(modifier = modifier.fillMaxSize(), navController = navController, authModel = authModel)
         }
+        composable("menu") {
+            MenuPage(modifier = modifier.fillMaxSize(), navController = navController)
+        }
+        composable("ratings") {
+            RatingsReviewPage(modifier = modifier.fillMaxSize(), navController = navController)
+        }
+        composable("support_form") {
+            SupportFormPage(modifier = modifier.fillMaxSize(), navController = navController)
+        }
+        composable("request_help") {
+            RequestHelpPage(modifier = modifier.fillMaxSize(), navController = navController)
+        }
+        composable("chatbot_ai") {
+            ChatbotAIPage(modifier = modifier.fillMaxSize(), navController = navController)
+        }
 
-        // Add the Crypto Detail destination and pass navController
         composable(
             "cryptoDetail/{cryptoId}",
             arguments = listOf(navArgument("cryptoId") { type = NavType.StringType })
         ) { backStackEntry ->
             val cryptoId = backStackEntry.arguments?.getString("cryptoId")
             cryptoId?.let {
-                CryptoDetailPage(cryptoId = it, navController = navController) // Pass navController here
+                CryptoDetailPage(cryptoId = it, navController = navController)
             }
         }
 
-        // Add the Stock Detail destination and pass the correct ticker argument
         composable(
             "stockDetail/{ticker}",
             arguments = listOf(navArgument("ticker") { type = NavType.StringType })
         ) { backStackEntry ->
             val ticker = backStackEntry.arguments?.getString("ticker")
             ticker?.let {
-                StockDetailPage(stockSymbol = it, navController = navController) // Pass correct argument here
+                StockDetailPage(stockSymbol = it, navController = navController)
             }
         }
     }
 }
-
