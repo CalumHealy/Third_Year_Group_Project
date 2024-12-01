@@ -1,6 +1,6 @@
 import express from 'express';
 import { db } from '../app.js';
-import { ref,set,get,update, push, getDatabase } from 'firebase/database';
+import { ref,set,get,update, push, getDatabase, remove } from 'firebase/database';
 import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail} from 'firebase/auth'
 import { fetchStocks, fetchStockDetails} from '../services/polygonService.js';
 import { fetchCryptoList, fetchCryptoDetails} from '../services/cryptoServices.js';
@@ -111,6 +111,35 @@ router.get('/home',async (req,res) => {
         price: value.price,
         quantity: value.quantity
     })) : [];
+
+    const LiveStock = await Promise.all(
+        stocks.map(async (stock) =>{
+            try{
+                const stockDetails = await fetchStockDetails(stock.name);
+                const currentPrice = stockDetails.price;
+                const profitLoss = (currentPrice - stock.price) * stock.quantity; 
+
+                return{
+                    key: stock.key,
+                    name: stock.name,
+                    price: stock.price,
+                    quantity: stock.quantity,
+                    currentPrice,
+                    profitLoss
+                };
+            }catch(error){
+                console.log(`Error fetching live details for ${stock.name}`,error.message);
+                return{
+                    key: stock.key,
+                    name: stock.name,
+                    price: stock.price,
+                    quantity: stock.quantity,
+                    currentPrice: "N/A",
+                    profitLoss: 0
+                };
+            }
+        })
+    );
     
 
     const cryptoRef = ref(db, `users/${user.uid}/companies/${companyId}/cryptos`);
@@ -122,8 +151,37 @@ router.get('/home',async (req,res) => {
         price: value.price,
         quantity: value.quantity
     })) : [];
-    
-    res.render('home', {username, stocks, cryptos}); //render home.ejs and pass username to ejs
+
+    const LiveCrypto = await Promise.all(
+        cryptos.map(async (crypto)=>{
+            try{
+                const cryptoDetails = await fetchCryptoDetails(crypto.name);
+                const currentPrice = cryptoDetails.price;
+                const profitLoss = (currentPrice - crypto.price) * crypto.quantity;
+
+                return{
+                    key: crypto.key,
+                    name: crypto.name,
+                    price: crypto.price,
+                    quantity: crypto.quantity,
+                    currentPrice,
+                    profitLoss,
+                };
+            }catch (error){
+                console.log(`Error fetching live details for ${crypto.name}`,error.message);
+                return{
+                    key: crypto.key,
+                    name: crypto.name,
+                    price: crypto.price,
+                    quantity: crypto.quantity,
+                    currentPrice: "N/A",
+                    profitLoss: 0
+                };
+            }
+        })
+    );
+ 
+    res.render('home', {username, LiveStock, LiveCrypto}); //render home.ejs and pass username to ejs
 });
 
 //login retrieval
@@ -351,7 +409,7 @@ router.get('/crypto/details/:id', async (req, res) => {
 // crypto buy confirm route
 router.get('/crypto_confirm/:id',async (req,res)=>{
     try{
-        const cryptoId = req.params.id.toLowerCase();
+        const cryptoId = req.params.id;
         const companyId = req.session.companyId;
         const cryptoDetails = await fetchCryptoDetails(cryptoId);
         const auth = getAuth();
@@ -475,9 +533,226 @@ router.post('/api/update-wallet', async (req,res)=>{
     }
 });
 
-// sell confirm route
-router.get('/sell_confirm',async (req,res)=>{
-    res.render('sell_confirm'); //render sell_confirm.ejs
+router.get('/sell_stock/:name', async (req, res) => {
+    const name = req.params.name;
+    const companyId = req.session.companyId;
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    try {
+        const stockData = await fetchStockDetails(name);
+        if (!stockData) {
+            return res.status(404).send("Stock not found.");
+        }
+
+        const companyRef = ref(db, `users/${user.uid}/companies/${companyId}`);
+        const companySnapshot = await get(companyRef);
+        if (!companySnapshot.exists()) {
+            return res.status(401).send("Company not found");
+        }
+
+        const companyData = companySnapshot.val();
+        const balance = companyData.wallet ? companyData.wallet.balance : 0;
+
+        const stockRef = ref(db, `users/${user.uid}/companies/${companyId}/stocks`);
+        const stockSnapshot = await get(stockRef);
+
+        const stockDB = stockSnapshot.val();
+        console.log('stockDB:', stockDB);
+
+        // Check if stockDB is a valid object and contains the expected data
+        if (!stockDB || typeof stockDB !== 'object') {
+            return res.status(404).send("No stock data found in your portfolio.");
+        }
+
+        const stockEntry = Object.entries(stockDB).find(([id, stock]) => stock.name === name || stock.ticker === name);
+
+        if (!stockEntry) {
+            return res.status(404).send(`Stock ${name} not found in your portfolio.`);
+        }
+
+        const [stockid, stockDetails] = stockEntry;  // Destructure to get stock id and stock details
+
+        // Render the sell_stock view, passing necessary data
+        res.render('sell_stock', { stockData: stockDetails, balance, stockName: name, stockid });
+
+    } catch (error) {
+        console.error("Error fetching stock details", error);
+        res.status(500).send("Error processing request");
+    }
+});
+
+// sell stock post route
+router.post('/sell_stock',async (req,res)=> {
+    const username = req.session.username;
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const companyId = req.session.companyId;
+    const {stockid, price,quantity} = req.body;
+    const priceNum = parseFloat(price);
+    const quantNum = parseFloat(quantity);
+
+    try{
+        if (isNaN(priceNum) || priceNum <= 0) {
+            return res.status(400).send("Invalid price.");
+        }
+        if (isNaN(quantNum) || quantNum <= 0) {
+            return res.status(400).send("Invalid quantity.");
+        }
+        const totalCost = priceNum * quantNum;
+
+        const stockRef = ref(db, `users/${user.uid}/companies/${companyId}/stocks/${stockid}`);
+        const stockSnapshot = await get(stockRef);
+        const stockData = stockSnapshot.val();
+        const stockQuantity = stockData.quantity;
+
+        if (quantNum > stockQuantity){
+            return res.status(400).send(`You don't have enough ${stockData.name} stock to sell.`);
+        }
+
+        const updatedQuantity = stockQuantity - quantNum;
+
+        if (updatedQuantity === 0){
+            await remove(stockRef);
+        }else{
+            await update(stockRef, {quantity: updatedQuantity});
+        }
+
+        const WalletRef = ref(db, `users/${user.uid}/companies/${companyId}/wallet`); 
+
+        //get current balance
+        const snapshot = await get(WalletRef);
+        if (!snapshot.exists()){
+            return res.status(404).send("Wallet not found.");
+        }
+
+        const currentBal = snapshot.val().balance;
+
+        //update balance
+        const newBal = currentBal + totalCost;
+
+        await update(WalletRef, {
+            balance: newBal //update balance
+        });
+
+        res.redirect('/home');
+
+    }catch (error){
+        console.log("Error selling stock",error);
+        res.status(500).send("Failed to sell stock");
+    }
+});
+
+router.get('/sell_crypto/:name', async (req, res) => {
+    const name = req.params.name;
+    const companyId = req.session.companyId;
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    try {
+        const cryptoData = await fetchCryptoDetails(name);
+        if (!cryptoData) {
+            return res.status(404).send("Crypto not found.");
+        }
+
+        const companyRef = ref(db, `users/${user.uid}/companies/${companyId}`);
+        const companySnapshot = await get(companyRef);
+        if (!companySnapshot.exists()) {
+            return res.status(401).send("Company not found");
+        }
+
+        const companyData = companySnapshot.val();
+        const balance = companyData.wallet ? companyData.wallet.balance : 0;
+
+        const cryptoRef = ref(db, `users/${user.uid}/companies/${companyId}/cryptos`);
+        const cryptoSnapshot = await get(cryptoRef);
+        const cryptoDB = cryptoSnapshot.val();
+
+        if (!cryptoDB || typeof cryptoDB !== 'object') {
+            return res.status(404).send("No crypto data found in your portfolio.");
+        }
+
+        const cryptoEntry = Object.entries(cryptoDB).find(([id, crypto]) => crypto.name === name || crypto.ticker === name);
+
+        if (!cryptoEntry) {
+            return res.status(404).send(`Crypto ${name} not found in your portfolio.`);
+        }
+
+        const [cryptoid, cryptoDetails] = cryptoEntry; 
+        console.log('cryptoDetails with quantity:', cryptoDetails);
+ 
+
+        res.render('sell_crypto', {
+            cryptoData,
+            cryptoDetails,      
+            balance,  
+            cryptoName: name,
+            cryptoid
+        });
+
+    } catch (error) {
+        console.error("Error fetching crypto details", error);
+        res.status(500).send("Error processing request");
+    }
+});
+
+
+router.post('/sell_crypto', async (req, res) => {
+    const username = req.session.username;
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const companyId = req.session.companyId;
+    const { cryptoid, price, quantity } = req.body;
+    const priceNum = parseFloat(price);
+    const quantNum = parseFloat(quantity);
+
+    try {
+        if (isNaN(priceNum) || priceNum <= 0) {
+            return res.status(400).send("Invalid price.");
+        }
+        if (isNaN(quantNum) || quantNum <= 0) {
+            return res.status(400).send("Invalid quantity.");
+        }
+
+        const totalCost = priceNum * quantNum;
+
+        const cryptoRef = ref(db, `users/${user.uid}/companies/${companyId}/cryptos/${cryptoid}`);
+        const cryptoSnapshot = await get(cryptoRef);
+        const cryptoData = cryptoSnapshot.val();
+
+        if (!cryptoData) {
+            return res.status(404).send("Crypto not found in portfolio.");
+        }
+
+        const cryptoQuantity = cryptoData.quantity;
+
+        if (quantNum > cryptoQuantity) {
+            return res.status(400).send(`You don't have enough ${cryptoData.name} crypto to sell.`);
+        }
+
+        const updatedQuantity = cryptoQuantity - quantNum;
+
+        if (updatedQuantity === 0) {
+            await remove(cryptoRef);  
+        } else {
+            await update(cryptoRef, { quantity: updatedQuantity });  
+        }
+
+        const walletRef = ref(db, `users/${user.uid}/companies/${companyId}/wallet`);
+        const walletSnapshot = await get(walletRef);
+        const walletData = walletSnapshot.val();
+
+        const currentBalance = walletData.balance;
+        const newBalance = currentBalance + totalCost;
+
+        await update(walletRef, { balance: newBalance });
+
+        res.redirect('/home'); 
+
+    } catch (error) {
+        console.log("Error selling crypto", error);
+        res.status(500).send("Failed to sell crypto");
+    }
 });
 
 // help route
@@ -565,11 +840,6 @@ router.get('/settings',async (req,res)=>{
         res.status(500).send("Error fetching company data")
     }
 
-});
-
-// upgrade plan route
-router.get('/upgrade', async (req,res)=>{
-    res.render('upgrade_plan'); //renders upgrade_plan.ejs
 });
 
 // review route

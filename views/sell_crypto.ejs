@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sale Confirmation</title>
+    <link rel="stylesheet" href="/css/main.css"><!--Linking to css file-->
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sidebar"> <!-- sidebar for the links to other pages-->
+            <h2>ACT-Web</h2>
+            <ul>
+                <li><a href="/home">My Invest</a></li>
+                <li><a href="/buystock">Stock Invest</a></li>
+                <li><a href="/buycrypto">Crypto Invest</a></li>
+                <li><a href="/help">Help</a></li>
+                <li><a href="/settings">My Account</a></li>
+                <li><a href="/review">Reviews</a></li>
+            </ul>    
+        </div>
+        <div class="main">
+            <div class="titlebar">Sell Crypto</div> <!-- Title bar to show the title neatly-->
+            <div class="header">Welcome!</div>
+            <div class="form-container">
+                <form action="/sell_crypto" method="POST">
+                    <h1>Sell Crypto</h1>
+                    <p><strong>Crypto Name: </strong><%= cryptoDetails.name %></p>
+                    <input type="hidden" name="cryptoid" id="cryptoid" value="<%= cryptoid %>"/>
+                    <p><strong>Crypto Price:</strong> $<%= cryptoData.price %></p>
+                    <input type="hidden" name="price" id="priceInput" value="<%= cryptoData.price %>">
+                    <p><strong>Amount Owned: </strong><%= cryptoDetails.quantity %></p>
+                    <label for="quantity">Quantity</label>
+                    <input type="number" name="quantity" id="quantity" placeholder="1" min="1"> 
+                    <p><strong>Wallet Balance:</strong> $<%= balance %></p>
+                    <p><strong>Total:</strong>$<span id="total">0</span></p>
+                    <div>
+                    <input type="checkbox" id="confirmCrypto" name="confirmCrypto" required>
+                    <label for="confirmCrypto">Are you sure you want to sell this crypto?</label>
+                    </div>
+                    <button type="submit">Sell</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        const quantityInput = document.getElementById('quantity');
+        const totalDisplay = document.getElementById('total');
+        const cryptoPrice = parseFloat("<%= cryptoDetails.price %>");
+
+        quantityInput.addEventListener('input', function(){
+            const quantity = quantityInput.value;
+            const total = cryptoPrice * quantity;
+            totalDisplay.textContent = total.toFixed(2)
+        });
+
+        const priceInput = document.getElementById('priceInput');
+        priceInput.value = cryptoPrice;
+    </script>
+</body>
+</html>

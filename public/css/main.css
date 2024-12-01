@@ -352,3 +352,11 @@ input{
     width: 80%;
     transition: background-color 0.2s ease;
 }
+
+.profit-positive {
+    color: green;
+}
+
+.profit-negative {
+    color: red;
+}

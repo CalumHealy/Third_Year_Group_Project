@@ -32,7 +32,8 @@
                     <div class="item"> 
                         <li>
                             <strong><%= crypto.name %></strong> - <%= crypto.symbol.toUpperCase() %>: <%= crypto.current_price %> USD
-                            <a href="/crypto/details/<%= crypto.id %>"class="button">Details</a>
+                            <a href="/crypto/details/<%= crypto.id %>"class="button">Details</a><br>
+                            <a href="/crypto_confirm/<%= crypto.id %>" class="button">Buy</a>
                         </li>
                     </div>   
                     <% }) %>

@@ -21,21 +21,23 @@
         </div>
         <div class="main">
             <div class="titlebar">Home</div> <!-- Title bar to show the title neatly-->
-            <div class="header">Welcome manager <%= username %>!<br>This is the landing screen for after login.</div>
+            <div class="header"><h1>Welcome manager <%= username %>!</h1><br>This is the landing screen for after login.</div>
             <div class="info">
-                <div>Gives an overview of your owned stocks and cryptos.</div>
+                <p>Gives an overview of your owned stocks and cryptos.</p>
                 <h2>Stocks</h2>
                 <div class="home-container">
-                    <% stocks.forEach(stock => { %>
+                    <% LiveStock.forEach(stock => { %>
                         <div class="home">
                             <div class="data">
                                 <p><strong>Name: </strong><%= stock.name %></p>
                                 <p><strong>Bought Price: </strong>$<%= stock.price %></p>
-                                <p><strong>Current Price: </strong>$ (api call)</p>
-                                <p><strong>Change: </strong>%</p>
+                                <p><strong>Current Price: </strong>$ <%= stock.currentPrice %></p>
+                                <p><strong>Change: </strong><%= ((stock.currentPrice - stock.price) / stock.price * 100).toFixed(2) %>%</p>
                                 <p><strong>Quantity: </strong><%= stock.quantity %></p>
-                                <p><strong>Profit/Loss: </strong>$</p>
-                                <a href="/sell_confirm/<%= stock.name %>">Sell </a>
+                                <div class="profit <%= stock.profitLoss >= 0 ? 'profit-positive' : 'profit-negative' %>">
+                                    <p><strong>Profit/Loss: </strong>$ <%= stock.profitLoss.toFixed(2) %></p>
+                                </div>
+                                <a href="/sell_stock/<%= stock.name %>">Sell </a>
                                 </div>
                             <div class="rec-row">
                                 <p><strong>AI Recommendation: </strong><br>AI Recommendation goes here</p>
@@ -48,16 +50,18 @@
                 </div>
                 <h2>Crypto</h2>
                 <div class="home-container">
-                    <% cryptos.forEach(crypto => { %>
+                    <% LiveCrypto.forEach(crypto => { %>
                         <div class="home">
                             <div class="data">
                                 <p><strong>Name: </strong><%= crypto.name %></p>
                                 <p><strong>Bought Price: </strong>$<%= crypto.price %></p>
-                                <p><strong>Current Price: </strong>$ (api call)</p>
-                                <p><strong>Change: </strong>%</p>
+                                <p><strong>Current Price: </strong>$<%= crypto.currentPrice %></p>
+                                <p><strong>Change: </strong><%= ((crypto.currentPrice - crypto.price) / crypto.price * 100).toFixed(2) %>%</p>
                                 <p><strong>Quantity: </strong><%= crypto.quantity %></p>
-                                <p><strong>Profit/Loss: </strong>$</p>
-                                <a href="/sell_confirm/<%= crypto.name %>">Sell</a>
+                                <div class="profit <%= crypto.profitLoss >= 0 ? 'profit-positive' : 'profit-negative' %>">
+                                    <p><strong>Profit/Loss: </strong>$ <%= crypto.profitLoss.toFixed(2) %></p>
+                                </div>
+                                <a href="/sell_crypto/<%= crypto.name %>">Sell</a>
                             </div>
                             <div class="rec-row">
                                 <p><strong>AI Recommendation: </strong><br>AI Recommendation goes here</p>
