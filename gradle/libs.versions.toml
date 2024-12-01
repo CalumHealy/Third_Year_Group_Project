@@ -19,6 +19,7 @@ storage = "1.4.2"
 firebaseFirestoreKtx = "25.1.0"
 billing = "1.0.0-alpha11"
 core = "1.46.0"
+runner = "1.5.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -46,6 +47,7 @@ androidx-storage = { group = "androidx.test.services", name = "storage", version
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
 billing = { group = "com.google.androidbrowserhelper", name = "billing", version.ref = "billing" }
 core = { group = "com.google.ar", name = "core", version.ref = "core" }
+androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

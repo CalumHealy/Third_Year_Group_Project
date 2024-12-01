@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
-fun MenuPage(modifier: Modifier = Modifier,navController: NavController ) {
+fun MenuPage(modifier: Modifier = Modifier, navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize(),
@@ -37,6 +37,11 @@ fun MenuPage(modifier: Modifier = Modifier,navController: NavController ) {
             Button(onClick = { navController.navigate("ratings") }) {
                 Text(text = "Ratings/Review")
             }
+            // Button to navigate to Add Funds Page
+            Button(onClick = { navController.navigate("add_funds") }) {
+                Text(text = "Add Funds")
+            }
         }
     }
 }
+

@@ -60,6 +60,8 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.squareup.okhttp3:okhttp:4.10.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.stripe:stripe-android:20.9.0")
+
 
     // Other dependencies
     implementation ("com.paypal.sdk:paypal-android-sdk:2.16.0")
@@ -95,6 +97,7 @@ dependencies {
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.billing)
     implementation(libs.core)
+    implementation(libs.androidx.runner)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

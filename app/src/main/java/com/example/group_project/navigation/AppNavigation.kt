@@ -34,6 +34,11 @@ fun AppNavigation(
         composable("menu") {
             MenuPage(modifier = modifier.fillMaxSize(), navController = navController)
         }
+        composable("add_funds") {
+            AddFundsPage(
+                onPaymentSuccess = { /* Handle payment success */ }
+            )
+        }
         composable("ratings") {
             RatingsReviewPage(modifier = modifier.fillMaxSize(), navController = navController)
         }
@@ -46,25 +51,6 @@ fun AppNavigation(
         composable("chatbot_ai") {
             ChatbotAIPage(modifier = modifier.fillMaxSize(), navController = navController)
         }
-
-        composable(
-            "cryptoDetail/{cryptoId}",
-            arguments = listOf(navArgument("cryptoId") { type = NavType.StringType })
-        ) { backStackEntry ->
-            val cryptoId = backStackEntry.arguments?.getString("cryptoId")
-            cryptoId?.let {
-                CryptoDetailPage(cryptoId = it, navController = navController)
-            }
-        }
-
-        composable(
-            "stockDetail/{ticker}",
-            arguments = listOf(navArgument("ticker") { type = NavType.StringType })
-        ) { backStackEntry ->
-            val ticker = backStackEntry.arguments?.getString("ticker")
-            ticker?.let {
-                StockDetailPage(stockSymbol = it, navController = navController)
-            }
-        }
+        // Add other composables here for additional screens
     }
 }
