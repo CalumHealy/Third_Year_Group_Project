@@ -27,7 +27,7 @@ sys.path.append("C:\\Users\\calum\\AppData\\Local\\Packages\\PythonSoftwareFound
 search_tool = DuckDuckGoSearchRun()
 
 OpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"))
-GROW_API_KEY = os.getenv("GROQ_API_KEY")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 # genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 # model = genai.GenerativeModel('gemini-1.5-flash')
