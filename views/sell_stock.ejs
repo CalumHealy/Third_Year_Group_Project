@@ -25,7 +25,7 @@
             <div class="form-container">
                 <form action="/sell_stock" method="POST">
                     <h1>Sell Stock</h1>
-                    <p><strong>Stock Name:</strong> <%= stockData.symbol %></p>
+                    <p><strong>Stock Name:</strong> <%= stockData.name %></p>
                     <input type="hidden" name="stockid" id="stockid" value="<%= stockid %>">
                     <p><strong>Stock Price:</strong> $<%= stockData.price %></p>
                     <input type="hidden" name="price" id="priceInput" value="<%= stockData.price %>">
