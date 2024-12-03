@@ -1,0 +1,3 @@
+[build]
+builder = "nixpacks"
+build_dir = "Basic CrewAI Setup For Testing Railway"
