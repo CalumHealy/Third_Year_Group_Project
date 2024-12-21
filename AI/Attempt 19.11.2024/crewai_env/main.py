@@ -41,7 +41,7 @@ researcher = Agent(
 
 accountant = Agent(
     role=agents_config['accountant']['role'],
-    goal=agents_congif['accountant']['goal'],
+    goal=agents_config['accountant']['goal'],
     backstory=agents_config['accountant']['backtory'],
     verbose=True,
     tools=[search_tool, llama_tool]
@@ -49,8 +49,8 @@ accountant = Agent(
 
 recommender = Agent(
     role=agents_config['recommender']['role'],
-    goal=agents.config['recommender']['goal'],
-    backstory=agents.config['recommender']['backstory'],
+    goal=agents_config['recommender']['goal'],
+    backstory=agents_config['recommender']['backstory'],
     verbose=True,
     tools=[search_tool, llama_tool]
 )
