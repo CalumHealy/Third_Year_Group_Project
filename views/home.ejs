@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Screen</title>
     <link rel="stylesheet" href="css/main.css"><!--Linking to css file-->
+    <script>
+        // Function to show alert if price change exceeds 5%
+        function checkPriceChange(change) {
+            if (Math.abs(change) >= 5) {
+                alert("Price change exceeds 5%! " + (change > 0 ? "Positive" : "Negative") + " change: " + change.toFixed(2) + "%");
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="wrapper">
@@ -26,13 +34,15 @@
                 <p>Gives an overview of your owned stocks and cryptos.</p>
                 <h2>Stocks</h2>
                 <div class="home-container">
-                    <% LiveStock.forEach(stock => { %>
+                    <% LiveStock.forEach(stock => { 
+                        const priceChange = ((stock.currentPrice - stock.price)/stock.price) * 100;
+                        %>
                         <div class="home">
                             <div class="data">
                                 <p><strong>Name: </strong><%= stock.name %></p>
                                 <p><strong>Bought Price: </strong>$<%= stock.price %></p>
                                 <p><strong>Current Price: </strong>$ <%= stock.currentPrice %></p>
-                                <p><strong>Change: </strong><%= ((stock.currentPrice - stock.price) / stock.price * 100).toFixed(2) %>%</p>
+                                <p><strong>Change: </strong><%= priceChange.toFixed(2) %>%</p>
                                 <p><strong>Quantity: </strong><%= stock.quantity %></p>
                                 <div class="profit <%= stock.profitLoss >= 0 ? 'profit-positive' : 'profit-negative' %>">
                                     <p><strong>Profit/Loss: </strong>$ <%= stock.profitLoss.toFixed(2) %></p>
@@ -46,22 +56,27 @@
                                 <p>Chart will go here <br>chart js</p>
                             </div>
                         </div>
+                        <script>
+                            checkPriceChange(<%= priceChange %>);
+                        </script>
                     <% }); %>
                 </div>
                 <h2>Crypto</h2>
                 <div class="home-container">
-                    <% LiveCrypto.forEach(crypto => { %>
+                    <% LiveCrypto.forEach(crypto => { 
+                        const priceChange = ((crypto.currentPrice - crypto.price) / crypto.price) * 100;
+                        %>
                         <div class="home">
                             <div class="data">
                                 <p><strong>Name: </strong><%= crypto.name %></p>
                                 <p><strong>Bought Price: </strong>$<%= crypto.price %></p>
                                 <p><strong>Current Price: </strong>$<%= crypto.currentPrice %></p>
-                                <p><strong>Change: </strong><%= ((crypto.currentPrice - crypto.price) / crypto.price * 100).toFixed(2) %>%</p>
+                                <p><strong>Change: </strong><%= priceChange.toFixed(2) %>%</p>
                                 <p><strong>Quantity: </strong><%= crypto.quantity %></p>
                                 <div class="profit <%= crypto.profitLoss >= 0 ? 'profit-positive' : 'profit-negative' %>">
                                     <p><strong>Profit/Loss: </strong>$ <%= crypto.profitLoss.toFixed(2) %></p>
                                 </div>
-                                <a href="/sell_crypto/<%= crypto.name %>">Sell</a>
+                                <a href="/sell_crypto/<%= crypto.id %>">Sell</a>
                             </div>
                             <div class="rec-row">
                                 <p><strong>AI Recommendation: </strong><br>AI Recommendation goes here</p>
@@ -70,6 +85,9 @@
                                 <p>Chart will go here <br>chart js</p>
                             </div>
                         </div>
+                        <script>
+                            checkPriceChange(<%= priceChange %>);
+                        </script>
                     <% }); %>
                 </div>
             </div>

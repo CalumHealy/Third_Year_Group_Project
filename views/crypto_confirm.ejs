@@ -24,8 +24,8 @@
             <div class="header">Welcome!</div>
             <div class="form-container">
                 <form action="/crypto_confirm" method="POST">
-                    <p><strong>Crypto Name: </strong><%= cryptoDetails.symbol %></p>
-                    <input type="hidden" name="ticker" id="ticker" value="<%= cryptoDetails.symbol %>"/>
+                    <p><strong>Crypto Name: </strong><%= cryptoDetails.name %></p>
+                    <input type="hidden" name="ticker" id="ticker" value="<%= cryptoDetails.name %>"/>
                     <p><strong>Crypto Price:</strong> $<%= cryptoDetails.price %></p>
                     <input type="hidden" name="price" id="priceInput" value="<%= cryptoDetails.price %>">
                     <label for="quantity">Quantity</label>

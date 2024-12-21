@@ -117,7 +117,7 @@ router.get('/home',async (req,res) => {
             try{
                 const stockDetails = await fetchStockDetails(stock.name);
                 const currentPrice = stockDetails.price;
-                const profitLoss = (currentPrice - stock.price) * stock.quantity; 
+                const profitLoss = (currentPrice - stock.price) * stock.quantity;
 
                 return{
                     key: stock.key,
@@ -152,6 +152,29 @@ router.get('/home',async (req,res) => {
         quantity: value.quantity
     })) : [];
 
+    const cryptoMapping = {
+        "Bitcoin":"bitcoin",
+        "Ethereum":"ethereum",
+        "XRP":"ripple",
+        "USDT":"tether",
+        "Solana":"solana",
+        "BNB":"binancecoin",
+        "Dogecoin":"dogecoin",
+        "Cardano":"cardano",
+        "USDC":"usd-coin",
+        "Lido Staked Ether":"staked-ether",
+        "Avalanche":"avalanche-2",
+        "Tron":"tron",
+        "Shiba Inu":"shiba-inu",
+        "Toncoin":"the-open-network",
+        "Stellar":"stellar",
+        "Chainlink":"chainlink",
+        "Wrapped stETH":"wrapped-steth",
+        "Polkadot":"polkadot",
+        "Hyperliquid":"hyperliquid",
+        "Wrapped Bitcoin":"wrapped-bitcoin"
+    }
+
     const LiveCrypto = await Promise.all(
         cryptos.map(async (crypto)=>{
             try{
@@ -162,16 +185,18 @@ router.get('/home',async (req,res) => {
                 return{
                     key: crypto.key,
                     name: crypto.name,
+                    id: cryptoMapping[crypto.name] || crypto.name,
                     price: crypto.price,
                     quantity: crypto.quantity,
                     currentPrice,
-                    profitLoss,
+                    profitLoss
                 };
             }catch (error){
                 console.log(`Error fetching live details for ${crypto.name}`,error.message);
                 return{
                     key: crypto.key,
                     name: crypto.name,
+                    id: cryptoMapping[crypto.name] || crypto.name,
                     price: crypto.price,
                     quantity: crypto.quantity,
                     currentPrice: "N/A",
@@ -180,7 +205,7 @@ router.get('/home',async (req,res) => {
             }
         })
     );
- 
+
     res.render('home', {username, LiveStock, LiveCrypto}); //render home.ejs and pass username to ejs
 });
 
@@ -649,7 +674,31 @@ router.get('/sell_crypto/:name', async (req, res) => {
     const auth = getAuth();
     const user = auth.currentUser;
 
-    try {
+    try { 
+        const cryptoMapping = {
+        "Bitcoin":"bitcoin",
+        "Ethereum":"ethereum",
+        "XRP":"ripple",
+        "USDT":"tether",
+        "Solana":"solana",
+        "BNB":"binancecoin",
+        "Dogecoin":"dogecoin",
+        "Cardano":"cardano",
+        "USDC":"usd-coin",
+        "Lido Staked Ether":"staked-ether",
+        "Avalanche":"avalanche-2",
+        "Tron":"tron",
+        "Shiba Inu":"shiba-inu",
+        "Toncoin":"the-open-network",
+        "Stellar":"stellar",
+        "Chainlink":"chainlink",
+        "Wrapped stETH":"wrapped-steth",
+        "Polkadot":"polkadot",
+        "Hyperliquid":"hyperliquid",
+        "Wrapped Bitcoin":"wrapped-bitcoin"
+        };
+        const mappedName = Object.keys(cryptoMapping).find(key => cryptoMapping[key] === name);
+
         const cryptoData = await fetchCryptoDetails(name);
         if (!cryptoData) {
             return res.status(404).send("Crypto not found.");
@@ -672,7 +721,7 @@ router.get('/sell_crypto/:name', async (req, res) => {
             return res.status(404).send("No crypto data found in your portfolio.");
         }
 
-        const cryptoEntry = Object.entries(cryptoDB).find(([id, crypto]) => crypto.name === name || crypto.ticker === name);
+        const cryptoEntry = Object.entries(cryptoDB).find(([id, crypto]) => crypto.name === mappedName || id === name);
 
         if (!cryptoEntry) {
             return res.status(404).send(`Crypto ${name} not found in your portfolio.`);
