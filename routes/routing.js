@@ -177,8 +177,9 @@ router.get('/home',async (req,res) => {
 
     const LiveCrypto = await Promise.all(
         cryptos.map(async (crypto)=>{
+            const mappedId = cryptoMapping[crypto.name] || crypto.name;
             try{
-                const cryptoDetails = await fetchCryptoDetails(crypto.name);
+                const cryptoDetails = await fetchCryptoDetails(mappedId);
                 const currentPrice = cryptoDetails.price;
                 const profitLoss = (currentPrice - crypto.price) * crypto.quantity;
 
