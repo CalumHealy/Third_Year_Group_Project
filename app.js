@@ -40,6 +40,8 @@ app.use(express.json());
 app.set('view engine','ejs');
 //serve static files (css, images etc.) from public folder
 app.use(express.static(path.join(__dirname,'public')));
+// server chart js for charts
+app.use('/scripts',express.static(path.join(__dirname, 'node_modules/chart.js/dist')));
 
 //session middleware to remember login account
 app.use(

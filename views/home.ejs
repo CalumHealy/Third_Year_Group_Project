@@ -13,6 +13,7 @@
             }
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="wrapper">
@@ -35,7 +36,8 @@
                 <h2>Stocks</h2>
                 <div class="home-container">
                     <% LiveStock.forEach(stock => { 
-                        const priceChange = ((stock.currentPrice - stock.price)/stock.price) * 100;
+                        const priceChange = ((stock.currentPrice - stock.price) / stock.price) * 100;
+                        const chartId = 'chart-' + stock.name.replace(/\s+/g, '_').toLowerCase();
                         %>
                         <div class="home">
                             <div class="data">
@@ -53,11 +55,44 @@
                                 <p><strong>AI Recommendation: </strong><br>AI Recommendation goes here</p>
                             </div>
                             <div class="chart-row">
-                                <p>Chart will go here <br>chart js</p>
+                                <canvas id="chart-<%= stock.name.replace(/\s+/g, '_').toLowerCase()%>" width="400" height="200"></canvas>
                             </div>
                         </div>
                         <script>
-                            checkPriceChange(<%= priceChange %>);
+                            document.addEventListener('DOMContentLoaded', function() {
+                                checkPriceChange(<%= priceChange %>);
+                                // data for chart
+                                let stockData = {
+                                    labels: ['Bought Price', 'Current Price'],
+                                    datasets: [{
+                                        label: 'Stock Price ($)',
+                                        data: [<%= stock.price %>, <%= stock.currentPrice %>],
+                                        borderColor: 'rgba(75, 192, 192, 1)', 
+                                        backgroundColor: 'rgba(75, 192, 192, 0.2)', 
+                                        borderWidth: 2,
+                                        tension: 0.4, 
+                                        fill: false 
+                                    }]
+                                };
+                                // Chart.js configuration
+                                const ctx = document.getElementById('chart-<%= stock.name.replace(/\s+/g, "_").toLowerCase()%>').getContext('2d');
+                                if (ctx){
+                                    const myChart = new Chart(ctx, {
+                                    type: 'line',
+                                    data: stockData,
+                                    options: {
+                                        responsive: true,
+                                        scales: {
+                                            y: {
+                                                beginAtZero: false
+                                            }
+                                        }
+                                    }
+                                });
+                                }else{
+                                    console.error("Canvas element not found for stock chart ID: <%= chartId %>");
+                                }
+                            });
                         </script>
                     <% }); %>
                 </div>
@@ -65,6 +100,7 @@
                 <div class="home-container">
                     <% LiveCrypto.forEach(crypto => { 
                         const priceChange = ((crypto.currentPrice - crypto.price) / crypto.price) * 100;
+                        const chartId = 'chart-' + crypto.name.replace(/\s+/g, '_').toLowerCase();
                         %>
                         <div class="home">
                             <div class="data">
@@ -82,11 +118,44 @@
                                 <p><strong>AI Recommendation: </strong><br>AI Recommendation goes here</p>
                             </div>
                             <div class="chart-row">
-                                <p>Chart will go here <br>chart js</p>
+                                <canvas id="chart-<%= crypto.name.replace(/\s+/g, '_').toLowerCase()%>" width="400" height="200"></canvas>
                             </div>
                         </div>
                         <script>
-                            checkPriceChange(<%= priceChange %>);
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    checkPriceChange(<%= priceChange %>);
+                                    // data for chart
+                                    let cryptoData = {
+                                            labels: ['Bought Price', 'Current Price'],
+                                            datasets: [{
+                                                label: 'Crypto Price ($)',
+                                                data: [<%= crypto.price %>, <%= crypto.currentPrice %>],
+                                                borderColor: 'rgba(75, 192, 192, 1)', 
+                                                backgroundColor: 'rgba(75, 192, 192, 0.2)', 
+                                                borderWidth: 2,
+                                                tension: 0.4, 
+                                                fill: false 
+                                            }]
+                                    };
+                                        // Chart.js configuration
+                                        const ctx = document.getElementById('chart-<%= crypto.name.replace(/\s+/g, "_").toLowerCase()%>').getContext('2d');
+                                        if (ctx){
+                                            const myChart = new Chart(ctx, {
+                                            type: 'line',
+                                            data: cryptoData,
+                                            options: {
+                                                responsive: true,
+                                                scales: {
+                                                    y: {
+                                                        beginAtZero: false
+                                                    }
+                                                }
+                                            }
+                                        });
+                                        }else{
+                                            console.error("Canvas element not found for crypto chart ID: <%= chartId %>");
+                                        }
+                                    });
                         </script>
                     <% }); %>
                 </div>
