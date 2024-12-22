@@ -122,40 +122,40 @@
                             </div>
                         </div>
                         <script>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    checkPriceChange(<%= priceChange %>);
-                                    // data for chart
-                                    let cryptoData = {
-                                            labels: ['Bought Price', 'Current Price'],
-                                            datasets: [{
-                                                label: 'Crypto Price ($)',
-                                                data: [<%= crypto.price %>, <%= crypto.currentPrice %>],
-                                                borderColor: 'rgba(75, 192, 192, 1)', 
-                                                backgroundColor: 'rgba(75, 192, 192, 0.2)', 
-                                                borderWidth: 2,
-                                                tension: 0.4, 
-                                                fill: false 
-                                            }]
-                                    };
-                                        // Chart.js configuration
-                                        const ctx = document.getElementById('chart-<%= crypto.name.replace(/\s+/g, "_").toLowerCase()%>').getContext('2d');
-                                        if (ctx){
-                                            const myChart = new Chart(ctx, {
-                                            type: 'line',
-                                            data: cryptoData,
-                                            options: {
-                                                responsive: true,
-                                                scales: {
-                                                    y: {
-                                                        beginAtZero: false
-                                                    }
+                            document.addEventListener('DOMContentLoaded', function() {
+                                checkPriceChange(<%= priceChange %>);
+                                // data for chart
+                                let cryptoData = {
+                                        labels: ['Bought Price', 'Current Price'],
+                                        datasets: [{
+                                            label: 'Crypto Price ($)',
+                                            data: [<%= crypto.price %>, <%= crypto.currentPrice %>],
+                                            borderColor: 'rgba(75, 192, 192, 1)', 
+                                            backgroundColor: 'rgba(75, 192, 192, 0.2)', 
+                                            borderWidth: 2,
+                                            tension: 0.4, 
+                                            fill: false 
+                                        }]
+                                };
+                                // Chart.js configuration
+                                const ctx = document.getElementById('chart-<%= crypto.name.replace(/\s+/g, "_").toLowerCase()%>').getContext('2d');
+                                if (ctx){
+                                        const myChart = new Chart(ctx, {
+                                        type: 'line',
+                                        data: cryptoData,
+                                        options: {
+                                            responsive: true,
+                                            scales: {
+                                                y: {
+                                                    beginAtZero: false
                                                 }
                                             }
-                                        });
-                                        }else{
-                                            console.error("Canvas element not found for crypto chart ID: <%= chartId %>");
                                         }
                                     });
+                                    }else{
+                                        console.error("Canvas element not found for crypto chart ID: <%= chartId %>");
+                                    }
+                                });
                         </script>
                     <% }); %>
                 </div>
