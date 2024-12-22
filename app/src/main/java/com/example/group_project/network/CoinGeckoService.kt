@@ -1,6 +1,6 @@
 package com.example.group_project.network
 
-import com.example.group_project.Crypto
+import com.example.group_project.screens.Crypto
 import retrofit2.Response
 import retrofit2.http.GET
 

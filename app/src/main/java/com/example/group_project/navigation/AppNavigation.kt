@@ -51,6 +51,18 @@ fun AppNavigation(
         composable("chatbot_ai") {
             ChatbotAIPage(modifier = modifier.fillMaxSize(), navController = navController)
         }
+        composable(
+            route = "investment_details/{name}/{symbol}",
+            arguments = listOf(
+                navArgument("name") { type = NavType.StringType },
+                navArgument("symbol") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val name = backStackEntry.arguments?.getString("name") ?: ""
+            val symbol = backStackEntry.arguments?.getString("symbol") ?: ""
+            InvestmentDetailsPage(name = name, symbol = symbol)
+        }
+
         // Add other composables here for additional screens
     }
 }

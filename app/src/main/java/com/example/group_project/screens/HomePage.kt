@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.example.group_project.AuthModel
 import com.example.group_project.navigation.navigationBar.NavItems
-import androidx.lifecycle.viewmodel.compose.viewModel // Import this
+
 
 @Composable
 fun HomePage(modifier: Modifier = Modifier, navController: NavController, authModel: AuthModel) {
@@ -70,7 +70,7 @@ fun ContentScreen(
 ) {
     when (selectedIndex) {
         1 -> InvestPage()
-        2 -> MyInvestmentsPage()
+        2 -> MyInvestmentsPage(navController = navController)
         3 -> MenuPage(navController = navController)
         4 -> ProfilePage(navController = navController, authModel = authModel)
     }

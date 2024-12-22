@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.group_project.network.RetrofitClient
 import com.example.group_project.network.StockCompany
-import com.example.group_project.network.StockCompanyResponse
+import com.example.group_project.screens.Crypto
 import kotlinx.coroutines.launch
 
 class CryptoViewModel : ViewModel() {
@@ -19,6 +19,7 @@ class CryptoViewModel : ViewModel() {
     // Placeholder function for invested
     private val _invested = mutableSetOf<Crypto>()
     val invested: Set<Crypto> get() = _invested
+
     fun isInvested(crypto: Crypto): Boolean = _invested.contains(crypto)
 
     // Add crypto to invested
@@ -31,20 +32,18 @@ class CryptoViewModel : ViewModel() {
         _invested.remove(crypto)
     }
 
+    // Fetch cryptos from CoinGecko and stocks from Polygon
     init {
         fetchCryptos()
-    }
-
-    init {
         fetchStockCompanies()
     }
 
     // Fetch cryptos from CoinGecko
-    private fun fetchCryptos(){
+    private fun fetchCryptos() {
         viewModelScope.launch {
-            try{
+            try {
                 val response = RetrofitClient.coinGeckoService.getCryptos()
-                if(response.isSuccessful) {
+                if (response.isSuccessful) {
                     response.body()?.let {
                         _cryptos.clear()
                         _cryptos.addAll(it)
@@ -53,7 +52,7 @@ class CryptoViewModel : ViewModel() {
                     // Handle non-2xx HTTP status codes
                     handleError("API Error: ${response.code()} - ${response.message()}")
                 }
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 // Handle network failure (e.g., no internet, timeout)
                 handleError("Network Error: ${e.localizedMessage}")
             }
@@ -79,9 +78,9 @@ class CryptoViewModel : ViewModel() {
             }
         }
     }
-}
 
-private fun handleError(message: String) {
-    // Log the error message (use Timber or Log for better logging in real-world apps)
-    Log.e("CryptoViewModel", message)
+    private fun handleError(message: String) {
+        // Log the error message (use Timber or Log for better logging in real-world apps)
+        Log.e("CryptoViewModel", message)
+    }
 }

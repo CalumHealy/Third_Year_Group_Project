@@ -14,40 +14,36 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.group_project.CryptoViewModel
-import com.example.group_project.Crypto
-import com.example.group_project.network.StockCompany
 
 @Composable
-fun MyInvestmentsPage() {
-    // Specify the ViewModel type to avoid the type inference issue
+fun MyInvestmentsPage(navController: NavController) {
     val viewModel: CryptoViewModel = viewModel()
+    val invested = viewModel.invested
 
-    // Get the list of invested items (Crypto and/or Stocks)
-    val invested = viewModel.invested  // Assuming 'invested' is a collection (e.g., List<Crypto> or List<StockCompany>)
-
-    // Display both cryptos and stocks as investments
     LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        // Display Cryptos Investments
-        items(invested.toList()) { crypto ->
-            // Each crypto/stock item should be in a Row or Column
+        items(invested.toList()) { investment ->
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp), // Added vertical padding for spacing between items
+                    .padding(vertical = 8.dp),
                 contentAlignment = Alignment.CenterStart
             ) {
                 InvestmentCard(
-                    name = crypto.name,
-                    symbol = crypto.symbol,
-                    price = crypto.price,
+                    name = investment.name,
+                    symbol = investment.symbol,
+                    price = investment.currentPrice,
                     onBuySellClick = {
-                        // Toggle investment status when Buy/Sell button is clicked
-                        if (viewModel.isInvested(crypto)) {
-                            viewModel.removeFromInvested(crypto)
+                        if (viewModel.isInvested(investment)) {
+                            viewModel.removeFromInvested(investment)
                         } else {
-                            viewModel.addToInvested(crypto)
+                            viewModel.addToInvested(investment)
                         }
+                    },
+                    onDetailsClick = {
+                        // Navigate to the details page and pass investment details
+                        navController.navigate("investment_details/${investment.name}/${investment.symbol}")
                     }
                 )
             }
@@ -55,12 +51,14 @@ fun MyInvestmentsPage() {
     }
 }
 
+
 @Composable
 fun InvestmentCard(
     name: String,
     symbol: String,
     price: Double,
-    onBuySellClick: () -> Unit
+    onBuySellClick: () -> Unit,
+    onDetailsClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -70,12 +68,7 @@ fun InvestmentCard(
         shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp),
         colors = androidx.compose.material3.CardDefaults.cardColors(containerColor = Color.White)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            // Display name and symbol/id for crypto or stock
+        Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
             Text(
                 text = name,
                 fontSize = 20.sp,
@@ -88,23 +81,32 @@ fun InvestmentCard(
                 color = MaterialTheme.colorScheme.secondary
             )
 
-            Spacer(modifier = Modifier.height(8.dp)) // Adding space before price
-
-            // Show price
+            Spacer(modifier = Modifier.height(8.dp)) // Space before price
             Text(
                 text = "Price: $${"%.2f".format(price)}",
                 fontSize = 16.sp,
                 color = MaterialTheme.colorScheme.primary
             )
 
-            // Add a "Sell" or "Buy" button depending on the investment status
-            Spacer(modifier = Modifier.height(16.dp)) // Adding space before the button
+            Spacer(modifier = Modifier.height(16.dp))
+
             Button(
                 onClick = onBuySellClick,
                 modifier = Modifier.fillMaxWidth().height(48.dp),
                 shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
             ) {
                 Text(text = "Sell")
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Details Button
+            Button(
+                onClick = onDetailsClick,
+                modifier = Modifier.fillMaxWidth().height(48.dp),
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
+            ) {
+                Text(text = "Details")
             }
         }
     }

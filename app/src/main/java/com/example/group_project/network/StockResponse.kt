@@ -6,5 +6,7 @@ data class StockCompanyResponse(
 
 data class StockCompany(
     val ticker: String,
-    val name: String
+    val name: String,
+    val price: Double
 )
+
