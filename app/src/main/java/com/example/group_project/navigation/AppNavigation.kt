@@ -62,7 +62,11 @@ fun AppNavigation(
             val symbol = backStackEntry.arguments?.getString("symbol") ?: ""
             InvestmentDetailsPage(name = name, symbol = symbol)
         }
-
-        // Add other composables here for additional screens
+        composable("invest") {
+            InvestPage()
+        }
+        composable("investments") {
+            MyInvestmentsPage(navController = navController)
+        }
     }
 }

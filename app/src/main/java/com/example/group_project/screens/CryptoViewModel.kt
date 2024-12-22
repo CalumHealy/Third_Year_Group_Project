@@ -16,29 +16,24 @@ class CryptoViewModel : ViewModel() {
     private val _stocks = mutableListOf<StockCompany>()
     val stocks: List<StockCompany> get() = _stocks
 
-    // Placeholder function for invested
     private val _invested = mutableSetOf<Crypto>()
-    val invested: Set<Crypto> get() = _invested
+    val invested: List<Crypto> get() = _invested.toList()
 
     fun isInvested(crypto: Crypto): Boolean = _invested.contains(crypto)
 
-    // Add crypto to invested
     fun addToInvested(crypto: Crypto) {
         _invested.add(crypto)
     }
 
-    // Remove crypto from invested
     fun removeFromInvested(crypto: Crypto) {
         _invested.remove(crypto)
     }
 
-    // Fetch cryptos from CoinGecko and stocks from Polygon
     init {
         fetchCryptos()
         fetchStockCompanies()
     }
 
-    // Fetch cryptos from CoinGecko
     private fun fetchCryptos() {
         viewModelScope.launch {
             try {
@@ -49,17 +44,14 @@ class CryptoViewModel : ViewModel() {
                         _cryptos.addAll(it)
                     }
                 } else {
-                    // Handle non-2xx HTTP status codes
                     handleError("API Error: ${response.code()} - ${response.message()}")
                 }
             } catch (e: Exception) {
-                // Handle network failure (e.g., no internet, timeout)
                 handleError("Network Error: ${e.localizedMessage}")
             }
         }
     }
 
-    // Fetch Stocks from Polygon
     private fun fetchStockCompanies() {
         viewModelScope.launch {
             try {
@@ -67,20 +59,18 @@ class CryptoViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     response.body()?.let {
                         _stocks.clear()
-                        _stocks.addAll(it.results.take(50))  // Limit to 50 companies
+                        _stocks.addAll(it.results.take(50))
                     }
                 } else {
                     handleError("API Error: ${response.code()} - ${response.message()}")
                 }
             } catch (e: Exception) {
-                // Handle network failure (e.g., no internet, timeout)
                 handleError("Network Error: ${e.localizedMessage}")
             }
         }
     }
 
     private fun handleError(message: String) {
-        // Log the error message (use Timber or Log for better logging in real-world apps)
         Log.e("CryptoViewModel", message)
     }
 }

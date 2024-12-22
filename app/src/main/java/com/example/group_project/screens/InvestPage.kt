@@ -22,15 +22,12 @@ import com.example.group_project.network.StockCompany
 fun InvestPage() {
     val viewModel: CryptoViewModel = viewModel()
 
-    // Keep track of the selected tab (Crypto or Stock)
     val selectedTab = remember { mutableStateOf(0) }  // 0 for Crypto, 1 for Stock
 
-    //Fetch only the first 30 cryptos and stocks
     val cryptos = viewModel.cryptos.take(30)
     val stocks = viewModel.stocks.take(50)
 
     Column(modifier = Modifier.fillMaxSize()) {
-        // TabRow for selecting between Crypto and Stock
         TabRow(selectedTabIndex = selectedTab.value) {
             Tab(
                 selected = selectedTab.value == 0,
@@ -46,7 +43,6 @@ fun InvestPage() {
             }
         }
 
-        // LazyColumn to display either Crypto or Stock
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -54,12 +50,10 @@ fun InvestPage() {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             if (selectedTab.value == 0) {
-                // Display Crypto items
                 items(cryptos) { crypto ->
                     CryptoItem(crypto = crypto, viewModel = viewModel)
                 }
             } else {
-                // Display Stock items
                 items(stocks) { stock ->
                     StockItem(stock = stock, viewModel = viewModel)
                 }
@@ -121,7 +115,7 @@ fun StockItem(stock: StockCompany, viewModel: CryptoViewModel) {
         }
         Button(
             onClick = {
-                // Handle buy/sell actions here
+                // Add stock buy/sell handling if needed
             },
             modifier = Modifier.height(48.dp)
         ) {

@@ -51,7 +51,6 @@ fun MyInvestmentsPage(navController: NavController) {
     }
 }
 
-
 @Composable
 fun InvestmentCard(
     name: String,

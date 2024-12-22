@@ -64,6 +64,7 @@ dependencies {
 
 
     // Other dependencies
+    implementation ("androidx.compose.material:material-icons-extended:1.4.0")
     implementation ("com.paypal.sdk:paypal-android-sdk:2.16.0")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
