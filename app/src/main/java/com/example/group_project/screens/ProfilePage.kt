@@ -32,8 +32,7 @@ fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, aut
     var address1 by remember { mutableStateOf("") }
     var address2 by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
-    var balance by remember { mutableStateOf("0.00") } // Assuming balance is fetched from Firestore or your server
-
+    var balance by remember { mutableStateOf("0.00") }
     var isEditing by remember { mutableStateOf(false) }
 
     val creationDate = currentUser?.metadata?.creationTimestamp?.let {
@@ -47,17 +46,15 @@ fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, aut
             }
         }
     }
-
-    // Fetch address, phone number, and balance from Firestore if they exist
     LaunchedEffect(currentUser) {
         currentUser?.let { user ->
             val docRef = firestore.collection("users").document(user.uid)
-            docRef.get().addOnSuccessListener { document ->
-                if (document != null) {
+            docRef.addSnapshotListener { document, _ ->
+                if (document != null && document.exists()) {
                     address1 = document.getString("address1") ?: ""
                     address2 = document.getString("address2") ?: ""
                     phoneNumber = document.getString("phoneNumber") ?: ""
-                    balance = document.getString("balance") ?: "0.00" // Assuming balance is stored here
+                    balance = document.getDouble("balance")?.toString() ?: "0.00"
                 }
             }
         }

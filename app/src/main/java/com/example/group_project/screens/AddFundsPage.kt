@@ -17,18 +17,22 @@ import com.stripe.android.Stripe
 import com.stripe.android.model.ConfirmPaymentIntentParams
 import com.stripe.android.view.CardInputWidget
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.compose.ui.tooling.preview.Preview
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.firestore
 
 @Composable
 fun AddFundsPage(onPaymentSuccess: () -> Unit) {
     val context = LocalContext.current
-    var amount by remember { mutableStateOf("") } // State for the amount entered by the user
+    var amount by remember { mutableStateOf("") }
     var isProcessing by remember { mutableStateOf(false) }
+    val firestore = Firebase.firestore
+    val currentUser = FirebaseAuth.getInstance().currentUser
 
-    // Initialize Stripe with your Publishable Key
+    // Initialize Stripe with publishable Key
     PaymentConfiguration.init(
         context = context,
-        publishableKey = "pk_test_51QP33kHTr0XTBmKNb2KYDMsYdKL3OVEICVygQ7ohjGX0s0sqK3iNtDUJP5hdAfaZSStRBooLblvdbdq4Hq3fUo4J00FAx5jD9n" // Replace with your actual Stripe Publishable Key
+        publishableKey = "pk_test_51QP33kHTr0XTBmKNb2KYDMsYdKL3OVEICVygQ7ohjGX0s0sqK3iNtDUJP5hdAfaZSStRBooLblvdbdq4Hq3fUo4J00FAx5jD9n"
     )
 
     val stripe = Stripe(context, PaymentConfiguration.getInstance(context).publishableKey)
@@ -40,10 +44,7 @@ fun AddFundsPage(onPaymentSuccess: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            text = "Add Funds to Wallet",
-            fontSize = 22.sp
-        )
+        Text(text = "Add Funds to Wallet", fontSize = 22.sp)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -79,19 +80,32 @@ fun AddFundsPage(onPaymentSuccess: () -> Unit) {
                     // Extract card details from CardInputWidget
                     val cardParams = cardInputWidget?.paymentMethodCreateParams
                     if (cardParams != null) {
-                        // Here, directly confirm the payment intent (without backend)
-                        // In this case, let's assume we use a static test payment intent
                         val confirmParams = ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
                             cardParams,
-                            "client_secret_from_stripe" // This is a placeholder; replace with actual client secret
+                            "sk_test_51QP33kHTr0XTBmKNyn7qM8UWT2qdZEfmyVyJzx10hVpnVqa4XjWiY27jawwwm7uiOyeLfU6paWwFFXlSz7y6dgNL000IajvXO9"
                         )
 
                         stripe.confirmPayment(
                             context as ComponentActivity,
                             confirmParams
                         )
+
+                        // Update balance in Firestore
+                        currentUser?.let { user ->
+                            val userRef = firestore.collection("users").document(user.uid)
+                            userRef.get().addOnSuccessListener { document ->
+                                val currentBalance = document.getDouble("balance") ?: 0.0
+                                val newBalance = currentBalance + amount.toDouble()
+                                userRef.update("balance", newBalance).addOnSuccessListener {
+                                    Toast.makeText(context, "Funds added successfully!", Toast.LENGTH_SHORT).show()
+                                    isProcessing = false
+                                    onPaymentSuccess()
+                                }
+                            }
+                        }
                     } else {
                         Toast.makeText(context, "Invalid card details", Toast.LENGTH_SHORT).show()
+                        isProcessing = false
                     }
                 } else {
                     Toast.makeText(context, "Please enter a valid amount", Toast.LENGTH_SHORT).show()

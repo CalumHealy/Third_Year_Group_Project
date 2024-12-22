@@ -1,6 +1,5 @@
 package com.example.group_project.screens
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -9,8 +8,6 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -18,87 +15,63 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.example.group_project.CryptoViewModel
 import com.example.group_project.Crypto
 import com.example.group_project.network.StockCompany
 
-
-
 @Composable
-fun InvestPage(navController: NavController) {
+fun InvestPage() {
     val viewModel: CryptoViewModel = viewModel()
 
-    // Collect StateFlow values
-    val cryptos by viewModel.cryptos.collectAsState()
-    val stocks by viewModel.stocks.collectAsState()
-    val investedCryptos by viewModel.investedCryptos.collectAsState()
-    val investedStocks by viewModel.investedStocks.collectAsState()
+    // Keep track of the selected tab (Crypto or Stock)
+    val selectedTab = remember { mutableStateOf(0) }  // 0 for Crypto, 1 for Stock
 
-    // State for selected tab
-    val selectedTab = remember { mutableStateOf(0) }
+    //Fetch only the first 30 cryptos and stocks
+    val cryptos = viewModel.cryptos.take(30)
+    val stocks = viewModel.stocks.take(50)
 
     Column(modifier = Modifier.fillMaxSize()) {
-        // TabRow for selection
+        // TabRow for selecting between Crypto and Stock
         TabRow(selectedTabIndex = selectedTab.value) {
-            Tab(selected = selectedTab.value == 0, onClick = { selectedTab.value = 0 }) {
+            Tab(
+                selected = selectedTab.value == 0,
+                onClick = { selectedTab.value = 0 }
+            ) {
                 Text(text = "Crypto", modifier = Modifier.padding(16.dp))
             }
-            Tab(selected = selectedTab.value == 1, onClick = { selectedTab.value = 1 }) {
+            Tab(
+                selected = selectedTab.value == 1,
+                onClick = { selectedTab.value = 1 }
+            ) {
                 Text(text = "Stock", modifier = Modifier.padding(16.dp))
             }
         }
 
-        // Display items in LazyColumn
+        // LazyColumn to display either Crypto or Stock
         LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             if (selectedTab.value == 0) {
+                // Display Crypto items
                 items(cryptos) { crypto ->
-                    val amountInvested = investedCryptos[crypto] ?: 0.0
-                    CryptoItem(crypto = crypto, amountInvested = amountInvested) {
-                        navController.navigate("cryptoDetail/${crypto.id}")
-                    }
+                    CryptoItem(crypto = crypto, viewModel = viewModel)
                 }
             } else {
+                // Display Stock items
                 items(stocks) { stock ->
-                    val amountInvested = investedStocks[stock] ?: 0.0
-                    StockItem(stock = stock, amountInvested = amountInvested) {
-                        navController.navigate("stockDetail/${stock.symbol}")
-                    }
+                    StockItem(stock = stock, viewModel = viewModel)
                 }
             }
         }
     }
 }
 
-
-@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun CryptoItem(crypto: Crypto, amountInvested: Double, onClick: () -> Unit) {
-    // Check if the crypto is invested
-    val isInvested = amountInvested > 0
-
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp, horizontal = 16.dp).height(64.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Column(modifier = Modifier.weight(1f).padding(end = 8.dp)) {
-            Text(text = crypto.name, fontSize = 20.sp)
-            Text(text = crypto.symbol, fontSize = 16.sp)
-        }
-        Button(onClick = { onClick() }, modifier = Modifier.height(48.dp)) {
-            Text(text = if (isInvested) "Sell" else "Buy")
-        }
-    }
-}
-
-@SuppressLint("StateFlowValueCalledInComposition")
-@Composable
-fun StockItem(stock: StockCompany, amountInvested: Double, onClick: () -> Unit) {
-    // Check if the stock is invested
-    val isInvested = amountInvested > 0
+fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel) {
+    val isInvested = viewModel.isInvested(crypto)
 
     Row(
         modifier = Modifier
@@ -107,16 +80,53 @@ fun StockItem(stock: StockCompany, amountInvested: Double, onClick: () -> Unit) 
             .height(64.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column(modifier = Modifier.weight(1f).padding(end = 8.dp)) {
-            Text(text = stock.name, fontSize = 20.sp)
-            Text(text = stock.symbol, fontSize = 16.sp)
-            Text(text = "Price: $${stock.price}", fontSize = 14.sp)  // Display price
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 8.dp)
+        ) {
+            Text(text = crypto.name, fontSize = 20.sp)
+            Text(text = crypto.symbol, fontSize = 16.sp)
         }
-        Button(onClick = { onClick() }, modifier = Modifier.height(48.dp)) {
+        Button(
+            onClick = {
+                if (isInvested) {
+                    viewModel.removeFromInvested(crypto)
+                } else {
+                    viewModel.addToInvested(crypto)
+                }
+            },
+            modifier = Modifier.height(48.dp)
+        ) {
             Text(text = if (isInvested) "Sell" else "Buy")
         }
-
     }
-
 }
 
+@Composable
+fun StockItem(stock: StockCompany, viewModel: CryptoViewModel) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp, horizontal = 16.dp)
+            .height(64.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 8.dp)
+        ) {
+            Text(text = stock.name, fontSize = 20.sp)
+            Text(text = stock.ticker, fontSize = 16.sp)
+        }
+        Button(
+            onClick = {
+                // Handle buy/sell actions here
+            },
+            modifier = Modifier.height(48.dp)
+        ) {
+            Text(text = "Buy")  // Change to "Sell" if needed
+        }
+    }
+}

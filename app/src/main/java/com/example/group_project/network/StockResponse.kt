@@ -5,11 +5,6 @@ data class StockCompanyResponse(
 )
 
 data class StockCompany(
-    val symbol: String,
-    val name: String,
-    val price: Double,  // Assuming this is the price field
-    val description: String?  // Description of the stock company
+    val ticker: String,
+    val name: String
 )
-
-
-
