@@ -51,3 +51,11 @@ WETH  N/A
 Agilent Technologies Inc 19/3/2009,28.50 5/1/2022,179.87  
 Alcoa Corporation 20/3/2020,6.22 22/5/2021,60.41  
 Alternative Access First Priority CLO Bond ETF  N/A
+
+Bitcoin 1/1/2017,20000 1/1/2020,3800 1/1/2021,30000 1/1/2021,50000 1/12/2023,63304.42  
+Ethereum 1/1/2018,1400 1/1/2021,2000 1/1/2021,4000 1/12/2023,4157.10  
+Dogecoin 1/1/2021,0.73 1/12/2023,0.2487  
+Agilent Technologies 1/1/2022,151.83 1/12/2023,162.50  
+Alcoa Corporation 1/1/2022,26.75 1/12/2023,31.25  
+Goldman Sachs 1/1/2022,243.75 1/12/2023,285.60  
+Apple Inc. 1/1/2022,317.50 1/12/2023,402.50
