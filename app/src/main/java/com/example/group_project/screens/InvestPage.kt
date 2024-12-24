@@ -78,7 +78,7 @@ fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel) {
                 .weight(1f)
                 .padding(end = 8.dp)
         ) {
-            Text(text = crypto.name, fontSize = 20.sp)
+            Text(text = crypto.id, fontSize = 20.sp)
             Text(text = crypto.symbol, fontSize = 16.sp)
             Text(text = "Price: $${"%.2f".format(crypto.currentPrice)}", fontSize = 16.sp)
         }

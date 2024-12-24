@@ -15,14 +15,24 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.group_project.CryptoViewModel
 import com.example.group_project.Crypto
 import com.example.group_project.network.StockCompany
-
 @Composable
 fun InvestmentDetailsPage(name: String, symbol: String) {
     val viewModel: CryptoViewModel = viewModel()
 
-    // Retrieve the live data for the selected crypto or stock
-    val selectedCrypto = viewModel.cryptos.find { it.symbol == symbol }
-    val selectedStock = viewModel.stocks.find { it.ticker == symbol }
+    // Observe the list of cryptos and stocks from the ViewModel
+    val cryptos = viewModel.cryptos
+    val stocks = viewModel.stocks
+
+    // Find the selected crypto or stock based on the symbol
+    val selectedCrypto = cryptos.find { it.symbol == symbol }
+    val selectedStock = stocks.find { it.ticker == symbol }
+
+    // Show a loading spinner while data is loading
+    if (cryptos.isEmpty() && stocks.isEmpty()) {
+        // Loading state: you can display a ProgressIndicator here
+        Text(text = "Loading...", fontSize = 20.sp, color = MaterialTheme.colorScheme.primary)
+        return
+    }
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text(
@@ -33,7 +43,7 @@ fun InvestmentDetailsPage(name: String, symbol: String) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Show the live price data for the selected crypto
+        // Show the details for the selected crypto
         if (selectedCrypto != null) {
             Text(
                 text = "Symbol: ${selectedCrypto.symbol}",
@@ -43,6 +53,48 @@ fun InvestmentDetailsPage(name: String, symbol: String) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "Price: $${"%.2f".format(selectedCrypto.currentPrice)} USD",
+                fontSize = 20.sp,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Market Cap: $${"%.2f".format(selectedCrypto.marketCap)} USD",
+                fontSize = 20.sp,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "24h Volume: $${"%.2f".format(selectedCrypto.volume24h)} USD",
+                fontSize = 20.sp,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Price Change 24h: $${"%.2f".format(selectedCrypto.priceChange24h)} USD",
+                fontSize = 20.sp,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Circulating Supply: ${"%.2f".format(selectedCrypto.circulatingSupply)} ${selectedCrypto.symbol}",
+                fontSize = 20.sp,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "All Time High (ATH): $${"%.2f".format(selectedCrypto.ath)} USD",
+                fontSize = 20.sp,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "All Time Low (ATL): $${"%.2f".format(selectedCrypto.atl)} USD",
+                fontSize = 20.sp,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Hashing Algorithm: ${selectedCrypto.hashingAlgorithm}",
                 fontSize = 20.sp,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -59,6 +111,19 @@ fun InvestmentDetailsPage(name: String, symbol: String) {
                 fontSize = 20.sp,
                 color = MaterialTheme.colorScheme.primary
             )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Market Cap: $${"%.2f".format(selectedStock.marketCap)} USD", // If applicable
+                fontSize = 20.sp,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "24h Volume: $${"%.2f".format(selectedStock.volume24h)} USD", // If applicable
+                fontSize = 20.sp,
+                color = MaterialTheme.colorScheme.primary
+            )
+            // Add any other stock-specific fields here
         } else {
             Text(
                 text = "No data available for this investment.",

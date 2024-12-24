@@ -31,7 +31,7 @@ fun MyInvestmentsPage(navController: NavController) {
                 contentAlignment = Alignment.CenterStart
             ) {
                 InvestmentCard(
-                    name = investment.name,
+                    name = investment.id,
                     symbol = investment.symbol,
                     price = investment.currentPrice,
                     onBuySellClick = {
@@ -43,7 +43,7 @@ fun MyInvestmentsPage(navController: NavController) {
                     },
                     onDetailsClick = {
                         // Navigate to the details page and pass investment details
-                        navController.navigate("investment_details/${investment.name}/${investment.symbol}")
+                        navController.navigate("investment_details/${investment.id}/${investment.symbol}")
                     }
                 )
             }
