@@ -1,9 +1,9 @@
 {
   "project_info": {
     "project_number": "826845466167",
-    "firebase_url": "https://actproject-76027-default-rtdb.europe-west1.firebasedatabase.app/",
+    "firebase_url": "https://actproject-76027-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "actproject-76027",
-    "storage_bucket": "actproject-76027.appspot.com"
+    "storage_bucket": "actproject-76027.firebasestorage.app"
   },
   "client": [
     {
@@ -13,7 +13,12 @@
           "package_name": "com.example.group_project"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "826845466167-mejd10akc8gqoh6tnlovlmdogkgf54ff.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA1nRcKr7sVx95RGYlW4sE6qHPvUT-M0rQ"
@@ -21,7 +26,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826845466167-mejd10akc8gqoh6tnlovlmdogkgf54ff.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

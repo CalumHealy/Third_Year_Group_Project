@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.group_project.AuthModel
 import com.example.group_project.AuthState
+import com.example.group_project.MainActivity
 
 @Composable
 fun LoginPage (modifier: Modifier = Modifier, navController: NavController, authModel: AuthModel) {
@@ -83,6 +85,18 @@ fun LoginPage (modifier: Modifier = Modifier, navController: NavController, auth
         },
             ) {
             Text(text = "Login")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        val activity = LocalContext.current as MainActivity
+        Button(
+            onClick = {
+                activity.signInWithGoogle()
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Sign in with Google")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
