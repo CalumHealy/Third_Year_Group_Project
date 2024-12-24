@@ -1,5 +1,6 @@
 package com.example.group_project.screens
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -11,20 +12,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.group_project.AuthModel
-import com.example.group_project.AuthState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import java.text.SimpleDateFormat
-import java.util.*
+import androidx.compose.ui.platform.LocalContext
+import com.example.group_project.AuthState
 
 @Composable
 fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, authModel: AuthModel) {
     val authState = authModel.authState.observeAsState()
     val currentUser = FirebaseAuth.getInstance().currentUser
     val firestore = Firebase.firestore
+    val context = LocalContext.current // Get the current context
 
     // States for managing user details and edit mode
     var fullName by remember { mutableStateOf(currentUser?.displayName ?: "") }
@@ -32,12 +33,9 @@ fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, aut
     var address1 by remember { mutableStateOf("") }
     var address2 by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
-    var balance by remember { mutableStateOf("0.00") }
+    var balance by remember { mutableStateOf("100.00") } // Default balance to $100
+    var accountType by remember { mutableStateOf("Regular") } // Default account type
     var isEditing by remember { mutableStateOf(false) }
-
-    val creationDate = currentUser?.metadata?.creationTimestamp?.let {
-        SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(it))
-    }
 
     LaunchedEffect(authState.value) {
         if (authState.value is AuthState.Unauthenticated) {
@@ -46,6 +44,7 @@ fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, aut
             }
         }
     }
+
     LaunchedEffect(currentUser) {
         currentUser?.let { user ->
             val docRef = firestore.collection("users").document(user.uid)
@@ -54,7 +53,8 @@ fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, aut
                     address1 = document.getString("address1") ?: ""
                     address2 = document.getString("address2") ?: ""
                     phoneNumber = document.getString("phoneNumber") ?: ""
-                    balance = document.getDouble("balance")?.toString() ?: "0.00"
+                    balance = document.getDouble("balance")?.toString() ?: "100.00"
+                    accountType = document.getString("accountType") ?: "Regular"
                 }
             }
         }
@@ -144,11 +144,10 @@ fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, aut
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Display UID and Balance
-        currentUser?.let { user ->
-            Text(text = "UID: ${user.uid}", fontSize = 20.sp)
-        }
+        // Display Balance and Account Type
         Text(text = "Balance: $balance", fontSize = 20.sp)
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(text = "Account Type: $accountType", fontSize = 20.sp)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -156,11 +155,20 @@ fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, aut
         Button(onClick = {
             if (isEditing) {
                 // Save changes to Firestore when editing is complete
-                saveProfileChangesToFirestore(fullName, email, address1, address2, phoneNumber)
+                saveProfileChangesToFirestore(fullName, email, address1, address2, phoneNumber, context)
             }
             isEditing = !isEditing // Toggle edit mode
         }) {
             Text(text = if (isEditing) "Save Changes" else "Edit Profile")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Upgrade Account Button
+        Button(onClick = {
+            upgradeAccount(balance.toDouble(), context) // Pass context here
+        }) {
+            Text(text = "Upgrade Account")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -174,12 +182,14 @@ fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, aut
     }
 }
 
+// Function to save profile changes to Firestore with better error logging
 private fun saveProfileChangesToFirestore(
     fullName: String,
     email: String,
     address1: String,
     address2: String,
-    phoneNumber: String
+    phoneNumber: String,
+    context: Context  // Add context parameter
 ) {
     val currentUser = FirebaseAuth.getInstance().currentUser
     val firestore = Firebase.firestore
@@ -188,12 +198,62 @@ private fun saveProfileChangesToFirestore(
         user.updateProfile(UserProfileChangeRequest.Builder().setDisplayName(fullName).build())
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    firestore.collection("users").document(user.uid).apply {
-                        update("address1", address1)
-                        update("address2", address2)
-                        update("phoneNumber", phoneNumber)
-                    }
+                    val userData = hashMapOf(
+                        "fullName" to fullName,
+                        "email" to email,
+                        "address1" to address1,
+                        "address2" to address2,
+                        "phoneNumber" to phoneNumber,
+                        "balance" to 100.00, // Default balance or fetch from UI
+                        "accountType" to "Regular" // Default account type
+                    )
+
+                    // Create or update the user document in Firestore
+                    firestore.collection("users").document(user.uid)
+                        .set(userData)
+                        .addOnSuccessListener {
+                            Toast.makeText(context, "Profile updated!", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(context, "Error updating profile: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                } else {
+                    Toast.makeText(context, "Failed to update profile in Firestore.", Toast.LENGTH_SHORT).show()
                 }
             }
+    } ?: run {
+        Toast.makeText(context, "User is not authenticated.", Toast.LENGTH_SHORT).show()
+    }
+}
+
+// Function to upgrade account if the user has enough balance
+private fun upgradeAccount(currentBalance: Double, context: Context) {
+    val currentUser = FirebaseAuth.getInstance().currentUser
+    val firestore = Firebase.firestore
+
+    if (currentUser != null) {
+        val userRef = firestore.collection("users").document(currentUser.uid)
+
+        // Check if the balance is enough to upgrade
+        if (currentBalance >= 20.00) {
+            val newBalance = currentBalance - 20.00
+            userRef.update(
+                "balance", newBalance,
+                "accountType", "Supporter"
+            ).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Successfully updated balance and account type
+                    Toast.makeText(context, "Account upgraded to Supporter!", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Handle failure
+                    Toast.makeText(context, "Failed to upgrade account: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else {
+            // Insufficient balance
+            Toast.makeText(context, "Insufficient balance to upgrade", Toast.LENGTH_SHORT).show()
+        }
+    } else {
+        Toast.makeText(context, "User not authenticated", Toast.LENGTH_SHORT).show()
     }
 }
