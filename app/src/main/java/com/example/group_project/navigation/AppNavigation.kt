@@ -40,7 +40,7 @@ fun AppNavigation(
             )
         }
         composable("ratings") {
-            RatingsReviewPage(modifier = modifier.fillMaxSize(), navController = navController)
+            RatingsReviewPage(modifier = modifier.fillMaxSize())
         }
         composable("support_form") {
             SupportFormPage(modifier = modifier.fillMaxSize(), navController = navController)
