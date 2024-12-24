@@ -13,7 +13,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.group_project.CryptoViewModel
-import com.example.group_project.Crypto
 import com.example.group_project.network.StockCompany
 @Composable
 fun InvestmentDetailsPage(name: String, symbol: String) {

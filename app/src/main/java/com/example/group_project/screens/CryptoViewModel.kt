@@ -40,19 +40,35 @@ class CryptoViewModel : ViewModel() {
             try {
                 // Requesting the details of multiple cryptocurrencies
                 val response = RetrofitClient.coinGeckoService.getCryptoDetails(
-                    ids = "bitcoin,ethereum,binancecoin,ripple,cardano,polkadot,solana,litecoin,chainlink,uniswap",
+                    ids = "bitcoin,ethereum,binancecoin,ripple,cardano", // You can add more IDs here if needed
                     vsCurrency = "usd"
                 )
 
                 if (response.isSuccessful) {
                     val responseBody = response.body()
-                    Log.d("API Response", responseBody.toString()) // Log the raw response
+                    Log.d("API Response", "Full API Response: $responseBody") // Log full response
 
                     responseBody?.let { cryptoList ->
-                        _cryptos.clear()
+                        Log.d("API Response", "Number of Cryptos fetched: ${cryptoList.size}") // Check how many cryptos were fetched
 
-                        // Add the cryptocurrency data to the list
                         cryptoList.forEach { crypto ->
+                            // Log each field for debugging
+                            Log.d("API Response", "ID: ${crypto.id}, Symbol: ${crypto.symbol}, " +
+                                    "Current Price: ${crypto.currentPrice}, Market Cap: ${crypto.marketCap}, " +
+                                    "Volume 24h: ${crypto.volume24h}, Price Change 24h: ${crypto.priceChange24h}, " +
+                                    "Circulating Supply: ${crypto.circulatingSupply}, ATH: ${crypto.ath}, " +
+                                    "ATL: ${crypto.atl}, Hashing Algorithm: ${crypto.hashingAlgorithm}")
+
+                            // Check if the fields are not being populated correctly
+                            if (crypto.currentPrice == 0.0) Log.e("API Response", "Error: Current Price is 0 for ${crypto.id}")
+                            if (crypto.marketCap == 0.0) Log.e("API Response", "Error: Market Cap is 0 for ${crypto.id}")
+                            if (crypto.volume24h == 0.0) Log.e("API Response", "Error: Volume 24h is 0 for ${crypto.id}")
+                            if (crypto.priceChange24h == 0.0) Log.e("API Response", "Error: Price Change 24h is 0 for ${crypto.id}")
+                            if (crypto.circulatingSupply == 0.0) Log.e("API Response", "Error: Circulating Supply is 0 for ${crypto.id}")
+                            if (crypto.ath == 0.0) Log.e("API Response", "Error: ATH is 0 for ${crypto.id}")
+                            if (crypto.atl == 0.0) Log.e("API Response", "Error: ATL is 0 for ${crypto.id}")
+
+                            // Add crypto data to the list
                             _cryptos.add(Crypto(
                                 id = crypto.id.capitalize(),
                                 symbol = crypto.symbol.toUpperCase(),
@@ -75,9 +91,6 @@ class CryptoViewModel : ViewModel() {
             }
         }
     }
-
-
-
 
 
     private fun fetchStockCompanies() {
