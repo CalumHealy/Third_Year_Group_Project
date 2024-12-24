@@ -1,6 +1,6 @@
 package com.example.group_project.network
 
-data class StockCompanyResponse(
+data class StockResponse(
     val results: List<StockCompany>
 )
 

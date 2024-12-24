@@ -1,11 +1,16 @@
 package com.example.group_project.network
 
-import com.example.group_project.screens.Crypto
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface CoinGeckoService {
 
-    @GET("coins/markets?vs_currency=usd")
-    suspend fun getCryptos(): Response<List<Crypto>>
+    // Fetches the price for a list of cryptocurrencies
+    @GET("simple/price")
+    suspend fun getCryptoPrice(
+        @Query("ids") ids: String, // e.g., "bitcoin,ethereum,binancecoin"
+        @Query("vs_currencies") vsCurrencies: String // e.g., "usd"
+    ): Response<Map<String, Map<String, Double>>>
 }
+

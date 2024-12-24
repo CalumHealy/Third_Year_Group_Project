@@ -31,18 +31,31 @@ fun InvestmentDetailsPage(name: String, symbol: String) {
             color = MaterialTheme.colorScheme.primary
         )
 
-        // Show the live price data (if available)
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Show the live price data for the selected crypto
         if (selectedCrypto != null) {
             Text(
-                text = "Live Price: $${"%.2f".format(selectedCrypto.currentPrice)}",
+                text = "Symbol: ${selectedCrypto.symbol}",
+                fontSize = 20.sp,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Price: $${"%.2f".format(selectedCrypto.currentPrice)} USD",
                 fontSize = 20.sp,
                 color = MaterialTheme.colorScheme.primary
             )
         } else if (selectedStock != null) {
-            // Here we handle the missing price or missing property.
-            // Assuming we have a `price` field or displaying other details like `ticker`
+            // Show details for stock if available
             Text(
-                text = "Stock Price Not Available",
+                text = "Symbol: ${selectedStock.ticker}",
+                fontSize = 20.sp,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Price: $${"%.2f".format(selectedStock.price)} USD",
                 fontSize = 20.sp,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -53,14 +66,5 @@ fun InvestmentDetailsPage(name: String, symbol: String) {
                 color = MaterialTheme.colorScheme.secondary
             )
         }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Additional details could go here
-        Text(
-            text = "More detailed information can be shown here.",
-            fontSize = 16.sp,
-            color = MaterialTheme.colorScheme.secondary
-        )
     }
 }

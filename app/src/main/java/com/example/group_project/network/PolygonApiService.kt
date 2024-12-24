@@ -5,10 +5,11 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface PolygonApiService {
-    // Endpoint to fetch the list of stock companies (50 items per request)
+
+    // Fetches stock data for multiple companies
     @GET("v3/reference/tickers")
     suspend fun getStockCompanies(
-        @Query("apiKey") apiKey: String,
-        @Query("limit") limit: Int = 50
-    ): Response<StockCompanyResponse>
+        @Query("apiKey") apiKey: String, // Your Polygon.io API key
+        @Query("symbols") symbols: String // e.g., "AAPL,GOOG,MSFT"
+    ): Response<StockResponse>
 }

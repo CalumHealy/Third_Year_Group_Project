@@ -80,6 +80,7 @@ fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel) {
         ) {
             Text(text = crypto.name, fontSize = 20.sp)
             Text(text = crypto.symbol, fontSize = 16.sp)
+            Text(text = "Price: $${"%.2f".format(crypto.currentPrice)}", fontSize = 16.sp)
         }
         Button(
             onClick = {
