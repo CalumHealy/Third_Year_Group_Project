@@ -13,7 +13,7 @@ data class Crypto(
     @SerializedName("atl") val atl: Double,
     val id: String,
     val symbol: String,
-    val hashingAlgorithm: String? = null
+    val hashingAlgorithm: String?
 )
 
 
