@@ -40,7 +40,7 @@ class CryptoViewModel : ViewModel() {
             try {
                 // Requesting the details of multiple cryptocurrencies
                 val response = RetrofitClient.coinGeckoService.getCryptoDetails(
-                    ids = "bitcoin,ethereum,binancecoin,ripple,cardano", // You can add more IDs here if needed
+                    ids = "bitcoin,ethereum,binancecoin,ripple,cardano,dogecoin,solana,polkadot,tron,shiba-inu,polygon,uniswap,chainlink,cosmos,monero,stellar,vechain,tezos,theta,flow,apecoin",
                     vsCurrency = "usd"
                 )
 
@@ -98,7 +98,7 @@ class CryptoViewModel : ViewModel() {
             try {
                 // Requesting stock data for multiple companies
                 val response = RetrofitClient.polygonApiService.getStockCompanies(
-                    apiKey = "your_api_key_here",
+                    apiKey = "ieZvxvRmzI_3GYjP7aSQc2yylFbr7Adq",
                     symbols = "AAPL,GOOG,MSFT,AMZN,TSLA,NVDA,FB,INTC,AMD,SPY,BA,DIS,GE,IBM,C,GM,COIN,UBER,LYFT,NFLX,MS,PYPL,BA,MRK,PFE,WMT,VZ,T,GS,JPM,INTU"
                 )
 
