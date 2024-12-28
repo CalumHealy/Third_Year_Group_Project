@@ -15,14 +15,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.group_project.CryptoViewModel
 import com.example.group_project.network.StockCompany
 
 @Composable
-fun InvestPage() {
+fun InvestPage(navController: NavController) {
     val viewModel: CryptoViewModel = viewModel()
 
-    val selectedTab = remember { mutableStateOf(0) }  // 0 for Crypto, 1 for Stock
+    val selectedTab = remember { mutableStateOf(0) } // 0 for Crypto, 1 for Stock
 
     val cryptos = viewModel.cryptos.take(30)
     val stocks = viewModel.stocks.take(50)
@@ -51,11 +52,11 @@ fun InvestPage() {
         ) {
             if (selectedTab.value == 0) {
                 items(cryptos) { crypto ->
-                    CryptoItem(crypto = crypto, viewModel = viewModel)
+                    CryptoItem(crypto = crypto, viewModel = viewModel, navController = navController)
                 }
             } else {
                 items(stocks) { stock ->
-                    StockItem(stock = stock, viewModel = viewModel)
+                    StockItem(stock = stock, viewModel = viewModel, navController = navController)
                 }
             }
         }
@@ -63,14 +64,14 @@ fun InvestPage() {
 }
 
 @Composable
-fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel) {
+fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel, navController: NavController) {
     val isInvested = viewModel.isInvested(crypto)
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 12.dp, horizontal = 16.dp)
-            .height(64.dp),
+            .height(100.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
@@ -82,28 +83,47 @@ fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel) {
             Text(text = crypto.symbol, fontSize = 16.sp)
             Text(text = "Price: $${"%.2f".format(crypto.currentPrice)}", fontSize = 16.sp)
         }
-        Button(
-            onClick = {
-                if (isInvested) {
-                    viewModel.removeFromInvested(crypto)
-                } else {
-                    viewModel.addToInvested(crypto)
-                }
-            },
-            modifier = Modifier.height(48.dp)
+
+        Column(
+            modifier = Modifier.width(120.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = if (isInvested) "Sell" else "Buy")
+            Button(
+                onClick = {
+                    if (isInvested) {
+                        viewModel.removeFromInvested(crypto)
+                    } else {
+                        viewModel.addToInvested(crypto)
+                    }
+                },
+                modifier = Modifier
+                    .height(40.dp)
+                    .fillMaxWidth()
+            ) {
+                Text(text = if (isInvested) "Sell" else "Buy", fontSize = 12.sp)
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(
+                onClick = {
+                    navController.navigate("investment_details/${crypto.id}/${crypto.symbol}")
+                },
+                modifier = Modifier
+                    .height(40.dp)
+                    .fillMaxWidth()
+            ) {
+                Text(text = "Details", fontSize = 12.sp)
+            }
         }
     }
 }
 
 @Composable
-fun StockItem(stock: StockCompany, viewModel: CryptoViewModel) {
+fun StockItem(stock: StockCompany, viewModel: CryptoViewModel, navController: NavController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 12.dp, horizontal = 16.dp)
-            .height(64.dp),
+            .height(100.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
@@ -113,14 +133,34 @@ fun StockItem(stock: StockCompany, viewModel: CryptoViewModel) {
         ) {
             Text(text = stock.name, fontSize = 20.sp)
             Text(text = stock.ticker, fontSize = 16.sp)
+            Text(text = "Price: $${"%.2f".format(stock.price)}", fontSize = 16.sp)
         }
-        Button(
-            onClick = {
-                // Add stock buy/sell handling if needed
-            },
-            modifier = Modifier.height(48.dp)
+
+        Column(
+            modifier = Modifier.width(120.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Buy")  // Change to "Sell" if needed
+            Button(
+                onClick = {
+                    // Add stock buy/sell handling if needed
+                },
+                modifier = Modifier
+                    .height(40.dp)
+                    .fillMaxWidth()
+            ) {
+                Text(text = "Buy", fontSize = 12.sp)
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(
+                onClick = {
+                    navController.navigate("investment_details/${stock.name}/${stock.ticker}")
+                },
+                modifier = Modifier
+                    .height(40.dp)
+                    .fillMaxWidth()
+            ) {
+                Text(text = "Details", fontSize = 12.sp)
+            }
         }
     }
 }

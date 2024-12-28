@@ -68,7 +68,7 @@ fun ContentScreen(
 ) {
     when (selectedIndex) {
         0 -> HomePageContent(navController = navController)
-        1 -> InvestPage()
+        1 -> InvestPage(navController = navController)
         2 -> MyInvestmentsPage(navController = navController)
         3 -> MenuPage(navController = navController)
         4 -> ProfilePage(navController = navController, authModel = authModel)

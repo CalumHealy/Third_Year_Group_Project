@@ -63,7 +63,7 @@ fun AppNavigation(
             InvestmentDetailsPage(name = name, symbol = symbol)
         }
         composable("invest") {
-            InvestPage()
+            InvestPage(navController = navController)
         }
         composable("investments") {
             MyInvestmentsPage(navController = navController)
