@@ -58,8 +58,8 @@ fun AppNavigation(
                 navArgument("symbol") { type = NavType.StringType }
             )
         ) { backStackEntry ->
-            val name = backStackEntry.arguments?.getString("name") ?: ""
-            val symbol = backStackEntry.arguments?.getString("symbol") ?: ""
+            val name = backStackEntry.arguments?.getString("name") ?: "Unknown"
+            val symbol = backStackEntry.arguments?.getString("symbol") ?: "Unknown"
             InvestmentDetailsPage(name = name, symbol = symbol)
         }
         composable("invest") {

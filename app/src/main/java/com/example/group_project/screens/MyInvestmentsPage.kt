@@ -46,6 +46,7 @@ fun MyInvestmentsPage(navController: NavController) {
                         }
                     },
                     onDetailsClick = {
+                        // Navigate to investment details for crypto
                         navController.navigate("investment_details/${crypto.id}/${crypto.symbol}")
                     }
                 )
@@ -74,14 +75,14 @@ fun MyInvestmentsPage(navController: NavController) {
                         }
                     },
                     onDetailsClick = {
-                        navController.navigate("investment_details/${stock.ticker}")
+                        // Navigate to investment details for stock
+                        navController.navigate("investment_details/${stock.name}/${stock.ticker}")
                     }
                 )
             }
         }
     }
 }
-
 
 
 @Composable
