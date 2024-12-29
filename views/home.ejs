@@ -37,6 +37,7 @@
                     <% LiveStock.forEach(stock => { 
                         const priceChange = ((stock.currentPrice - stock.price) / stock.price) * 100;
                         const chartId = 'chart-' + stock.name.replace(/\s+/g, '_').toLowerCase();
+                        const historicalChartId = 'historical-chart-' + stock.name.replace(/\s+/g, '_').toLowerCase();
                         %>
                         <div class="home">
                             <div class="data">
@@ -54,7 +55,14 @@
                                 <p><strong>AI Recommendation: </strong><br>AI Recommendation goes here</p>
                             </div>
                             <div class="chart-row">
-                                <canvas id="chart-<%= stock.name.replace(/\s+/g, '_').toLowerCase()%>" width="400" height="200"></canvas>
+                                <!-- Current Price Chart -->
+                                <div class="chart-container">
+                                    <canvas id="chart-<%= stock.name.replace(/\s+/g, '_').toLowerCase()%>" width="400" height="200"></canvas>
+                                </div>
+                                <!-- Historical Price Chart -->
+                                <div class="chart-container">
+                                    <canvas id="historical-chart-<%= stock.name.replace(/\s+/g, '_').toLowerCase()%>" width="400" height="200"></canvas>
+                                </div>
                             </div>
                         </div>
                         <script>
@@ -88,9 +96,50 @@
                                         }
                                     }
                                 });
-                                }else{
-                                    console.error("Canvas element not found for stock chart ID: <%= chartId %>");
                                 }
+                                
+                                // Fetch historical data from app.py
+                                fetch('https://ai-price-generator-production.up.railway.app/api/process-text')
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        const historicalData = data.data[<%= stock.name %>];
+                                        const dates = historicalData.map(item => item[0]);
+                                        const prices = historicalData.map(item => parseFloat(item[1]));
+
+                                        // Data for the historical price chart
+                                        let historicalChartData = {
+                                            labels: dates,
+                                            datasets: [{
+                                                label: 'Historical Prices ($)',
+                                                data: prices,
+                                                borderColor: 'rgba(255, 99, 132, 1)', 
+                                                backgroundColor: 'rgba(255, 99, 132, 0.2)', 
+                                                borderWidth: 2,
+                                                tension: 0.4, 
+                                                fill: false 
+                                            }]
+                                        };
+                                        
+                                        // Render historical chart
+                                        const historicalCtx = document.getElementById('historical-chart-<%= stock.name.replace(/\s+/g, "_").toLowerCase()%>').getContext('2d');
+                                        if (historicalCtx) {
+                                            const historicalChart = new Chart(historicalCtx, {
+                                                type: 'line',
+                                                data: historicalChartData,
+                                                options: {
+                                                    responsive: true,
+                                                    scales: {
+                                                        y: {
+                                                            beginAtZero: false
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error fetching historical data:', error);
+                                    });
                             });
                         </script>
                     <% }); %>
@@ -100,6 +149,7 @@
                     <% LiveCrypto.forEach(crypto => { 
                         const priceChange = ((crypto.currentPrice - crypto.price) / crypto.price) * 100;
                         const chartId = 'chart-' + crypto.name.replace(/\s+/g, '_').toLowerCase();
+                        const historicalChartId = 'historical-chart-' + stock.name.replace(/\s+/g, '_').toLowerCase();
                         %>
                         <div class="home">
                             <div class="data">
@@ -155,6 +205,48 @@
                                         console.error("Canvas element not found for crypto chart ID: <%= chartId %>");
                                     }
                                 });
+                                // Fetch historical data from app.py
+                                fetch('https://ai-price-generator-production.up.railway.app/api/process-text')
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        const historicalData = data.data[<%= crypto.name %>];
+                                        const dates = historicalData.map(item => item[0]);
+                                        const prices = historicalData.map(item => parseFloat(item[1]));
+
+                                        // Data for the historical price chart
+                                        let historicalChartData = {
+                                            labels: dates,
+                                            datasets: [{
+                                                label: 'Historical Prices ($)',
+                                                data: prices,
+                                                borderColor: 'rgba(255, 99, 132, 1)', 
+                                                backgroundColor: 'rgba(255, 99, 132, 0.2)', 
+                                                borderWidth: 2,
+                                                tension: 0.4, 
+                                                fill: false 
+                                            }]
+                                        };
+                                        
+                                        // Render historical chart
+                                        const historicalCtx = document.getElementById('historical-chart-<%= crypto.name.replace(/\s+/g, "_").toLowerCase()%>').getContext('2d');
+                                        if (historicalCtx) {
+                                            const historicalChart = new Chart(historicalCtx, {
+                                                type: 'line',
+                                                data: historicalChartData,
+                                                options: {
+                                                    responsive: true,
+                                                    scales: {
+                                                        y: {
+                                                            beginAtZero: false
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error fetching historical data:', error);
+                                    });
                         </script>
                     <% }); %>
                 </div>

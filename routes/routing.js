@@ -118,6 +118,7 @@ router.get('/home',async (req,res) => {
                 const stockDetails = await fetchStockDetails(stock.name);
                 const currentPrice = stockDetails.price;
                 const profitLoss = (currentPrice - stock.price) * stock.quantity;
+                const historicalData = await fetchHistoricalData(stock.name);
 
                 return{
                     key: stock.key,
@@ -125,7 +126,8 @@ router.get('/home',async (req,res) => {
                     price: stock.price,
                     quantity: stock.quantity,
                     currentPrice,
-                    profitLoss
+                    profitLoss,
+                    historicalData
                 };
             }catch(error){
                 console.log(`Error fetching live details for ${stock.name}`,error.message);
@@ -135,7 +137,8 @@ router.get('/home',async (req,res) => {
                     price: stock.price,
                     quantity: stock.quantity,
                     currentPrice: "N/A",
-                    profitLoss: 0
+                    profitLoss: 0,
+                    historicalData: []
                 };
             }
         })
@@ -182,6 +185,7 @@ router.get('/home',async (req,res) => {
                 const cryptoDetails = await fetchCryptoDetails(mappedId);
                 const currentPrice = cryptoDetails.price;
                 const profitLoss = (currentPrice - crypto.price) * crypto.quantity;
+                const historicalData = await fetchHistoricalData(mappedId);
 
                 return{
                     key: crypto.key,
@@ -190,7 +194,8 @@ router.get('/home',async (req,res) => {
                     price: crypto.price,
                     quantity: crypto.quantity,
                     currentPrice,
-                    profitLoss
+                    profitLoss,
+                    historicalData
                 };
             }catch (error){
                 console.log(`Error fetching live details for ${crypto.name}`,error.message);
@@ -201,7 +206,8 @@ router.get('/home',async (req,res) => {
                     price: crypto.price,
                     quantity: crypto.quantity,
                     currentPrice: "N/A",
-                    profitLoss: 0
+                    profitLoss: 0,
+                    historicalData: []
                 };
             }
         })
