@@ -17,17 +17,32 @@ class CryptoViewModel : ViewModel() {
     private val _stocks = mutableStateListOf<StockCompany>() // Changed to mutableStateListOf
     val stocks: List<StockCompany> get() = _stocks
 
-    private val _invested = mutableSetOf<Crypto>()
-    val invested: List<Crypto> get() = _invested.toList()
+    private val _investedCryptos = mutableSetOf<Crypto>()
+    val investedCryptos: List<Crypto> get() = _investedCryptos.toList()
 
-    fun isInvested(crypto: Crypto): Boolean = _invested.contains(crypto)
+    private val _investedStocks = mutableSetOf<StockCompany>()
+    val investedStocks: List<StockCompany> get() = _investedStocks.toList()
 
-    fun addToInvested(crypto: Crypto) {
-        _invested.add(crypto)
+    // Crypto investment methods
+    fun isInvestedInCrypto(crypto: Crypto): Boolean = _investedCryptos.contains(crypto)
+
+    fun addToInvestedCryptos(crypto: Crypto) {
+        _investedCryptos.add(crypto)
     }
 
-    fun removeFromInvested(crypto: Crypto) {
-        _invested.remove(crypto)
+    fun removeFromInvestedCryptos(crypto: Crypto) {
+        _investedCryptos.remove(crypto)
+    }
+
+    // Stock investment methods
+    fun isInvestedInStock(stock: StockCompany): Boolean = _investedStocks.contains(stock)
+
+    fun addToInvestedStocks(stock: StockCompany) {
+        _investedStocks.add(stock)
+    }
+
+    fun removeFromInvestedStocks(stock: StockCompany) {
+        _investedStocks.remove(stock)
     }
 
     init {
@@ -52,22 +67,6 @@ class CryptoViewModel : ViewModel() {
                         Log.d("API Response", "Number of Cryptos fetched: ${cryptoList.size}") // Check how many cryptos were fetched
 
                         cryptoList.forEach { crypto ->
-                            // Log each field for debugging
-                            Log.d("API Response", "ID: ${crypto.id}, Symbol: ${crypto.symbol}, " +
-                                    "Current Price: ${crypto.currentPrice}, Market Cap: ${crypto.marketCap}, " +
-                                    "Volume 24h: ${crypto.volume24h}, Price Change 24h: ${crypto.priceChange24h}, " +
-                                    "Circulating Supply: ${crypto.circulatingSupply}, ATH: ${crypto.ath}, " +
-                                    "ATL: ${crypto.atl}, Hashing Algorithm: ${crypto.hashingAlgorithm}")
-
-                            // Check if the fields are not being populated correctly
-                            if (crypto.currentPrice == 0.0) Log.e("API Response", "Error: Current Price is 0 for ${crypto.id}")
-                            if (crypto.marketCap == 0.0) Log.e("API Response", "Error: Market Cap is 0 for ${crypto.id}")
-                            if (crypto.volume24h == 0.0) Log.e("API Response", "Error: Volume 24h is 0 for ${crypto.id}")
-                            if (crypto.priceChange24h == 0.0) Log.e("API Response", "Error: Price Change 24h is 0 for ${crypto.id}")
-                            if (crypto.circulatingSupply == 0.0) Log.e("API Response", "Error: Circulating Supply is 0 for ${crypto.id}")
-                            if (crypto.ath == 0.0) Log.e("API Response", "Error: ATH is 0 for ${crypto.id}")
-                            if (crypto.atl == 0.0) Log.e("API Response", "Error: ATL is 0 for ${crypto.id}")
-
                             // Add crypto data to the list
                             _cryptos.add(Crypto(
                                 id = crypto.id.capitalize(),
@@ -91,7 +90,6 @@ class CryptoViewModel : ViewModel() {
             }
         }
     }
-
 
     private fun fetchStockCompanies() {
         viewModelScope.launch {

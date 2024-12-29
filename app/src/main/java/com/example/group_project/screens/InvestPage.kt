@@ -65,7 +65,7 @@ fun InvestPage(navController: NavController) {
 
 @Composable
 fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel, navController: NavController) {
-    val isInvested = viewModel.isInvested(crypto)
+    val isInvested = viewModel.isInvestedInCrypto(crypto)
 
     Row(
         modifier = Modifier
@@ -91,9 +91,9 @@ fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel, navController: NavCon
             Button(
                 onClick = {
                     if (isInvested) {
-                        viewModel.removeFromInvested(crypto)
+                        viewModel.removeFromInvestedCryptos(crypto)
                     } else {
-                        viewModel.addToInvested(crypto)
+                        viewModel.addToInvestedCryptos(crypto)
                     }
                 },
                 modifier = Modifier
@@ -119,6 +119,8 @@ fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel, navController: NavCon
 
 @Composable
 fun StockItem(stock: StockCompany, viewModel: CryptoViewModel, navController: NavController) {
+    val isInvested = viewModel.isInvestedInStock(stock)
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -142,13 +144,17 @@ fun StockItem(stock: StockCompany, viewModel: CryptoViewModel, navController: Na
         ) {
             Button(
                 onClick = {
-                    // Add stock buy/sell handling if needed
+                    if (isInvested) {
+                        viewModel.removeFromInvestedStocks(stock)
+                    } else {
+                        viewModel.addToInvestedStocks(stock)
+                    }
                 },
                 modifier = Modifier
                     .height(40.dp)
                     .fillMaxWidth()
             ) {
-                Text(text = "Buy", fontSize = 12.sp)
+                Text(text = if (isInvested) "Sell" else "Buy", fontSize = 12.sp)
             }
             Spacer(modifier = Modifier.height(8.dp))
             Button(

@@ -20,10 +20,12 @@ import com.example.group_project.CryptoViewModel
 @Composable
 fun MyInvestmentsPage(navController: NavController) {
     val viewModel: CryptoViewModel = viewModel()
-    val invested = viewModel.invested
+    val investedCryptos = viewModel.investedCryptos
+    val investedStocks = viewModel.investedStocks
 
     LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        items(invested.toList()) { investment ->
+        // Display invested cryptocurrencies
+        items(investedCryptos) { crypto ->
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -31,19 +33,48 @@ fun MyInvestmentsPage(navController: NavController) {
                 contentAlignment = Alignment.CenterStart
             ) {
                 InvestmentCard(
-                    name = investment.id,
-                    symbol = investment.symbol,
-                    price = investment.currentPrice,
+                    name = crypto.id.capitalize(),
+                    symbol = crypto.symbol.uppercase(),
+                    price = crypto.currentPrice,
+                    marketCap = crypto.marketCap,
+                    volume = crypto.volume24h,
                     onBuySellClick = {
-                        if (viewModel.isInvested(investment)) {
-                            viewModel.removeFromInvested(investment)
+                        if (viewModel.isInvestedInCrypto(crypto)) {
+                            viewModel.removeFromInvestedCryptos(crypto)
                         } else {
-                            viewModel.addToInvested(investment)
+                            viewModel.addToInvestedCryptos(crypto)
                         }
                     },
                     onDetailsClick = {
-                        // Navigate to the details page and pass investment details
-                        navController.navigate("investment_details/${investment.id}/${investment.symbol}")
+                        navController.navigate("investment_details/${crypto.id}/${crypto.symbol}")
+                    }
+                )
+            }
+        }
+
+        // Display invested stocks
+        items(investedStocks) { stock ->
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                contentAlignment = Alignment.CenterStart
+            ) {
+                InvestmentCard(
+                    name = stock.name,
+                    symbol = stock.ticker,
+                    price = stock.price,
+                    marketCap = stock.marketCap ?: 0.0,
+                    volume = stock.volume24h ?: 0.0,
+                    onBuySellClick = {
+                        if (viewModel.isInvestedInStock(stock)) {
+                            viewModel.removeFromInvestedStocks(stock)
+                        } else {
+                            viewModel.addToInvestedStocks(stock)
+                        }
+                    },
+                    onDetailsClick = {
+                        navController.navigate("investment_details/${stock.ticker}")
                     }
                 )
             }
@@ -51,11 +82,15 @@ fun MyInvestmentsPage(navController: NavController) {
     }
 }
 
+
+
 @Composable
 fun InvestmentCard(
     name: String,
     symbol: String,
     price: Double,
+    marketCap: Double,
+    volume: Double,
     onBuySellClick: () -> Unit,
     onDetailsClick: () -> Unit
 ) {
@@ -68,6 +103,7 @@ fun InvestmentCard(
         colors = androidx.compose.material3.CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
+            // Name and Symbol
             Text(
                 text = name,
                 fontSize = 20.sp,
@@ -80,15 +116,28 @@ fun InvestmentCard(
                 color = MaterialTheme.colorScheme.secondary
             )
 
-            Spacer(modifier = Modifier.height(8.dp)) // Space before price
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Price, Market Cap, and Volume
             Text(
                 text = "Price: $${"%.2f".format(price)}",
                 fontSize = 16.sp,
                 color = MaterialTheme.colorScheme.primary
             )
+            Text(
+                text = "Market Cap: $${"%.2f".format(marketCap)}",
+                fontSize = 16.sp,
+                color = MaterialTheme.colorScheme.secondary
+            )
+            Text(
+                text = "24h Volume: $${"%.2f".format(volume)}",
+                fontSize = 16.sp,
+                color = MaterialTheme.colorScheme.secondary
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Buy/Sell Button
             Button(
                 onClick = onBuySellClick,
                 modifier = Modifier.fillMaxWidth().height(48.dp),

@@ -1,13 +1,12 @@
 package com.example.group_project.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -19,14 +18,13 @@ import com.example.group_project.CryptoViewModel
 
 @Composable
 fun HomePageContent(navController: NavController) {
-    // Make the whole screen scrollable to avoid cut-off content
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
         // Add top padding to avoid overlapping with status bar
-        Spacer(modifier = Modifier.height(32.dp)) // Spacing at the top
+        Spacer(modifier = Modifier.height(32.dp))
 
         Text(
             text = "Welcome to ACT-Mobile",
@@ -36,7 +34,7 @@ fun HomePageContent(navController: NavController) {
             color = MaterialTheme.colorScheme.primary
         )
 
-        Spacer(modifier = Modifier.height(32.dp)) // Spacing between sections
+        Spacer(modifier = Modifier.height(32.dp))
 
         Text(
             text = "Your Portfolio at a Glance:",
@@ -46,7 +44,7 @@ fun HomePageContent(navController: NavController) {
             color = MaterialTheme.colorScheme.onBackground
         )
 
-        PortfolioSummary()  // Use the updated PortfolioSummary
+        PortfolioSummary() // Updated PortfolioSummary
 
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -64,13 +62,13 @@ fun HomePageContent(navController: NavController) {
 
 @Composable
 fun PortfolioSummary(viewModel: CryptoViewModel = viewModel()) {
-    val totalCryptoValue = viewModel.invested.sumOf { it.currentPrice }
-    val totalStockValue = viewModel.stocks.sumOf { it.price }
+    val totalCryptoValue = viewModel.investedCryptos.sumOf { it.currentPrice }
+    val totalStockValue = viewModel.investedStocks.sumOf { it.price }
     val totalValue = totalCryptoValue + totalStockValue
 
     Column(
         modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally // Center the content horizontally
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "Total Value: $${"%.2f".format(totalValue)}",
@@ -99,13 +97,13 @@ fun QuickLinks(navController: NavController) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 16.dp),
-        horizontalArrangement = Arrangement.Center, // Center icons horizontally
+        horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Home Button
         IconButton(
             onClick = { navController.navigate("home") },
-            modifier = Modifier.padding(8.dp) // Add padding between buttons
+            modifier = Modifier.padding(8.dp)
         ) {
             Icon(
                 imageVector = Icons.Filled.Home,
@@ -117,7 +115,7 @@ fun QuickLinks(navController: NavController) {
         // Profile Button
         IconButton(
             onClick = { navController.navigate("profile") },
-            modifier = Modifier.padding(8.dp) // Add padding between buttons
+            modifier = Modifier.padding(8.dp)
         ) {
             Icon(
                 imageVector = Icons.Filled.AccountCircle,
@@ -129,7 +127,7 @@ fun QuickLinks(navController: NavController) {
         // Investments Button
         IconButton(
             onClick = { navController.navigate("investments") },
-            modifier = Modifier.padding(8.dp) // Add padding between buttons
+            modifier = Modifier.padding(8.dp)
         ) {
             Icon(
                 imageVector = Icons.Filled.TrendingUp,
