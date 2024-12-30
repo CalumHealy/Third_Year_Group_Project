@@ -1,6 +1,7 @@
 package com.example.group_project.screens
 
 import android.widget.Toast
+import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
@@ -17,16 +18,15 @@ import com.stripe.android.Stripe
 import com.stripe.android.model.ConfirmPaymentIntentParams
 import com.stripe.android.view.CardInputWidget
 import androidx.compose.ui.viewinterop.AndroidView
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.FirebaseFirestore
 
 @Composable
 fun AddFundsPage(onPaymentSuccess: () -> Unit) {
     val context = LocalContext.current
     var amount by remember { mutableStateOf("") }
     var isProcessing by remember { mutableStateOf(false) }
-    val firestore = Firebase.firestore
+    val firestore = FirebaseFirestore.getInstance()
     val currentUser = FirebaseAuth.getInstance().currentUser
 
     // Initialize Stripe with publishable Key
@@ -80,6 +80,8 @@ fun AddFundsPage(onPaymentSuccess: () -> Unit) {
                     // Extract card details from CardInputWidget
                     val cardParams = cardInputWidget?.paymentMethodCreateParams
                     if (cardParams != null) {
+                        // Creating a PaymentIntent on the backend
+                        // Confirm the Payment Intent using Stripe API
                         val confirmParams = ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
                             cardParams,
                             "sk_test_51QP33kHTr0XTBmKNyn7qM8UWT2qdZEfmyVyJzx10hVpnVqa4XjWiY27jawwwm7uiOyeLfU6paWwFFXlSz7y6dgNL000IajvXO9"
@@ -100,6 +102,9 @@ fun AddFundsPage(onPaymentSuccess: () -> Unit) {
                                     Toast.makeText(context, "Funds added successfully!", Toast.LENGTH_SHORT).show()
                                     isProcessing = false
                                     onPaymentSuccess()
+                                }.addOnFailureListener {
+                                    Toast.makeText(context, "Failed to update balance", Toast.LENGTH_SHORT).show()
+                                    isProcessing = false
                                 }
                             }
                         }
