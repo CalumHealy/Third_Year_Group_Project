@@ -1,0 +1,24 @@
+research_task:
+  description: >
+    Conduct a thorough research about past and current prices of the following stocks and cryptocurrencies: Bitcoin, Ethereum, Tether, Solana, XRP, BNB, Dogecoin, USDC, Cardano, Lido Staked Ether, Shiba Inu, Avalanche, TRON, Toncoin, Wrapped stETH, Stellar, Polkadot, Wrapped Bitcoin, Chainlink, WETH, Agilent Technologies Inc, Alcoa Corporation, Alternative Access First Priority CLO Bond ETF, Alternative Investment TR, Goldman Sachs Physical Gold ETF Shares, Asia Broadband INC, Aareal Bank AG, Aberdeen INTL INC, AAC Techs HLDGS INC ORD, AAC Techs HLDGS UNSP/ADR, ATA Creativity Global American Depository Shares, AMER Commerce SOLTNS INC, Ares Acquisition Corporation II, Ares Acquisition Corporation II Units, Ares Acquisition Corporation II Redeemable Warrants, AURORA Solar Technologies, AADI Bioscience Inc Common Stock, Advisor Shares Dorsey Wright ADR ETF, AIRTEL Africa PLC, All American Gold Corp, Aftermath Silver LTD ORD, America Great Health, AIA Group LTD S/ADR, African AGRI HLDGS INC, African AGRI HLDGS WTS, Astra AGRO LESTR UNSP/ADR, ASAHI CO LTD ORD, AIA Group LTD ORD, Alabama Aircraft INDUS, American AIRES INC, AAK AB UNSP/ADR, American Airlines Group Inc, Aalberts INDUS NV ORD, AA Mission Acquisition Corp, AA Mission Acquisition Corp Units, AA Mision Acquisition Corp Warrants, ATLAS MARA CO NVEST ORD, Altisource Asset MGMT, Atlantic American Corp, Almadex Minerals LTD, Armada Mercantile LTD, Aroundtown SA ORD, Applied Optoelectronics Inc, Aaon Inc, Advance Auto Parts Inc, GraniteShares ETF Trust GraniteShares 2x Long AAPL Daily ETF, Direxion Daily AAPL Bear 1X Shares, Apple iSports Group Inc, AAP Inc, Apple Inc. 
+    Make sure you show general trends in prices which may indicate probable future changes. Make sure to include all of the above stocks/cryptos. If you cannot find data for a stock/crypto, save it's name but put an X in place of the price. 
+    The current year is 2024. Try to get prices up to today.
+  expected_output: >
+    A list of stocks and cryptocurrencies with their current prices, and their prices at certain points throughout history, showing the dates.
+  agent: researcher
+
+formatting_task: 
+  description: >
+    Format the researcher's data in a consistent and readable way, and output the data to a text file. 
+    Make sure to include every stock and crypto in the researcher's list.
+  expected_output: >
+    A text file named prices.txt containing the researcher's data, but formatted as below: 
+    Bitcoin
+    1/4/2016,127.83
+    17/2/2018,642.50
+    2/12/2023,1034.86
+    NVIDIA
+    4/5/2014,34.76
+    8/5/2019,295.38
+    6/11/2024,530.84
+  agent: formatter

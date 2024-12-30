@@ -1,0 +1,20 @@
+# Use an official Python runtime as a base image
+FROM python:3.10-slim
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the project files into the container
+COPY main.py .
+# COPY save_text.py .
+COPY requirements.txt .
+COPY .env .
+COPY agents.yaml .
+COPY tasks.yaml .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Define the command to run your project
+CMD ["python", "main.py"]
+# CMD ["python", "save_text.py"]

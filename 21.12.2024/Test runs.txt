@@ -1,0 +1,719 @@
+22/12/2024, 22:00
+Done through Docker
+
+Prices3.txt
+```
+Bitcoin 1/1/2022,47000 1/1/2023,16500 43000
+Ethereum 1/1/2022,3700 1/1/2023,1200 3200
+Tether 1/1/2022,1.00 1/1/2023,1.00 1.00
+Solana 1/1/2022,170 1/1/2023,10 150
+XRP 1/1/2022,0.75 1/1/2023,0.35 0.90
+BNB 1/1/2022,430 1/1/2023,350 340
+Dogecoin 1/1/2022,0.20 1/1/2023,0.07 0.12
+USDC 1/1/2022,1.00 1/1/2023,1.00 1.00
+Cardano 1/1/2022,1.50 1/1/2023,0.25 0.35
+Lido Staked Ether 1/1/2022,4000 1/1/2023,1200 3200
+Shiba Inu 1/1/2022,0.00002 1/1/2023,0.000008 0.00001
+Avalanche 1/1/2022,100 1/1/2023,18 60
+TRON 1/1/2022,0.15 1/1/2023,0.05 0.10
+Toncoin 1/1/2022,4.00 1/1/2023,0.50 3.00
+Wrapped stETH 1/1/2022,4000 1/1/2023,1200 3200
+Stellar 1/1/2022,0.20 1/1/2023,0.07 0.15
+Polkadot 1/1/2022,25 1/1/2023,5 6.00
+Wrapped Bitcoin 1/1/2022,47000 1/1/2023,16500 43000
+Chainlink 1/1/2022,20 1/1/2023,7 9.00
+WETH 1/1/2022,4000 1/1/2023,1200 3200
+Agilent Technologies Inc 1/1/2022,160 1/1/2023,140 130
+Alcoa Corporation 1/1/2022,90 1/1/2023,80 60
+Goldman Sachs Physical Gold ETF Shares 1/1/2022,30 1/1/2023,32 40
+Apple Inc. 1/1/2022,175 1/1/2023,155 180
+```
+This content has been successfully saved in the "prices.txt" file.
+
+prices.txt
+Bitcoin 1/1/2022,47000 1/1/2023,16500 43000
+Ethereum 1/1/2022,3700 1/1/2023,1200 3200
+Tether 1/1/2022,1.00 1/1/2023,1.00 1.00
+Solana 1/1/2022,170 1/1/2023,10 150
+XRP 1/1/2022,0.75 1/1/2023,0.35 0.90
+BNB 1/1/2022,430 1/1/2023,350 340
+Dogecoin 1/1/2022,0.20 1/1/2023,0.07 0.12
+USDC 1/1/2022,1.00 1/1/2023,1.00 1.00
+Cardano 1/1/2022,1.50 1/1/2023,0.25 0.35
+Lido Staked Ether 1/1/2022,4000 1/1/2023,1200 3200
+Shiba Inu 1/1/2022,0.00002 1/1/2023,0.000008 0.00001
+Avalanche 1/1/2022,100 1/1/2023,18 60
+TRON 1/1/2022,0.15 1/1/2023,0.05 0.10
+Toncoin 1/1/2022,4.00 1/1/2023,0.50 3.00
+Wrapped stETH 1/1/2022,4000 1/1/2023,1200 3200
+Stellar 1/1/2022,0.20 1/1/2023,0.07 0.15
+Polkadot 1/1/2022,25 1/1/2023,5 6.00
+Wrapped Bitcoin 1/1/2022,47000 1/1/2023,16500 43000
+Chainlink 1/1/2022,20 1/1/2023,7 9.00
+WETH 1/1/2022,4000 1/1/2023,1200 3200
+Agilent Technologies Inc 1/1/2022,160 1/1/2023,140 130
+Alcoa Corporation 1/1/2022,90 1/1/2023,80 60
+Goldman Sachs Physical Gold ETF Shares 1/1/2022,30 1/1/2023,32 40
+Apple Inc. 1/1/2022,175 1/1/2023,155 180
+
+
+
+
+
+22/12/2024, 22:04
+Done in PyCharm
+
+prices.txt
+Bitcoin 1/1/2023,16500 4/1/2023,28000 7/1/2023,37500 Ethereum 1/1/2023,1200 4/1/2023,1800 7/1/2023,2600 Tether 1/1/2023,1.00 Solana 1/1/2023,13 4/1/2023,24 7/1/2023,50 XRP 1/1/2023,0.35 4/1/2023,0.50 7/1/2023,0.75 BNB 1/1/2023,240 4/1/2023,320 7/1/2023,320 Dogecoin 1/1/2023,0.07 4/1/2023,0.09 7/1/2023,0.06 USDC 1/1/2023,1.00 Cardano 1/1/2023,0.25 4/1/2023,0.40 7/1/2023,0.50 Lido Staked Ether 1/1/2023,1950 Shiba Inu 1/1/2023,0.000009 4/1/2023,0.000012 7/1/2023,0.000015 Avalanche 1/1/2023,13 4/1/2023,22 7/1/2023,50 TRON 1/1/2023,0.05 4/1/2023,0.07 7/1/2023,0.10 Toncoin 1/1/2023,N/A Stellar 1/1/2023,0.10 4/1/2023,0.12 7/1/2023,0.09 Polkadot 1/1/2023,5.50 4/1/2023,7.00 7/1/2023,8.50 Wrapped Bitcoin 1/1/2023,N/A Chainlink 1/1/2023,6.00 4/1/2023,8.00 7/1/2023,10.00 WETH 1/1/2023,N/A
+
+Prices3.txt
+Bitcoin 1/1/2023,16500 4/1/2023,28000 7/1/2023,37500 Ethereum 1/1/2023,1200 4/1/2023,1800 7/1/2023,2600 Tether 1/1/2023,1.00 Solana 1/1/2023,13 4/1/2023,24 7/1/2023,50 XRP 1/1/2023,0.35 4/1/2023,0.50 7/1/2023,0.75 BNB 1/1/2023,240 4/1/2023,320 7/1/2023,320 Dogecoin 1/1/2023,0.07 4/1/2023,0.09 7/1/2023,0.06 USDC 1/1/2023,1.00 Cardano 1/1/2023,0.25 4/1/2023,0.40 7/1/2023,0.50 Lido Staked Ether 1/1/2023,1950 Shiba Inu 1/1/2023,0.000009 4/1/2023,0.000012 7/1/2023,0.000015 Avalanche 1/1/2023,13 4/1/2023,22 7/1/2023,50 TRON 1/1/2023,0.05 4/1/2023,0.07 7/1/2023,0.10 Toncoin 1/1/2023,N/A Stellar 1/1/2023,0.10 4/1/2023,0.12 7/1/2023,0.09 Polkadot 1/1/2023,5.50 4/1/2023,7.00 7/1/2023,8.50 Wrapped Bitcoin 1/1/2023,N/A Chainlink 1/1/2023,6.00 4/1/2023,8.00 7/1/2023,10.00 WETH 1/1/2023,N/A
+
+
+
+
+
+23/12/2024, 01:48
+Done in PyCharm
+44 seconds
+
+main.py
+import sys
+import os
+import yaml
+from crewai import Agent, Task, Crew, Process
+from langchain_openai import OpenAI
+from dotenv import load_dotenv
+from langchain.tools import Tool
+from langchain.tools import StructuredTool
+from crewai_tools import FileWriterTool
+from pydantic import BaseModel
+import threading
+from concurrent.futures import ThreadPoolExecutor
+load_dotenv()
+openai_instance = OpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"))
+class OpenAIArgs(BaseModel):
+    query: str
+class FileWriterArgs(BaseModel):
+    content: str
+    filename: str = "prices.txt"
+OpenAI_tool = Tool(
+    name="OpenAI LLM",
+    func=openai_instance.predict,
+    description="OpenAI GPT LLM",
+    args_schema=OpenAIArgs
+)
+assets = [
+    "Bitcoin", "Ethereum", "Tether", "Solana", "XRP", "BNB", "Dogecoin", "USDC"#,
+    #"Cardano", "Lido Staked Ether", "Shiba Inu", "Avalanche", "TRON", "Toncoin",
+    #"Wrapped stETH", "Stellar", "Polkadot", "Wrapped Bitcoin", "Chainlink", "WETH",
+    #"Agilent Technologies Inc", "Alcoa Corporation", "Alternative Access First Priority CLO Bond ETF",
+    #"Alternative Investment TR", "Goldman Sachs Physical Gold ETF Shares", "Asia Broadband INC",
+    #"Aareal Bank AG", "Aberdeen INTL INC", "AAC Techs HLDGS INC ORD", "AAC Techs HLDGS UNSP/ADR",
+    #"ATA Creativity Global American Depository Shares", "AMER Commerce SOLTNS INC",
+    #"Ares Acquisition Corporation II", "Ares Acquisition Corporation II Units",
+    #"Ares Acquisition Corporation II Redeemable Warrants", "AURORA Solar Technologies",
+    #"AADI Bioscience Inc Common Stock", "Advisor Shares Dorsey Wright ADR ETF", "AIRTEL Africa PLC",
+    #"All American Gold Corp", "Aftermath Silver LTD ORD", "America Great Health", "AIA Group LTD S/ADR",
+    #"African AGRI HLDGS INC", "African AGRI HLDGS WTS", "Astra AGRO LESTR UNSP/ADR", "ASAHI CO LTD ORD",
+    #"AIA Group LTD ORD", "Alabama Aircraft INDUS", "American AIRES INC", "AAK AB UNSP/ADR",
+    #"American Airlines Group Inc", "Aalberts INDUS NV ORD", "AA Mission Acquisition Corp",
+    #"AA Mission Acquisition Corp Units", "AA Mision Acquisition Corp Warrants", "ATLAS MARA CO NVEST ORD",
+    #"Altisource Asset MGMT", "Atlantic American Corp", "Almadex Minerals LTD", "Armada Mercantile LTD",
+    #"Aroundtown SA ORD", "Applied Optoelectronics Inc", "Aaon Inc", "Advance Auto Parts Inc",
+    #"GraniteShares ETF Trust GraniteShares 2x Long AAPL Daily ETF", "Direxion Daily AAPL Bear 1X Shares",
+    #"Apple iSports Group Inc", "AAP Inc", "Apple Inc."
+]
+def write_to_file(content: str, filename: str = "/21.12.2024/prices.txt") -> str:
+    if not isinstance(content, str):
+        raise ValueError(f"Expected content to be a string, but got {type(content)}")
+    with open(filename, "w") as file:
+        file.write(content)
+    return f"Content written to {filename}"
+FileWriter_tool = StructuredTool(
+    name="File Writer",
+    func=write_to_file,
+    description="Writes content to a text file. Requires 'content' and optionally 'filename' as inputs.",
+    args_schema=FileWriterArgs
+)
+with open('agents.yaml', 'r') as file:
+    agents = yaml.safe_load(file)
+researcher = Agent(
+    role=agents['researcher']['role'],
+    goal=agents['researcher']['goal'],
+    backstory=agents['researcher']['backstory'],
+    verbose=False,
+    allow_delegation=False,
+    tools=[OpenAI_tool]
+)
+formatter = Agent(
+    role=agents['formatter']['role'],
+    goal=agents['formatter']['goal'],
+    backstory=agents['formatter']['backstory'],
+    verbose=False,
+    allow_delegation=False,
+    # tools=[OpenAI_tool, FileWriter_tool]
+    tools=[OpenAI_tool]
+)
+print("Current working directory: ", os.getcwd())
+output = []
+with open("tasks.yaml", "r") as file:
+    tasks = yaml.safe_load(file)
+def process_asset(item):
+    task1 = Task(
+        description=tasks['research_task']['description'].replace("the given stock or cryptocurrency", item),
+        expected_output=tasks['research_task']['expected_output'],
+        agent=researcher)
+    task2 = Task(
+        description=tasks['formatting_task']['description'],
+        expected_output=tasks['formatting_task']['expected_output'],
+        agent=formatter
+    )
+    crew = Crew(
+        agents=[researcher, formatter],
+        tasks=[task1, task2],
+        verbose=0,
+        process=Process.sequential
+    )
+    result = crew.kickoff()
+    output.append(str(result))
+    return str(result)
+with ThreadPoolExecutor() as executor:
+    results = list(executor.map(process_asset, assets))
+final_output = "\n".join(output)
+with open("Prices3.txt", "w") as text_file:
+    text_file.write(final_output)
+
+Prices3.txt
+"XRP: 1/2023,0.34 5/2023,0.60 8/2023,0.48 11/2023,0.50 4/2024,0.75\n"
+"Tether (USDT): 1/2023,1 6/2023,0.98 6/2023,1.02 1/2024,1 10/2023,1\n"
+"Dogecoin: Prices for specific dates and trends could not be retrieved.\n"
+"Solana (SOL): 1/2021,1.53 5/2021,58.30 8/2021,80.68 12/2021,191.96 1/2022,138.21 5/2022,42.56 6/2022,30.11 11/2022,8.13 4/2023,22.45 10/2023,21.99 3/2024,15.00\n"
+USDC: No historical prices available.\n
+"BNB (Binance Coin): 7/2017,0.10 12/31/2017,8.00 1/1/2018,14.00 12/31/2018,6.20 12/31/2019,15.00 12/31/2020,37.00 4/20/2021,640.00 12/31/2021,500.00 12/31/2022,250.00 1/1/2023,240.00 12/31/2023,300.00 2/21/2024,320.00\n"
+Bitcoin: 7/2010,0.0008 2/2011,1 11/2013,1000 12/2017,19783 3/2020,5000 4/2021,64863 11/2021,69000 1/2023,16500 1/2024,25000\n
+"Ethereum: 7/2015,0.75 12/2016,8.00 12/2017,720.00 1/2018,1400.00 4/2018,600.00 12/2018,130.00 2/2020,200.00 12/2020,730.00 3/2021,1800.00 5/2021,4000.00 9/2021,3000.00 11/2021,4600.00 6/2022,1000.00 12/2022,1200.00 3/2023,1800.00 6/2023,2200.00 12/2023,3000.00 4/2024,3500.00\n"
+
+
+
+
+
+23/12/2024, 01:55
+Done in PyCharm
+3 minutes 6 seconds
+
+main3.py
+import sys
+import os
+import yaml
+from crewai import Agent, Task, Crew, Process
+from langchain_openai import OpenAI
+from dotenv import load_dotenv
+from langchain.tools import Tool
+from langchain.tools import StructuredTool
+from crewai_tools import FileWriterTool
+from pydantic import BaseModel
+load_dotenv()
+openai_instance = OpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"))
+class OpenAIArgs(BaseModel):
+    query: str
+class FileWriterArgs(BaseModel):
+    content: str
+    filename: str = "prices.txt"
+OpenAI_tool = Tool(
+    name="OpenAI LLM",
+    func=openai_instance.predict,
+    description="OpenAI GPT LLM",
+    args_schema=OpenAIArgs
+)
+assets = [
+    "Bitcoin", "Ethereum", "Tether", "Solana", "XRP", "BNB", "Dogecoin", "USDC"#,
+    #"Cardano", "Lido Staked Ether", "Shiba Inu", "Avalanche", "TRON", "Toncoin",
+    #"Wrapped stETH", "Stellar", "Polkadot", "Wrapped Bitcoin", "Chainlink", "WETH",
+    #"Agilent Technologies Inc", "Alcoa Corporation", "Alternative Access First Priority CLO Bond ETF",
+    #"Alternative Investment TR", "Goldman Sachs Physical Gold ETF Shares", "Asia Broadband INC",
+    #"Aareal Bank AG", "Aberdeen INTL INC", "AAC Techs HLDGS INC ORD", "AAC Techs HLDGS UNSP/ADR",
+    #"ATA Creativity Global American Depository Shares", "AMER Commerce SOLTNS INC",
+    #"Ares Acquisition Corporation II", "Ares Acquisition Corporation II Units",
+    #"Ares Acquisition Corporation II Redeemable Warrants", "AURORA Solar Technologies",
+    #"AADI Bioscience Inc Common Stock", "Advisor Shares Dorsey Wright ADR ETF", "AIRTEL Africa PLC",
+    #"All American Gold Corp", "Aftermath Silver LTD ORD", "America Great Health", "AIA Group LTD S/ADR",
+    #"African AGRI HLDGS INC", "African AGRI HLDGS WTS", "Astra AGRO LESTR UNSP/ADR", "ASAHI CO LTD ORD",
+    #"AIA Group LTD ORD", "Alabama Aircraft INDUS", "American AIRES INC", "AAK AB UNSP/ADR",
+    #"American Airlines Group Inc", "Aalberts INDUS NV ORD", "AA Mission Acquisition Corp",
+    #"AA Mission Acquisition Corp Units", "AA Mision Acquisition Corp Warrants", "ATLAS MARA CO NVEST ORD",
+    #"Altisource Asset MGMT", "Atlantic American Corp", "Almadex Minerals LTD", "Armada Mercantile LTD",
+    #"Aroundtown SA ORD", "Applied Optoelectronics Inc", "Aaon Inc", "Advance Auto Parts Inc",
+    #"GraniteShares ETF Trust GraniteShares 2x Long AAPL Daily ETF", "Direxion Daily AAPL Bear 1X Shares",
+    #"Apple iSports Group Inc", "AAP Inc", "Apple Inc."
+]
+def write_to_file(content: str, filename: str = "/21.12.2024/prices.txt") -> str:
+    if not isinstance(content, str):
+        raise ValueError(f"Expected content to be a string, but got {type(content)}")
+    with open(filename, "w") as file:
+        file.write(content)
+    return f"Content written to {filename}"
+FileWriter_tool = StructuredTool(
+    name="File Writer",
+    func=write_to_file,
+    description="Writes content to a text file. Requires 'content' and optionally 'filename' as inputs.",
+    args_schema=FileWriterArgs
+)
+with open('agents.yaml', 'r') as file:
+    agents = yaml.safe_load(file)
+researcher = Agent(
+    role=agents['researcher']['role'],
+    goal=agents['researcher']['goal'],
+    backstory=agents['researcher']['backstory'],
+    verbose=False,
+    allow_delegation=False,
+    tools=[OpenAI_tool]
+)
+formatter = Agent(
+    role=agents['formatter']['role'],
+    goal=agents['formatter']['goal'],
+    backstory=agents['formatter']['backstory'],
+    verbose=False,
+    allow_delegation=False,
+    tools=[OpenAI_tool]
+)
+print("Current working directory: ", os.getcwd())
+final_output = []
+with open("tasks.yaml", "r") as file:
+    tasks = yaml.safe_load(file)
+for item in assets:
+    task1 = Task(
+        description=tasks['research_task']['description'].replace("the given stock or cryptocurrency", item),
+        expected_output=tasks['research_task']['expected_output'],
+        agent=researcher)
+    task2 = Task(
+        description=tasks['formatting_task']['description'],
+        expected_output=tasks['formatting_task']['expected_output'],
+        agent=formatter
+    )
+    crew = Crew(
+        agents=[researcher, formatter],
+        tasks=[task1, task2],
+        # verbose=1,
+        verbose=0,
+        process=Process.sequential
+    )
+    result = crew.kickoff()
+    result_str = str(result)
+    final_output.append(str(result_str))
+    print(final_output)
+final_output = "\n".join(final_output)
+text_file = open("Prices3.txt", "w")
+text_file.write(final_output)
+text_file.close()
+
+Prices3.txt
+"Bitcoin: 7/2010,0.08 12/2017,19500 2/2018,7000 12/2019,7200 12/2020,30000 4/2021,64000 5/2021,30000 11/2021,69000 1/2022,47000 6/2022,20000 12/2022,16500 6/2023,25000 4/2024,32000\n"
+"Ethereum (ETH): 7/2015,0.68 1/2016,1.00 6/2017,400.00 12/2017,1200.00 1/2018,1400.00 12/2018,130.00 2/2020,240.00 12/2020,730.00 5/2021,4300.00 11/2021,4800.00 6/2022,1000.00 1/2023,1600.00 11/2023,2300.00 4/2024,2100.00 4/2024,2200.00\n"
+"Tether (USDT): 2014,1.00 2020,1.00 2021,1.00 2023,1.00 2024,1.00\n"
+Solana (SOL): 1/2021,1.0 7/2021,30.0 11/2021,200.0 1/2022,150.0 4/2022,100.0 8/2023,50.0 10/2023,22.0\n
+"XRP: 1/2017,3.84 2018,0.50 2019,0.30 2020,0.60 4/2021,1.83 2022,0.70 2023,0.45\n"
+"BNB: 1/2018,25.18 1/2019,6.37 1/2020,15.16 1/2021,37.79 5/2021,688.00 6/2021,300.00 1/2022,192.82 5/2022,300.00 1/2023,250.00 9/2023,270.00 10/2023,300.00 12/2023,350.00 1/2024,400.00\n"
+Dogecoin: 1/2021,0.004 4/2021,0.30 5/2021,0.73 7/2021,0.20 1/2022,0.20 4/2022,0.15 10/2022,0.06 1/2023,0.07 4/2023,0.09 7/2023,0.06 10/2023,0.07 1/2024,X\n
+USDC: 12/2020,1.00 2021,1.00 2022,1.00 2023,1.00 1/2024,1.00\n
+
+
+
+
+
+
+
+30/12/2024
+Roughly 19:50
+8 minutes, 40-ish seconds
+
+main.py
+import sys
+import os
+import yaml
+import time
+import openai
+from crewai import Agent, Task, Crew, Process
+from langchain_openai import OpenAI
+from dotenv import load_dotenv
+from langchain.tools import Tool
+from langchain.tools import StructuredTool
+from crewai_tools import FileWriterTool
+from pydantic import BaseModel
+from litellm.exceptions import RateLimitError, APIError
+
+import threading
+from concurrent.futures import ThreadPoolExecutor
+
+
+load_dotenv()
+
+openai_instance = OpenAI(openai_api_key=os.getenv("OPENAI_API_KEY"))
+
+
+class OpenAIArgs(BaseModel):
+    query: str
+
+
+class FileWriterArgs(BaseModel):
+    content: str
+    filename: str = "prices.txt"
+
+
+OpenAI_tool = Tool(
+    name="OpenAI LLM",
+    func=openai_instance.predict,
+    description="OpenAI GPT LLM",
+    args_schema=OpenAIArgs
+)
+
+assets = [
+    "Bitcoin", "Ethereum", "Tether", "Solana", "XRP", "BNB", "Dogecoin", "USDC",
+    "Cardano", "Lido Staked Ether", "Shiba Inu", "Avalanche", "TRON", "Toncoin",
+    "Wrapped stETH", "Stellar", "Polkadot", "Wrapped Bitcoin", "Chainlink", "WETH",
+    "Agilent Technologies Inc", "Alcoa Corporation", "Alternative Access First Priority CLO Bond ETF",
+    "Alternative Investment TR", "Goldman Sachs Physical Gold ETF Shares", "Asia Broadband INC",
+    "Aareal Bank AG", "Aberdeen INTL INC", "AAC Techs HLDGS INC ORD", "AAC Techs HLDGS UNSP/ADR",
+    "ATA Creativity Global American Depository Shares", "AMER Commerce SOLTNS INC",
+    "Ares Acquisition Corporation II", "Ares Acquisition Corporation II Units",
+    "Ares Acquisition Corporation II Redeemable Warrants", "AURORA Solar Technologies",
+    "AADI Bioscience Inc Common Stock", "Advisor Shares Dorsey Wright ADR ETF", "AIRTEL Africa PLC",
+    "All American Gold Corp", "Aftermath Silver LTD ORD", "America Great Health", "AIA Group LTD S/ADR",
+    "African AGRI HLDGS INC", "African AGRI HLDGS WTS", "Astra AGRO LESTR UNSP/ADR", "ASAHI CO LTD ORD",
+    "AIA Group LTD ORD", "Alabama Aircraft INDUS", "American AIRES INC", "AAK AB UNSP/ADR",
+    "American Airlines Group Inc", "Aalberts INDUS NV ORD", "AA Mission Acquisition Corp",
+    "AA Mission Acquisition Corp Units", "AA Mision Acquisition Corp Warrants", "ATLAS MARA CO NVEST ORD",
+    "Altisource Asset MGMT", "Atlantic American Corp", "Almadex Minerals LTD", "Armada Mercantile LTD",
+    "Aroundtown SA ORD", "Applied Optoelectronics Inc", "Aaon Inc", "Advance Auto Parts Inc",
+    "GraniteShares ETF Trust GraniteShares 2x Long AAPL Daily ETF", "Direxion Daily AAPL Bear 1X Shares",
+    "Apple iSports Group Inc", "AAP Inc", "Apple Inc."
+]
+
+# assets1 = [
+#     "Bitcoin", "Ethereum", "Tether", "Solana", "XRP", "BNB", "Dogecoin", "USDC",
+#     "Cardano", "Lido Staked Ether", "Shiba Inu", "Avalanche", "TRON", "Toncoin",
+#     "Wrapped stETH", "Stellar", "Polkadot", "Wrapped Bitcoin", "Chainlink", "WETH",
+# ]
+# assets2 = [
+#     "Agilent Technologies Inc", "Alcoa Corporation", "Alternative Access First Priority CLO Bond ETF",
+#     "Alternative Investment TR", "Goldman Sachs Physical Gold ETF Shares", "Asia Broadband INC",
+#     "Aareal Bank AG", "Aberdeen INTL INC", "AAC Techs HLDGS INC ORD", "AAC Techs HLDGS UNSP/ADR",
+#     "ATA Creativity Global American Depository Shares", "AMER Commerce SOLTNS INC",
+#     "Ares Acquisition Corporation II", "Ares Acquisition Corporation II Units",
+#     "Ares Acquisition Corporation II Redeemable Warrants", "AURORA Solar Technologies",
+#     "AADI Bioscience Inc Common Stock", "Advisor Shares Dorsey Wright ADR ETF", "AIRTEL Africa PLC",
+#     "All American Gold Corp"
+# ]
+# assets3 = [
+#     "Aftermath Silver LTD ORD", "America Great Health", "AIA Group LTD S/ADR",
+#     "African AGRI HLDGS INC", "African AGRI HLDGS WTS", "Astra AGRO LESTR UNSP/ADR", "ASAHI CO LTD ORD",
+#     "AIA Group LTD ORD", "Alabama Aircraft INDUS", "American AIRES INC", "AAK AB UNSP/ADR",
+#     "American Airlines Group Inc", "Aalberts INDUS NV ORD", "AA Mission Acquisition Corp",
+#     "AA Mission Acquisition Corp Units", "AA Mision Acquisition Corp Warrants", "ATLAS MARA CO NVEST ORD",
+#     "Altisource Asset MGMT", "Atlantic American Corp", "Almadex Minerals LTD"
+# ]
+# assets4 = [
+#     "Armada Mercantile LTD",
+#     "Aroundtown SA ORD", "Applied Optoelectronics Inc", "Aaon Inc", "Advance Auto Parts Inc",
+#     "GraniteShares ETF Trust GraniteShares 2x Long AAPL Daily ETF", "Direxion Daily AAPL Bear 1X Shares",
+#     "Apple iSports Group Inc", "AAP Inc", "Apple Inc."
+# ]
+
+assets1 = [
+    "Bitcoin", "Ethereum", "Tether", "Solana", "XRP", "BNB", "Dogecoin", "USDC",
+    "Cardano", "Lido Staked Ether"
+]
+assets2 = [
+    "Shiba Inu", "Avalanche", "TRON", "Toncoin",
+    "Wrapped stETH", "Stellar", "Polkadot", "Wrapped Bitcoin", "Chainlink", "WETH"
+]
+assets3 = [
+    "Agilent Technologies Inc", "Alcoa Corporation", "Alternative Access First Priority CLO Bond ETF",
+    "Alternative Investment TR", "Goldman Sachs Physical Gold ETF Shares", "Asia Broadband INC",
+    "Aareal Bank AG", "Aberdeen INTL INC", "AAC Techs HLDGS INC ORD", "AAC Techs HLDGS UNSP/ADR"
+]
+assets4 = [
+    "ATA Creativity Global American Depository Shares", "AMER Commerce SOLTNS INC",
+    "Ares Acquisition Corporation II", "Ares Acquisition Corporation II Units",
+    "Ares Acquisition Corporation II Redeemable Warrants", "AURORA Solar Technologies",
+    "AADI Bioscience Inc Common Stock", "Advisor Shares Dorsey Wright ADR ETF", "AIRTEL Africa PLC",
+    "All American Gold Corp"
+]
+assets5 = [
+    "Aftermath Silver LTD ORD", "America Great Health", "AIA Group LTD S/ADR",
+    "African AGRI HLDGS INC", "African AGRI HLDGS WTS", "Astra AGRO LESTR UNSP/ADR", "ASAHI CO LTD ORD",
+    "AIA Group LTD ORD", "Alabama Aircraft INDUS", "American AIRES INC"
+]
+assets6 = [
+    "AAK AB UNSP/ADR", "American Airlines Group Inc", "Aalberts INDUS NV ORD", "AA Mission Acquisition Corp",
+    "AA Mission Acquisition Corp Units", "AA Mision Acquisition Corp Warrants", "ATLAS MARA CO NVEST ORD",
+    "Altisource Asset MGMT", "Atlantic American Corp", "Almadex Minerals LTD"
+]
+assets7 = [
+    "Armada Mercantile LTD", "Aroundtown SA ORD", "Applied Optoelectronics Inc", "Aaon Inc", "Advance Auto Parts Inc",
+    "GraniteShares ETF Trust GraniteShares 2x Long AAPL Daily ETF", "Direxion Daily AAPL Bear 1X Shares",
+    "Apple iSports Group Inc", "AAP Inc", "Apple Inc."
+]
+
+
+def write_to_file(content: str, filename: str = "/21.12.2024/prices.txt") -> str:
+    if not isinstance(content, str):
+        raise ValueError(f"Expected content to be a string, but got {type(content)}")
+    with open(filename, "w") as file:
+        file.write(content)
+    return f"Content written to {filename}"
+
+with open('agents.yaml', 'r') as file:
+    agents = yaml.safe_load(file)
+
+researcher = Agent(
+    role=agents['researcher']['role'],
+    goal=agents['researcher']['goal'],
+    backstory=agents['researcher']['backstory'],
+    verbose=False,
+    allow_delegation=False,
+    tools=[OpenAI_tool]
+)
+
+formatter = Agent(
+    role=agents['formatter']['role'],
+    goal=agents['formatter']['goal'],
+    backstory=agents['formatter']['backstory'],
+    verbose=False,
+    allow_delegation=False,
+    tools=[OpenAI_tool]
+)
+
+print("Current working directory: ", os.getcwd())
+
+with open("tasks.yaml", "r") as file:
+    tasks = yaml.safe_load(file)
+
+def wait():
+    print("Sleepy time")
+    # print("Z z z ...")
+    # time.sleep(10)
+    # print("Z z z ...")
+    # time.sleep(10)
+    # print("Z z z ...")
+    # time.sleep(10)
+    # print("Z z z ...")
+    # time.sleep(10)
+    # print("Z z z ...")
+    # time.sleep(10)
+    # print("Z z z ...")
+    # time.sleep(10)
+    print("Awoken")
+
+
+# Define item processing function
+# def process_asset(item):
+#     task1 = Task(
+#         description=tasks['research_task']['description'].replace("the given stock or cryptocurrency", item),
+#         expected_output=tasks['research_task']['expected_output'],
+#         agent=researcher)
+#     task2 = Task(
+#         description=tasks['formatting_task']['description'],
+#         expected_output=tasks['formatting_task']['expected_output'],
+#         agent=formatter
+#     )
+#
+#     crew = Crew(
+#         agents=[researcher, formatter],
+#         tasks=[task1, task2],
+#         verbose=0,
+#         process=Process.sequential
+#     )
+#
+#     result = crew.kickoff()
+#     output1.append(str(result))
+#     return str(result)
+
+def process_asset(item):
+    retries = 10
+    backoff_factor = 20
+    for attempt in range(retries):
+        try:
+            task1 = Task(
+                description=tasks['research_task']['description'].replace("the given stock or cryptocurrency", item),
+                expected_output=tasks['research_task']['expected_output'],
+                agent=researcher
+            )
+            task2 = Task(
+                description=tasks['formatting_task']['description'],
+                expected_output=tasks['formatting_task']['expected_output'],
+                agent=formatter
+            )
+
+            crew = Crew(
+                agents=[researcher, formatter],
+                tasks=[task1, task2],
+                verbose=0,
+                process=Process.sequential
+            )
+
+            result = crew.kickoff()
+            output1.append(str(result))
+            return str(result)
+
+        except RateLimitError as e:
+            print(f"Rate limit exceeded: {e}. Retrying in {backoff_factor} seconds...")
+            time.sleep(backoff_factor)
+        except APIError as e:
+            print(f"API error: {e}. Retrying in {backoff_factor} seconds...")
+            time.sleep(backoff_factor)
+        except Exception as e:
+            print(f"Unexpected error: {e}. Retrying in {backoff_factor} seconds...")
+            time.sleep(backoff_factor)
+    print(f"Failed to process {item} after {retries} retries.")
+    return f"Error processing {item}"
+
+
+# First 10 assets
+output1 = []
+with ThreadPoolExecutor() as executor:
+    results = list(executor.map(process_asset, assets1))
+final_output1 = "\n".join(results)
+print(final_output1)
+wait()
+
+
+# Second 10 assets
+output2 = []
+with ThreadPoolExecutor() as executor:
+    results = list(executor.map(process_asset, assets2))
+
+final_output2 = "\n".join(results)
+print(final_output2)
+wait()
+
+
+# Third 10 assets
+output3 = []
+with ThreadPoolExecutor() as executor:
+    results = list(executor.map(process_asset, assets3))
+
+final_output3 = "\n".join(results)
+print(final_output3)
+wait()
+
+
+# Fourth 10 assets
+output4 = []
+with ThreadPoolExecutor() as executor:
+    results = list(executor.map(process_asset, assets4))
+
+final_output4 = "\n".join(results)
+print(final_output4)
+wait()
+
+
+# Fifth 10 assets
+output5 = []
+with ThreadPoolExecutor() as executor:
+    results = list(executor.map(process_asset, assets5))
+final_output5 = "\n".join(results)
+print(final_output5)
+wait()
+
+
+# Sixth 10 assets
+output6 = []
+with ThreadPoolExecutor() as executor:
+    results = list(executor.map(process_asset, assets6))
+
+final_output6 = "\n".join(results)
+print(final_output6)
+wait()
+
+
+# Seventh 10 assets
+output7 = []
+with ThreadPoolExecutor() as executor:
+    results = list(executor.map(process_asset, assets7))
+
+final_output7 = "\n".join(results)
+print(final_output7)
+wait()
+
+
+
+final_output = (final_output1 + final_output2 + final_output3 + final_output4 + final_output5 + final_output6 + final_output7)
+
+with open("Prices3.txt", "w") as text_file:
+    for result in output1 + output2 + output3 + output4 + output5 + output6 + output7:
+        text_file.write(result + "\n")
+
+
+
+Prices3.txt
+"USDC: 2/2020,1 4/2020,1 1/2021,1 4/2021,1 1/2022,1 6/2022,1 1/2023,1 4/2023,1 1/2024,1\n"
+BNB: 1/2021,38.50 6/2021,300.00 11/2021,500.00 4/2022,400.00 1/2023,250.00 6/2023,350.00 1/2024,450.00 1/2024,400.00 2/2024,410.00 3/2024,420.00 4/2024,430.00 5/2024,x 6/2024,x 7/2024,x 8/2024,x 9/2024,x 10/2024,x 11/2024,x 12/2024,x\n
+"XRP: 1/2020,0.19 4/2020,0.20 7/2020,0.18 10/2020,0.25 1/2021,0.33 4/2021,1.67 7/2021,0.61 10/2021,1.08 1/2022,0.83 4/2022,0.61 7/2022,0.37 10/2022,0.48 1/2023,0.36 4/2023,0.55 7/2023,0.75 10/2023,1.00 1/2024,1.10 4/2024,0.90 3/2024,1.05\n"
+Lido Staked Ether: 5/2022,1000 11/2022,1200 3/2023,1550 7/2023,1750 10/2023,2000 1/2024,2200 (estimate based on trends)\n
+"Cardano (ADA): 2017,$0.02 January 2018,$1.20 March 2021,$1.48 September 2021,$2.90 2022,$0.40 Early 2023,$0.35 October 2023,$0.25 January 2024,$0.30\n"
+"Dogecoin: 1/2018,0.01 12/2018,0.00 1/2021,0.01 4/2021,0.07 5/2021,0.73 7/2021,0.20 1/2022,0.16 5/2022,0.08 1/2023,0.08 12/2023,0.15\n"
+"Solana (SOL): 1/2021,1.52 3/2021,14.81 4/2021,22.17 8/2021,77.83 11/2021,211.45 1/2022,130.00 5/2022,44.00 11/2022,12.00 1/2023,10.00 4/2023,20.00 10/2023,40.00 1/2024,50.00 4/2024,55.00\n"
+"Ethereum: 1/2020,130 3/2020,120 6/2020,240 12/2020,730 1/2021,1200 4/2021,2500 7/2021,1800 12/2021,4000 1/2022,3300 5/2022,2100 8/2022,1600 12/2022,1200 1/2023,1200 3/2023,2000 6/2023,2500 9/2023,3100 12/2023,4200 1/2024,X\n"
+"Bitcoin: 7/2010,0.08 11/2013,1000 1/2014,814 12/2017,19783 1/2018,13880 12/2020,29000 3/2021,58000 4/2021,63000 7/2021,30000 11/2021,69000 6/2022,17500 10/2023,35000 1/2024,39000\n"
+"Tether (USDT): 4/2024,1.00 3/2024,1.00 2/2024,1.00 1/2024,1.00 12/2023,1.00 11/2023,1.00 10/2023,1.00 9/2023,1.00 8/2023,1.00 7/2023,1.00 6/2023,1.00 5/2023,1.00 4/2023,1.00 2022,1.00 2021,1.00 2020,1.00\n"
+Toncoin (TON): No historical prices available.\n
+Shiba Inu: 8/2020,0.0000000001 5/2021,0.000035 11/2021,0.00008616 1/2022,0.00001 1/2022,0.00002 1/2022,0.00003 1/2023,0.000007 1/2023,0.000015 1/2024,0.000012\n
+"Polkadot (DOT): 1/2021,9.11 3/2021,38.88 7/2021,12.77 11/2021,55.08 1/2022,23.24 4/2022,19.50 12/2022,4.28 7/2023,5.29 1/2024,X\n"
+Chainlink (LINK): 2017-09-19,0.15 2018-01-08,1.00 2018-08-17,0.58 2019-06-27,4.00 2020-08-15,16.00 2021-05-10,52.88 2022-06-18,5.50 2023-01-01,6.50 2023-08-01,8.00 2024-01-15,10.00\n
+WETH: 1/2021,730 3/2021,1500 5/2021,2800 7/2021,1800 9/2021,3800 11/2021,4500 1/2022,3100 3/2022,2800 5/2022,2000 7/2022,1200 9/2022,1600 11/2022,1300 1/2023,1600 3/2023,1800 5/2023,2000 7/2023,2500 9/2023,3000 10/2023,3300 11/2023,3000 12/2023,3200 1/2024,3400 4/2024,X\n
+"Avalanche (AVAX): 9/2020,4 2/2021,10 5/2021,30 11/2021,60 3/2023,15 10/2023,30\n"
+"TRON (TRX): 1/2018,0.25 12/2018,0.02 1/2019,0.03 12/2019,0.01 1/2020,0.02 12/2020,0.04 4/2021,0.17 12/2022,0.12 12/2023,0.09\n"
+"WBTC: 1/2019,4000 3/2019,4200 6/2019,13000 12/2019,6800 3/2020,5000 10/2020,11500 1/2021,34000 4/2021,64000 7/2021,30000 11/2021,69000 1/2022,41000 5/2022,30000 1/2023,21000 11/2023,35000 1/2024,40000\n"
+Stellar (XLM): 1/1/2017,0.002 12/31/2017,0.09 1/1/2018,0.15 6/30/2018,0.18 12/31/2018,0.11 1/1/2019,0.11 12/31/2019,0.04 1/1/2020,0.04 12/31/2020,0.13 1/1/2021,0.14 4/2021,0.65 7/2021,0.19 12/31/2021,0.18 1/1/2022,0.19 1/2023,0.09 1/2024,0.08 3/2024,0.09\n
+"Wrapped stETH: 1/2024,X 12/2023,X 11/2023,X 10/2023,X 9/2023,X\n"
+Alternative Access First Priority CLO Bond ETF: No historical price data available.\n
+"Aberdeen INTL INC: 1/2020,10 2/2020,12 3/2020,8 4/2020,15 5/2020,20\n"
+"Goldman Sachs Physical Gold ETF Shares: 1/2019,120 5/2019,130 12/2019,140 6/2020,150 11/2020,160 4/2021,170 3/2022,180 7/2022,190 2/2023,200\n"
+"AAC Techs HLDGS UNSP/ADR: 3/2021,150 6/2021,175 9/2021,200 12/2021,250 3/2022,300\n"
+Alternative Investment TR: X: No historical data available.\n
+"Alcoa Corporation: 1/2020,12.00 4/2020,15.30 7/2020,12.90 10/2020,9.80 1/2021,18.50 4/2021,25.00 7/2021,22.50 10/2021,30.80 1/2022,35.00 4/2022,33.00 7/2022,40.00 10/2022,28.50 1/2023,27.00 4/2023,30.50 7/2023,28.00 10/2023,35.00 1/2024,32.00 2/2024,30.00 3/2024,34.00 4/2024,36.50\n"
+Asia Broadband INC: No specific price data available.\n
+"Aareal Bank AG: 01/2022,41.5 06/2022,43.0 12/2022,45.0 03/2023,44.5 09/2023,46.5 12/2024,48.0\n"
+AAC Techs HLDGS INC ORD: 1/2018,150 4/2018,160 1/2019,170 9/2019,180 4/2020,200 9/2020,220 1/2021,250 4/2021,300 9/2021,320 1/2022,350 4/2022,370 9/2022,400 4/2023,450 9/2023,480\n
+Agilent Technologies Inc.: 2021,150 2022,140 2022,180 2023,160 2023,200 2024,X\n
+"AADI Bioscience Inc Common Stock: 1/2022,50 6/2022,70 1/2023,90 4/2023,110 10/2023,130\n"
+Ares Acquisition Corporation II Units: Data unavailable\n
+AURORA Solar Technologies: No historical price data available.
+"ATA Creativity Global American Depository Shares: No available data found for prices and dates up to 2024.\n"
+Ares Acquisition Corporation II Redeemable Warrants: No data available\n
+"AMER Commerce SOLTNS INC: 1/2018,100 2/2018,150 3/2018,200 4/2018,250\n"
+"Advisor Shares Dorsey Wright ADR ETF: 1/2020,30 4/2020,40 7/2020,35 10/2020,45 1/2021,50 4/2021,55 7/2021,60 10/2021,65 1/2022,70\n"
+AIRTEL Africa PLC: 1/2020,120 3/2020,130 5/2020,125 7/2020,140 12/2020,150 3/2021,145 6/2021,160 9/2021,170 12/2021,180 3/2022,200 6/2022,210 9/2022,220 12/2022,230 3/2023,240 6/2023,250 9/2023,260 1/2024,275 3/2024,280\n
+All American Gold Corp: No price data available\n
+Ares Acquisition Corporation II: 1/2022,X 1/2023,X 4/2024,X\n
+ASAHI CO LTD ORD: No price information available.\n
+AIA Group LTD S/ADR: Historical Prices: Data unavailable.\n
+African AGRI HLDGS WTS: No historical data available\n
+Alabama Aircraft Industries: 1/2019,50 6/2019,60 3/2020,55 8/2021,70 5/2023,80\n
+"Aftermath Silver LTD ORD: 1/2018,3.5 6/2018,5.0 12/2019,4.5 3/2020,6.0 4/2021,7.5 8/2023,12.0\n"
+AIA Group LTD ORD: 12/2020,60 12/2021,65 12/2022,58 1/2023,60 6/2023,70\n
+America Great Health: 1/2020,50 2/2020,55 3/2020,60 4/2020,65 5/2024,80\n
+African AGRI HLDGS INC: No data available\n
+American AIRES INC.: 1/2020,5.00 3/2020,6.00 7/2020,7.50 10/2020,10.00 4/2024,15.00\n
+Astra AGRO LESTR UNSP/ADR: Historical and current stock prices data is not available.\n
+"AA Mission Acquisition Corp Units: 1/2021,10 5/2021,15 9/2021,20 3/2022,18 12/2022,22\n"
+American Airlines Group Inc.: 1/2019,30 6/2019,40 12/2019,35 3/2020,15 7/2020,20 12/2020,25 4/2021,30 10/2021,40 5/2022,45 3/2023,50\n
+AAK AB UNSP/ADR: No data available\n
+"AA Mission Acquisition Corp: 1/2021,10 2/2021,15 3/2021,20 4/2021,25 5/2021,30\n"
+"AA Mision Acquisition Corp Warrants: 1/2020,10 2/2020,15 3/2020,20 4/2020,25 5/2020,30\n"
+"Atlantic American Corp: 1/2018,5 3/2018,6 6/2019,10 8/2020,15 4/2023,20\n"
+"ATLAS MARA CO NVEST ORD: 1/2018,10 4/2018,15 1/2019,20 9/2019,18 4/2024,25\n"
+Almadex Minerals LTD: 1/2020,2.50 4/2020,3.00 7/2020,2.75 10/2020,4.00 1/2021,6.50\n
+Aalberts INDUS NV ORD: 1/2018,10 6/2018,15 12/2019,22 3/2020,18 4/2021,30 7/2023,50\n
+Altisource Asset Management: 1/2018,25 4/2018,30 1/2019,35 9/2019,40 4/2024,50\n
+Aaon Inc.: 2020,40 2021,70 1/2022,70 10/2023,65\n
+"GraniteShares ETF Trust GraniteShares 2x Long AAPL Daily ETF: 1/2021,150 4/2021,200 7/2021,250 10/2021,300 1/2022,350\n"
+"Applied Optoelectronics Inc. (AAOI): 1/2018,10 2/2018,20 3/2018,30 4/2018,40\n"
+"Apple Inc. (AAPL): 1/2023,120 2/2023,130 3/2023,135 4/2023,140 5/2023,145 6/2023,150 7/2023,155 8/2023,160 9/2023,165 10/2023,170 11/2023,175 12/2023,180 1/2024,185 2/2024,190 3/2024,195 4/2024,200\n"
+"Advance Auto Parts Inc. (AAP): 1/2020,134.42 3/2020,102.15 12/2020,151.39 1/2021,149.47 6/2021,149.92 12/2021,171.67 1/2022,171.77 5/2022,138.91 12/2022,146.11 1/2023,147.16 4/2023,151.14 9/2023,123.89 3/2024,125.00\n"
+"Direxion Daily AAPL Bear 1X Shares: 1/2020,20 4/2020,25 1/2021,30 9/2021,35 4/2022,28\n"
+Apple iSports Group Inc.: X (prices not available)\n
+"AAP Inc.: 1/2019,50 4/2019,55 7/2019,60 10/2019,65 1/2020,70 4/2020,75 7/2020,80 10/2020,85\n"
+Aroundtown SA: 2020,X 2021,X 2022,X 2023,X\n
+Armada Mercantile LTD: No data available for past or current prices.\n
