@@ -107,15 +107,37 @@ class CryptoViewModel : ViewModel() {
             }
 
             val responses = stockResponses.awaitAll()
-            responses.forEach { response ->
+            stockSymbols.forEachIndexed { index, symbol ->
+                val response = responses[index]
                 if (response.isSuccessful) {
-                    response.body()?.results?.let { _stocks.addAll(it) }
+                    response.body()?.results?.let { results ->
+                        results.forEach { stock ->
+                            _stocks.add(
+                                StockData(
+                                    s = symbol, // Stock Symbol
+                                    n = stock.n.ifEmpty { symbol }, // Use stock name or fallback to symbol
+                                    v = stock.v, // Volume
+                                    o = stock.o, // Open Price
+                                    c = stock.c, // Close Price (Current Price)
+                                    h = stock.h, // High Price
+                                    l = stock.l, // Low Price
+                                    t = stock.t, // Timestamp
+                                    marketCap = stock.marketCap,
+                                    peRatio = stock.peRatio,
+                                    fiftyTwoWeekHigh = stock.fiftyTwoWeekHigh,
+                                    fiftyTwoWeekLow = stock.fiftyTwoWeekLow,
+                                    dividendYield = stock.dividendYield
+                                )
+                            )
+                        }
+                    }
                 } else {
                     handleError("Stock API Error: ${response.code()} - ${response.message()}")
                 }
             }
         }
     }
+
 
     private fun handleError(message: String) {
         Log.e("CryptoViewModel", message)
