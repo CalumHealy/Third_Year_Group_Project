@@ -81,15 +81,21 @@ fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel, navController: NavCon
                 .weight(1f)
                 .padding(end = 8.dp)
         ) {
+            // Display Crypto ID
             Text(text = crypto.id, fontSize = 20.sp)
-            Text(text = crypto.symbol, fontSize = 16.sp)
+
+            // Display Crypto Price
             Text(text = "Price: $${"%.2f".format(crypto.currentPrice)}", fontSize = 16.sp)
+
+            // Display Volume
+            Text(text = "Volume: ${crypto.volume24h}", fontSize = 16.sp)
         }
 
         Column(
             modifier = Modifier.width(120.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Buy/Sell Button
             Button(
                 onClick = {
                     if (isInvested) {
@@ -105,6 +111,8 @@ fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel, navController: NavCon
                 Text(text = if (isInvested) "Sell" else "Buy", fontSize = 12.sp)
             }
             Spacer(modifier = Modifier.height(8.dp))
+
+            // Details Button
             Button(
                 onClick = {
                     navController.navigate("investment_details/${crypto.id}/${crypto.symbol}")
@@ -119,18 +127,13 @@ fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel, navController: NavCon
     }
 }
 
+
 @Composable
 fun StockItem(stock: StockData, viewModel: CryptoViewModel, navController: NavController, index: Int) {
     val isInvested = viewModel.isInvestedInStock(stock)
 
-    // Manually set names for the first 10 stocks
-    val manualNames = listOf(
-        "Apple", "Google", "Microsoft", "Amazon", "Tesla",
-        "Nvidia", "Meta", "Netflix", "AMD", "Disney"
-    )
-
-    // Check if the stock index is within the first 10 and manually assign the name
-    val stockName = if (index < manualNames.size) manualNames[index] else stock.n
+    // Use the stock symbol, and fallback to "Unknown Symbol" if empty or null
+    val stockSymbol = stock.s ?: "Unknown Symbol"
 
     Row(
         modifier = Modifier
@@ -144,8 +147,9 @@ fun StockItem(stock: StockData, viewModel: CryptoViewModel, navController: NavCo
                 .weight(1f)
                 .padding(end = 8.dp)
         ) {
-            Text(text = stockName, fontSize = 20.sp)
-            Text(text = "Price: $${"%.2f".format(stock.c)}", fontSize = 16.sp)
+            Text(text = stockSymbol, fontSize = 20.sp) // Stock Symbol as the main title
+            Text(text = "Price: $${"%.2f".format(stock.c)}", fontSize = 16.sp) // Current Price
+            Text(text = "Volume: ${stock.v}", fontSize = 16.sp) // Volume
         }
 
         Column(
@@ -169,7 +173,7 @@ fun StockItem(stock: StockData, viewModel: CryptoViewModel, navController: NavCo
             Spacer(modifier = Modifier.height(8.dp))
             Button(
                 onClick = {
-                    navController.navigate("investment_details/${stockName}/${stock.c}")
+                    navController.navigate("investment_details/${stockSymbol}/${stock.c}")
                 },
                 modifier = Modifier
                     .height(40.dp)
@@ -180,4 +184,3 @@ fun StockItem(stock: StockData, viewModel: CryptoViewModel, navController: NavCo
         }
     }
 }
-
