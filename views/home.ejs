@@ -99,10 +99,10 @@
                                 }
                                 
                                 // Fetch historical data from app.py
-                                fetch('https://ai-price-generator-production.up.railway.app/api/process-text')
+                                fetch(`https://ai-price-generator-production.up.railway.app/api/historical/${encodeURIComponent('<%= stock.name %>')}`)
                                     .then(response => response.json())
                                     .then(data => {
-                                        const historicalData = data.data[<%= stock.name %>];
+                                        const historicalData = data.data["<%= stock.name %>"];
                                         const dates = historicalData.map(item => item[0]);
                                         const prices = historicalData.map(item => parseFloat(item[1]));
 
@@ -149,7 +149,7 @@
                     <% LiveCrypto.forEach(crypto => { 
                         const priceChange = ((crypto.currentPrice - crypto.price) / crypto.price) * 100;
                         const chartId = 'chart-' + crypto.name.replace(/\s+/g, '_').toLowerCase();
-                        const historicalChartId = 'historical-chart-' + stock.name.replace(/\s+/g, '_').toLowerCase();
+                        const historicalChartId = 'historical-chart-' + crypto.name.replace(/\s+/g, '_').toLowerCase();
                         %>
                         <div class="home">
                             <div class="data">
@@ -167,7 +167,14 @@
                                 <p><strong>AI Recommendation: </strong><br>AI Recommendation goes here</p>
                             </div>
                             <div class="chart-row">
-                                <canvas id="chart-<%= crypto.name.replace(/\s+/g, '_').toLowerCase()%>" width="400" height="200"></canvas>
+                                <!-- Current Price Chart -->
+                                <div class="chart-container">
+                                    <canvas id="chart-<%= crypto.name.replace(/\s+/g, '_').toLowerCase()%>" width="400" height="200"></canvas>
+                                </div>
+                                <!-- Historical Price Chart -->
+                                <div class="chart-container">
+                                    <canvas id="historical-chart-<%= crypto.name.replace(/\s+/g, '_').toLowerCase()%>" width="400" height="200"></canvas>
+                                </div>
                             </div>
                         </div>
                         <script>
@@ -206,10 +213,10 @@
                                     }
                                 });
                                 // Fetch historical data from app.py
-                                fetch('https://ai-price-generator-production.up.railway.app/api/process-text')
+                                fetch(`https://ai-price-generator-production.up.railway.app/api/historical/${encodeURIComponent('<%= crypto.name %>')}`)
                                     .then(response => response.json())
                                     .then(data => {
-                                        const historicalData = data.data[<%= crypto.name %>];
+                                        const historicalData = data.data["<%= crypto.name %>"];
                                         const dates = historicalData.map(item => item[0]);
                                         const prices = historicalData.map(item => parseFloat(item[1]));
 

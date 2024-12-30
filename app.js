@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import bodyParser from "body-parser";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -33,6 +34,13 @@ const firebaseApp = initializeApp(firebaseConfig);
 const db = getDatabase(firebaseApp);
 const auth = getAuth(firebaseApp);
 
+// Allow requests from your frontend domain (localhost in development)
+const corsOptions = {
+    origin: 'http://localhost:3000', // Change this to your frontend URL
+    methods: ['GET', 'POST'], // Specify allowed HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers if needed
+  };
+
 //middleware 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.json());
@@ -51,6 +59,15 @@ app.use(
         saveUninitialized: false
     })
 );
+
+// Use the CORS middleware with options
+app.use(cors(corsOptions));
+
+// Your API routes go here
+app.get('/api/process-text', (req, res) => {
+  // Your existing API logic
+  res.json({ message: 'API response' });
+});
 
 //Use router
 app.use('/',router);

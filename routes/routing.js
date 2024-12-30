@@ -4,6 +4,7 @@ import { ref,set,get,update, push, getDatabase, remove } from 'firebase/database
 import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail} from 'firebase/auth'
 import { fetchStocks, fetchStockDetails} from '../services/polygonService.js';
 import { fetchCryptoList, fetchCryptoDetails} from '../services/cryptoServices.js';
+import { fetchHistoricalData } from '../services/chartServices.js';
 import argon2  from 'argon2'; //for password hashing
 import e from 'express';
 

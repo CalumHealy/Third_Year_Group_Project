@@ -28,7 +28,7 @@
                         <% stocks.forEach(stock => { %>
                             <div class="item">
                                 <li>
-                                    <strong><%= stock.ticker %></strong> - <%= stock.name %>
+                                    <strong><%= stock.name %></strong> - <%= stock.ticker %>
                                     <a href="/stock/details/<%= stock.ticker %>" class="button">Details</a>
                                 </li>
                             </div>
