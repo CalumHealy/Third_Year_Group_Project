@@ -27,7 +27,7 @@ fun InvestPage(navController: NavController) {
     val selectedTab = remember { mutableStateOf(0) } // 0 for Crypto, 1 for Stock
 
     val cryptos = viewModel.cryptos.take(30)
-    val stocks = viewModel.stocks.take(50)
+    val stocks = viewModel.stocks.take(20)
 
     Column(modifier = Modifier.fillMaxSize()) {
         TabRow(selectedTabIndex = selectedTab.value) {

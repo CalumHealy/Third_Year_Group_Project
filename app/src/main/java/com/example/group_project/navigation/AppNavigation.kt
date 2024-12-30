@@ -49,7 +49,7 @@ fun AppNavigation(
             RequestHelpPage(modifier = modifier.fillMaxSize(), navController = navController)
         }
         composable("chatbot_ai") {
-            ChatbotAIPage(modifier = modifier.fillMaxSize(), navController = navController)
+            ChatbotAIPage(navController = navController, authModel = authModel)
         }
         composable(
             route = "investment_details/{name}/{symbol}",
