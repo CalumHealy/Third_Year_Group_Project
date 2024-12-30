@@ -1,7 +1,6 @@
 package com.example.group_project.screens
 
 import android.widget.Toast
-import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
@@ -80,8 +79,7 @@ fun AddFundsPage(onPaymentSuccess: () -> Unit) {
                     // Extract card details from CardInputWidget
                     val cardParams = cardInputWidget?.paymentMethodCreateParams
                     if (cardParams != null) {
-                        // Creating a PaymentIntent on the backend
-                        // Confirm the Payment Intent using Stripe API
+
                         val confirmParams = ConfirmPaymentIntentParams.createWithPaymentMethodCreateParams(
                             cardParams,
                             "sk_test_51QP33kHTr0XTBmKNyn7qM8UWT2qdZEfmyVyJzx10hVpnVqa4XjWiY27jawwwm7uiOyeLfU6paWwFFXlSz7y6dgNL000IajvXO9"

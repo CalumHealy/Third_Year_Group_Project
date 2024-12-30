@@ -147,9 +147,9 @@ fun StockItem(stock: StockData, viewModel: CryptoViewModel, navController: NavCo
                 .weight(1f)
                 .padding(end = 8.dp)
         ) {
-            Text(text = stockSymbol, fontSize = 20.sp) // Stock Symbol as the main title
-            Text(text = "Price: $${"%.2f".format(stock.c)}", fontSize = 16.sp) // Current Price
-            Text(text = "Volume: ${stock.v}", fontSize = 16.sp) // Volume
+            Text(text = stockSymbol, fontSize = 20.sp)
+            Text(text = "Price: $${"%.2f".format(stock.c)}", fontSize = 16.sp)
+            Text(text = "Volume: ${stock.v}", fontSize = 16.sp)
         }
 
         Column(

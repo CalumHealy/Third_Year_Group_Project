@@ -48,7 +48,6 @@ fun SupportFormPage(modifier: Modifier = Modifier, navController: NavController)
             db.collection("support_forms")
                 .add(supportData)
                 .addOnSuccessListener {
-                    // Reset form after successful submission
                     supportMessage = ""
                     isSubmitting = false
                     errorMessage = "Support request submitted successfully!"
@@ -104,7 +103,7 @@ fun SupportFormPage(modifier: Modifier = Modifier, navController: NavController)
             }
 
             // Back Button
-            Spacer(modifier = Modifier.height(20.dp)) // Add space between the buttons
+            Spacer(modifier = Modifier.height(20.dp))
             Button(
                 onClick = { navController.navigate("menu") { popUpTo("menu") { inclusive = true } } }
             ) {

@@ -7,7 +7,7 @@ import retrofit2.http.Query
 interface PolygonApiService {
     @GET("v2/aggs/ticker/{ticker}/prev")
     suspend fun getStockAggregate(
-        @retrofit2.http.Path("ticker") ticker: String, // e.g., "AAPL"
+        @retrofit2.http.Path("ticker") ticker: String,
         @Query("apiKey") apiKey: String
     ): Response<StockDataResponse>
 }

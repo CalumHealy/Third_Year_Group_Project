@@ -92,7 +92,7 @@ class MainActivity : ComponentActivity() {
     // Handle payment result and other activities
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 12345) { // Replace with your actual requestCode for Stripe payment
+        if (requestCode == 12345) {
             if (resultCode == Activity.RESULT_OK) {
                 Toast.makeText(this, "Payment Successful", Toast.LENGTH_SHORT).show()
             } else {

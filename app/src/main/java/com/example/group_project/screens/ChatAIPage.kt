@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.group_project.AuthModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -51,9 +50,7 @@ fun ChatbotAIPage(navController: NavController, authModel: AuthModel) {
     if (accountType == "Supporter") {
         // Show AI page content for Supporter
         var messageText by remember { mutableStateOf("") }
-        val messages = remember { mutableStateListOf<String>() } // List to hold chat messages
-
-        // Add initial chatbot greeting message when the page is opened
+        val messages = remember { mutableStateListOf<String>() }
         LaunchedEffect(Unit) {
             messages.add("AI: Hello, how can I assist you?")
         }
@@ -62,7 +59,7 @@ fun ChatbotAIPage(navController: NavController, authModel: AuthModel) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .padding(top = 40.dp),  // Added padding to the top of the screen
+                .padding(top = 40.dp),
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -116,9 +113,8 @@ fun ChatbotAIPage(navController: NavController, authModel: AuthModel) {
                         onSend = {
                             // When the user presses send, add the message to the list
                             if (messageText.isNotEmpty()) {
-                                messages.add("You: $messageText") // Add user message to list
-                                messageText = "" // Clear the input field
-                                // TODO: You can add AI response here later
+                                messages.add("You: $messageText")
+                                messageText = ""
                             }
                         }
                     )
@@ -129,9 +125,8 @@ fun ChatbotAIPage(navController: NavController, authModel: AuthModel) {
                 // Send button
                 Button(onClick = {
                     if (messageText.isNotEmpty()) {
-                        messages.add("You: $messageText") // Add user message to list
-                        messageText = "" // Clear the input field
-                        // TODO: You can add AI response here later
+                        messages.add("You: $messageText")
+                        messageText = ""
                     }
                 }) {
                     Text(text = "Send")
@@ -144,7 +139,7 @@ fun ChatbotAIPage(navController: NavController, authModel: AuthModel) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .padding(top = 40.dp),  
+                .padding(top = 40.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

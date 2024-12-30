@@ -23,11 +23,10 @@ fun InvestmentDetailsPage(name: String, symbol: String) {
 
     // Find the selected crypto or stock based on the symbol
     val selectedCrypto = cryptos.find { it.symbol == symbol }
-    val selectedStock = stocks.find { it.s == symbol } // Update this to use 's' for stock symbol
+    val selectedStock = stocks.find { it.s == symbol }
 
     // Show a loading spinner while data is loading
     if (cryptos.isEmpty() && stocks.isEmpty()) {
-        // Loading state: you can display a ProgressIndicator here
         Text(text = "Loading...", fontSize = 20.sp, color = MaterialTheme.colorScheme.primary)
         return
     }

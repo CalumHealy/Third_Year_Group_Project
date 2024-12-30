@@ -157,7 +157,7 @@ fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, aut
                 // Save changes to Firestore when editing is complete
                 saveProfileChangesToFirestore(fullName, email, address1, address2, phoneNumber, context)
             }
-            isEditing = !isEditing // Toggle edit mode
+            isEditing = !isEditing
         }) {
             Text(text = if (isEditing) "Save Changes" else "Edit Profile")
         }
@@ -166,7 +166,7 @@ fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, aut
 
         // Upgrade Account Button
         Button(onClick = {
-            upgradeAccount(balance.toDouble(), context) // Pass context here
+            upgradeAccount(balance.toDouble(), context)
         }) {
             Text(text = "Upgrade Account")
         }
@@ -204,8 +204,8 @@ private fun saveProfileChangesToFirestore(
                         "address1" to address1,
                         "address2" to address2,
                         "phoneNumber" to phoneNumber,
-                        "balance" to 100.00, // Default balance or fetch from UI
-                        "accountType" to "Regular" // Default account type
+                        "balance" to 00.00,
+                        "accountType" to "Regular"
                     )
 
                     // Create or update the user document in Firestore

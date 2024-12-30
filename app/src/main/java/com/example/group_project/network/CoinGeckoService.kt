@@ -10,8 +10,8 @@ interface CoinGeckoService {
     // Fetches detailed market information for cryptocurrencies
     @GET("coins/markets")
     suspend fun getCryptoDetails(
-        @Query("ids") ids: String, // e.g., "bitcoin,ethereum,binancecoin"
-        @Query("vs_currency") vsCurrency: String // e.g., "usd"
+        @Query("ids") ids: String,
+        @Query("vs_currency") vsCurrency: String
     ): Response<List<Crypto>>
 }
 

@@ -1,12 +1,9 @@
 package com.example.group_project.screens
 
-
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 
 data class Review(
     val rating: Int,
@@ -65,7 +62,7 @@ class RatingsReviewViewModel : ViewModel() {
             .addOnSuccessListener {
                 _isSubmitting.value = false
                 _errorMessage.value = "Review submitted successfully!"
-                fetchReviews() // Refresh the list after submission
+                fetchReviews()
             }
             .addOnFailureListener {
                 _isSubmitting.value = false
