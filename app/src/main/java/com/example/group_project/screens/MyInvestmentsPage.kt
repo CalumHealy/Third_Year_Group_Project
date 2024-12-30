@@ -26,63 +26,48 @@ fun MyInvestmentsPage(navController: NavController) {
     LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         // Display invested cryptocurrencies
         items(investedCryptos) { crypto ->
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                contentAlignment = Alignment.CenterStart
-            ) {
-                InvestmentCard(
-                    name = crypto.id.capitalize(),
-                    symbol = crypto.symbol.uppercase(),
-                    price = crypto.currentPrice,
-                    marketCap = crypto.marketCap,
-                    volume = crypto.volume24h,
-                    onBuySellClick = {
-                        if (viewModel.isInvestedInCrypto(crypto)) {
-                            viewModel.removeFromInvestedCryptos(crypto)
-                        } else {
-                            viewModel.addToInvestedCryptos(crypto)
-                        }
-                    },
-                    onDetailsClick = {
-                        // Navigate to investment details for crypto
-                        navController.navigate("investment_details/${crypto.id}/${crypto.symbol}")
+            InvestmentCard(
+                name = crypto.id.capitalize(),
+                symbol = crypto.symbol.uppercase(),
+                price = crypto.currentPrice,
+                marketCap = crypto.marketCap,
+                volume = crypto.volume24h,
+                onBuySellClick = {
+                    if (viewModel.isInvestedInCrypto(crypto)) {
+                        viewModel.removeFromInvestedCryptos(crypto)
+                    } else {
+                        viewModel.addToInvestedCryptos(crypto)
                     }
-                )
-            }
+                },
+                onDetailsClick = {
+                    navController.navigate("investment_details/${crypto.id}/${crypto.symbol}")
+                }
+            )
         }
 
-// Display invested stocks
+        // Display invested stocks with manual names
         items(investedStocks) { stock ->
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                contentAlignment = Alignment.CenterStart
-            ) {
-                    InvestmentCard(
-                        name = stock.n,  // Use `n` for stock name
-                        symbol = stock.s ?: "N/A",// Use `v` for stock symbol
-                        price = stock.c,
-                        marketCap = stock.marketCap ?: 0.0,
-                        volume = stock.v ?: 0.0,
-                        onBuySellClick = {
-                            if (viewModel.isInvestedInStock(stock)) {
-                                viewModel.removeFromInvestedStocks(stock)
-                            } else {
-                                viewModel.addToInvestedStocks(stock)
-                            }
-                        },
-                        onDetailsClick = {
-                            // Navigate to investment details for stock
-                            navController.navigate("investment_details/${stock.n}/${stock.v}")
-                        }
-                    )
+            InvestmentCard(
+                name = viewModel.getStockName(stock.s ?: "Unknown"),
+                symbol = stock.s ?: "N/A",
+                price = stock.c,
+                marketCap = stock.marketCap ?: 0.0,
+                volume = stock.v ?: 0.0,
+                onBuySellClick = {
+                    if (viewModel.isInvestedInStock(stock)) {
+                        viewModel.removeFromInvestedStocks(stock)
+                    } else {
+                        viewModel.addToInvestedStocks(stock)
+                    }
+                },
+                onDetailsClick = {
+                    navController.navigate("investment_details/${stock.s ?: "unknown"}/${stock.v}")
                 }
-            }
+            )
         }
     }
+}
+
 
 
 
