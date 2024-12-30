@@ -1,5 +1,5 @@
 document.getElementById('processButton').addEventListener('click', () => {
-    fetch('/process-text')
+    fetch('api/process-text')
         .then(response => response.json())
         .then(data => {
             const resultDiv = document.getElementById('result');
