@@ -43,7 +43,7 @@ def fetch_asset_data(asset_name):
     """
     Fetch historical data for an asset from the external API.
     """
-    url = f"https://api.example.com/historical/{asset_name}"
+    url = f"https://ai-price-generator-production.up.railway.app/historical/{asset_name}"
     try:
         response = requests.get(url)
         response.raise_for_status()  # Raise an error for non-200 status codes
