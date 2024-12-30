@@ -3,6 +3,7 @@ package com.example.group_project.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -55,9 +56,10 @@ fun InvestPage(navController: NavController) {
                     CryptoItem(crypto = crypto, viewModel = viewModel, navController = navController)
                 }
             } else {
-                items(stocks) { stock ->
-                    StockItem(stock = stock, viewModel = viewModel, navController = navController)
+                itemsIndexed(stocks) { index, stock ->
+                    StockItem(stock = stock, viewModel = viewModel, navController = navController, index = index)
                 }
+
             }
         }
     }
@@ -118,8 +120,17 @@ fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel, navController: NavCon
 }
 
 @Composable
-fun StockItem(stock: StockData, viewModel: CryptoViewModel, navController: NavController) {
+fun StockItem(stock: StockData, viewModel: CryptoViewModel, navController: NavController, index: Int) {
     val isInvested = viewModel.isInvestedInStock(stock)
+
+    // Manually set names for the first 10 stocks
+    val manualNames = listOf(
+        "Apple", "Google", "Microsoft", "Amazon", "Tesla",
+        "Nvidia", "Meta", "Netflix", "AMD", "Disney"
+    )
+
+    // Check if the stock index is within the first 10 and manually assign the name
+    val stockName = if (index < manualNames.size) manualNames[index] else stock.n
 
     Row(
         modifier = Modifier
@@ -133,7 +144,7 @@ fun StockItem(stock: StockData, viewModel: CryptoViewModel, navController: NavCo
                 .weight(1f)
                 .padding(end = 8.dp)
         ) {
-            Text(text = stock.n, fontSize = 20.sp)
+            Text(text = stockName, fontSize = 20.sp)
             Text(text = "Price: $${"%.2f".format(stock.c)}", fontSize = 16.sp)
         }
 
@@ -158,7 +169,7 @@ fun StockItem(stock: StockData, viewModel: CryptoViewModel, navController: NavCo
             Spacer(modifier = Modifier.height(8.dp))
             Button(
                 onClick = {
-                    navController.navigate("investment_details/${stock.n}/${stock.c}")
+                    navController.navigate("investment_details/${stockName}/${stock.c}")
                 },
                 modifier = Modifier
                     .height(40.dp)
@@ -169,3 +180,4 @@ fun StockItem(stock: StockData, viewModel: CryptoViewModel, navController: NavCo
         }
     }
 }
+
