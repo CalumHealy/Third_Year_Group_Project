@@ -1,12 +1,15 @@
 package com.example.group_project
 
+
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.group_project.network.RetrofitClient
-import com.example.group_project.network.StockCompany
+import com.example.group_project.network.StockData
 import com.example.group_project.screens.Crypto
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 
 class CryptoViewModel : ViewModel() {
@@ -14,14 +17,14 @@ class CryptoViewModel : ViewModel() {
     private val _cryptos = mutableStateListOf<Crypto>() // Changed to mutableStateListOf
     val cryptos: List<Crypto> get() = _cryptos
 
-    private val _stocks = mutableStateListOf<StockCompany>() // Changed to mutableStateListOf
-    val stocks: List<StockCompany> get() = _stocks
+    private val _stocks = mutableStateListOf<StockData>() // Changed to mutableStateListOf
+    val stocks: List<StockData> get() = _stocks
 
     private val _investedCryptos = mutableSetOf<Crypto>()
     val investedCryptos: List<Crypto> get() = _investedCryptos.toList()
 
-    private val _investedStocks = mutableSetOf<StockCompany>()
-    val investedStocks: List<StockCompany> get() = _investedStocks.toList()
+    private val _investedStocks = mutableSetOf<StockData>()
+    val investedStocks: List<StockData> get() = _investedStocks.toList()
 
     // Crypto investment methods
     fun isInvestedInCrypto(crypto: Crypto): Boolean = _investedCryptos.contains(crypto)
@@ -35,13 +38,13 @@ class CryptoViewModel : ViewModel() {
     }
 
     // Stock investment methods
-    fun isInvestedInStock(stock: StockCompany): Boolean = _investedStocks.contains(stock)
+    fun isInvestedInStock(stock: StockData): Boolean = _investedStocks.contains(stock)
 
-    fun addToInvestedStocks(stock: StockCompany) {
+    fun addToInvestedStocks(stock: StockData) {
         _investedStocks.add(stock)
     }
 
-    fun removeFromInvestedStocks(stock: StockCompany) {
+    fun removeFromInvestedStocks(stock: StockData) {
         _investedStocks.remove(stock)
     }
 
@@ -92,27 +95,34 @@ class CryptoViewModel : ViewModel() {
     }
 
     private fun fetchStockCompanies() {
-        viewModelScope.launch {
-            try {
-                // Requesting stock data for multiple companies
-                val response = RetrofitClient.polygonApiService.getStockCompanies(
-                    apiKey = "ieZvxvRmzI_3GYjP7aSQc2yylFbr7Adq",
-                    symbols = "AAPL,GOOG,MSFT,AMZN,TSLA,NVDA,FB,INTC,AMD,SPY,BA,DIS,GE,IBM,C,GM,COIN,UBER,LYFT,NFLX,MS,PYPL,BA,MRK,PFE,WMT,VZ,T,GS,JPM,INTU"
-                )
+        val stockSymbols = listOf("AAPL", "GOOG", "MSFT", "AMZN", "TSLA", "NVDA", "FB")
 
+        viewModelScope.launch {
+            val stockResponses = stockSymbols.map { symbol ->
+                async {
+                    RetrofitClient.polygonApiService.getStockAggregate(symbol, "ieZvxvRmzI_3GYjP7aSQc2yylFbr7Adq")
+                }
+            }
+
+            val responses = stockResponses.awaitAll()
+
+            responses.forEach { response ->
                 if (response.isSuccessful) {
-                    response.body()?.let {
-                        _stocks.clear()
-                        _stocks.addAll(it.results.take(50)) // Add a list of stock companies, limit it if necessary
+                    val responseBody = response.body()
+                    Log.d("API Response", "Full API Response: $responseBody")
+                    if (responseBody != null && responseBody.results != null) {
+                        _stocks.addAll(responseBody.results)
+                    } else {
+                        Log.e("StockViewModel", "No results found for ${response.body()?.ticker}")
                     }
                 } else {
-                    handleError("API Error: ${response.code()} - ${response.message()}")
+                    Log.e("StockViewModel", "API Error: ${response.code()} - ${response.message()}")
                 }
-            } catch (e: Exception) {
-                handleError("Network Error: ${e.localizedMessage}")
             }
         }
     }
+
+
 
     private fun handleError(message: String) {
         Log.e("CryptoViewModel", message)

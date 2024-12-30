@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.group_project.CryptoViewModel
-import com.example.group_project.network.StockCompany
+import com.example.group_project.network.StockData
 
 @Composable
 fun InvestPage(navController: NavController) {
@@ -118,7 +118,7 @@ fun CryptoItem(crypto: Crypto, viewModel: CryptoViewModel, navController: NavCon
 }
 
 @Composable
-fun StockItem(stock: StockCompany, viewModel: CryptoViewModel, navController: NavController) {
+fun StockItem(stock: StockData, viewModel: CryptoViewModel, navController: NavController) {
     val isInvested = viewModel.isInvestedInStock(stock)
 
     Row(
@@ -133,9 +133,8 @@ fun StockItem(stock: StockCompany, viewModel: CryptoViewModel, navController: Na
                 .weight(1f)
                 .padding(end = 8.dp)
         ) {
-            Text(text = stock.name, fontSize = 20.sp)
-            Text(text = stock.ticker, fontSize = 16.sp)
-            Text(text = "Price: $${"%.2f".format(stock.price)}", fontSize = 16.sp)
+            Text(text = stock.n, fontSize = 20.sp)
+            Text(text = "Price: $${"%.2f".format(stock.c)}", fontSize = 16.sp)
         }
 
         Column(
@@ -159,7 +158,7 @@ fun StockItem(stock: StockCompany, viewModel: CryptoViewModel, navController: Na
             Spacer(modifier = Modifier.height(8.dp))
             Button(
                 onClick = {
-                    navController.navigate("investment_details/${stock.name}/${stock.ticker}")
+                    navController.navigate("investment_details/${stock.n}/${stock.c}")
                 },
                 modifier = Modifier
                     .height(40.dp)

@@ -53,7 +53,7 @@ fun MyInvestmentsPage(navController: NavController) {
             }
         }
 
-        // Display invested stocks
+// Display invested stocks
         items(investedStocks) { stock ->
             Box(
                 modifier = Modifier
@@ -61,28 +61,29 @@ fun MyInvestmentsPage(navController: NavController) {
                     .padding(vertical = 8.dp),
                 contentAlignment = Alignment.CenterStart
             ) {
-                InvestmentCard(
-                    name = stock.name,
-                    symbol = stock.ticker,
-                    price = stock.price,
-                    marketCap = stock.marketCap ?: 0.0,
-                    volume = stock.volume24h ?: 0.0,
-                    onBuySellClick = {
-                        if (viewModel.isInvestedInStock(stock)) {
-                            viewModel.removeFromInvestedStocks(stock)
-                        } else {
-                            viewModel.addToInvestedStocks(stock)
+                    InvestmentCard(
+                        name = stock.n,  // Use `n` for stock name
+                        symbol = stock.s ?: "N/A",// Use `v` for stock symbol
+                        price = stock.c,
+                        marketCap = stock.marketCap ?: 0.0,
+                        volume = stock.v ?: 0.0,
+                        onBuySellClick = {
+                            if (viewModel.isInvestedInStock(stock)) {
+                                viewModel.removeFromInvestedStocks(stock)
+                            } else {
+                                viewModel.addToInvestedStocks(stock)
+                            }
+                        },
+                        onDetailsClick = {
+                            // Navigate to investment details for stock
+                            navController.navigate("investment_details/${stock.n}/${stock.v}")
                         }
-                    },
-                    onDetailsClick = {
-                        // Navigate to investment details for stock
-                        navController.navigate("investment_details/${stock.name}/${stock.ticker}")
-                    }
-                )
+                    )
+                }
             }
         }
     }
-}
+
 
 
 @Composable
@@ -91,7 +92,7 @@ fun InvestmentCard(
     symbol: String,
     price: Double,
     marketCap: Double,
-    volume: Double,
+    volume: Comparable<*>,
     onBuySellClick: () -> Unit,
     onDetailsClick: () -> Unit
 ) {

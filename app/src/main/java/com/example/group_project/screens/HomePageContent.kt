@@ -63,7 +63,7 @@ fun HomePageContent(navController: NavController) {
 @Composable
 fun PortfolioSummary(viewModel: CryptoViewModel = viewModel()) {
     val totalCryptoValue = viewModel.investedCryptos.sumOf { it.currentPrice }
-    val totalStockValue = viewModel.investedStocks.sumOf { it.price }
+    val totalStockValue = viewModel.investedStocks.sumOf { it.c }
     val totalValue = totalCryptoValue + totalStockValue
 
     Column(

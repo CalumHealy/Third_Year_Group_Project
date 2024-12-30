@@ -5,11 +5,9 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface PolygonApiService {
-
-    // Fetches stock data for multiple companies
-    @GET("v3/reference/tickers")
-    suspend fun getStockCompanies(
-        @Query("apiKey") apiKey: String, // Your Polygon.io API key
-        @Query("symbols") symbols: String // e.g., "AAPL,GOOG,MSFT"
-    ): Response<StockResponse>
+    @GET("v2/aggs/ticker/{ticker}/prev")
+    suspend fun getStockAggregate(
+        @retrofit2.http.Path("ticker") ticker: String, // e.g., "AAPL"
+        @Query("apiKey") apiKey: String
+    ): Response<StockDataResponse>
 }

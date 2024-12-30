@@ -13,7 +13,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.group_project.CryptoViewModel
-import com.example.group_project.network.StockCompany
 @Composable
 fun InvestmentDetailsPage(name: String, symbol: String) {
     val viewModel: CryptoViewModel = viewModel()
@@ -24,7 +23,7 @@ fun InvestmentDetailsPage(name: String, symbol: String) {
 
     // Find the selected crypto or stock based on the symbol
     val selectedCrypto = cryptos.find { it.symbol == symbol }
-    val selectedStock = stocks.find { it.ticker == symbol }
+    val selectedStock = stocks.find { it.n == symbol }
 
     // Show a loading spinner while data is loading
     if (cryptos.isEmpty() && stocks.isEmpty()) {
@@ -100,13 +99,13 @@ fun InvestmentDetailsPage(name: String, symbol: String) {
         } else if (selectedStock != null) {
             // Show details for stock if available
             Text(
-                text = "Symbol: ${selectedStock.ticker}",
+                text = "Name: ${selectedStock.n}",
                 fontSize = 20.sp,
                 color = MaterialTheme.colorScheme.primary
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Price: $${"%.2f".format(selectedStock.price)} USD",
+                text = "Price: $${"%.2f".format(selectedStock.c)} USD",
                 fontSize = 20.sp,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -118,7 +117,7 @@ fun InvestmentDetailsPage(name: String, symbol: String) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "24h Volume: $${"%.2f".format(selectedStock.volume24h)} USD", // If applicable
+                text = "24h Volume: $${"%.2f".format(selectedStock.v)} USD", // If applicable
                 fontSize = 20.sp,
                 color = MaterialTheme.colorScheme.primary
             )
