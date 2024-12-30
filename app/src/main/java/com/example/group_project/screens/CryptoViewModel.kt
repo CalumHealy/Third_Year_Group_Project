@@ -97,7 +97,11 @@ class CryptoViewModel : ViewModel() {
     }
 
     private fun fetchStockCompanies() {
-        val stockSymbols = listOf("AAPL", "GOOG", "MSFT", "AMZN", "TSLA", "NVDA", "FB")
+        // Expanded list of stock symbols
+        val stockSymbols = listOf(
+            "AAPL", "GOOG", "MSFT", "AMZN", "TSLA", "NVDA", "FB", "NFLX", "BABA", "SPY",
+            "GOOG", "IBM", "AMD", "INTC", "META", "NKE", "V", "MA", "PYPL", "DIS", "SNAP"
+        )
 
         viewModelScope.launch {
             val stockResponses = stockSymbols.map { symbol ->
@@ -137,6 +141,7 @@ class CryptoViewModel : ViewModel() {
             }
         }
     }
+
 
 
     private fun handleError(message: String) {
