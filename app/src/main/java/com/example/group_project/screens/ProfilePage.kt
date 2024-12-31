@@ -29,7 +29,7 @@ fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, aut
 
     // States for managing user details and edit mode
     var fullName by remember { mutableStateOf(currentUser?.displayName ?: "") }
-    var email by remember { mutableStateOf(currentUser?.email ?: "") }
+    var email by remember { mutableStateOf(currentUser?.email ?: "No Email") } // Ensure we get email
     var address1 by remember { mutableStateOf("") }
     var address2 by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
@@ -37,6 +37,7 @@ fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, aut
     var accountType by remember { mutableStateOf("Regular") } // Default account type
     var isEditing by remember { mutableStateOf(false) }
 
+    // If the user is unauthenticated, navigate to login
     LaunchedEffect(authState.value) {
         if (authState.value is AuthState.Unauthenticated) {
             navController.navigate("login") {
@@ -45,6 +46,7 @@ fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, aut
         }
     }
 
+    // Fetch user data from Firestore once the user is logged in
     LaunchedEffect(currentUser) {
         currentUser?.let { user ->
             val docRef = firestore.collection("users").document(user.uid)
@@ -55,11 +57,13 @@ fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, aut
                     phoneNumber = document.getString("phoneNumber") ?: ""
                     balance = document.getDouble("balance")?.toString() ?: "100.00"
                     accountType = document.getString("accountType") ?: "Regular"
+                    email = user.email ?: "No Email" // Update email if it's null
                 }
             }
         }
     }
 
+    // Profile UI
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.Center,
@@ -94,7 +98,7 @@ fun ProfilePage(modifier: Modifier = Modifier, navController: NavController, aut
                 singleLine = true
             )
         } else {
-            Text(text = "Email: ${email.ifBlank { "No Email" }}", fontSize = 20.sp)
+            Text(text = "Email: $email", fontSize = 20.sp) // Display the email correctly
         }
 
         Spacer(modifier = Modifier.height(8.dp))
