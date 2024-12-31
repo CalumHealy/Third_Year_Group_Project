@@ -1,5 +1,0 @@
-Flask
-openai
-langchain
-python-dotenv
-duckduckgo-search
