@@ -2,28 +2,18 @@ package com.example.group_project.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.navigation.NavController
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 @Composable
 fun SupportFormPage(modifier: Modifier = Modifier, navController: NavController) {
@@ -32,32 +22,43 @@ fun SupportFormPage(modifier: Modifier = Modifier, navController: NavController)
     var isSubmitting by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
 
-    // Firebase Firestore instance
-    val db = FirebaseFirestore.getInstance()
+    // Firebase instances
+    val auth = FirebaseAuth.getInstance()
+    val db = FirebaseDatabase.getInstance().getReference("queries")
 
     // Function to handle form submission
     fun submitSupportForm() {
-        if (supportMessage.isNotEmpty()) {
-            isSubmitting = true
-            val supportData = hashMapOf(
-                "message" to supportMessage,
-                "timestamp" to System.currentTimeMillis()
-            )
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            val userId = currentUser.uid
+            val userEmail = currentUser.email ?: "Unknown"
 
-            // Add the support message to the Firestore collection
-            db.collection("support_forms")
-                .add(supportData)
-                .addOnSuccessListener {
-                    supportMessage = ""
-                    isSubmitting = false
-                    errorMessage = "Support request submitted successfully!"
-                }
-                .addOnFailureListener {
-                    isSubmitting = false
-                    errorMessage = "Error submitting your request. Please try again."
-                }
+            if (supportMessage.isNotEmpty()) {
+                isSubmitting = true
+                val supportData = mapOf(
+                    "userId" to userId,
+                    "email" to userEmail,
+                    "message" to supportMessage,
+                    "timestamp" to System.currentTimeMillis()
+                )
+
+                // Add the support message to the Realtime Database
+                db.push()
+                    .setValue(supportData)
+                    .addOnSuccessListener {
+                        supportMessage = ""
+                        isSubmitting = false
+                        errorMessage = "Support request submitted successfully!"
+                    }
+                    .addOnFailureListener {
+                        isSubmitting = false
+                        errorMessage = "Error submitting your request. Please try again."
+                    }
+            } else {
+                errorMessage = "Please enter a message before submitting."
+            }
         } else {
-            errorMessage = "Please enter a message before submitting."
+            errorMessage = "You must be logged in to submit a support request."
         }
     }
 
