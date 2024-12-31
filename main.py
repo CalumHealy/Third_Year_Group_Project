@@ -2,6 +2,7 @@ import sys
 import os
 import yaml
 import time
+import openai
 from crewai import Agent, Task, Crew, Process
 from langchain_openai import OpenAI
 from dotenv import load_dotenv
@@ -64,7 +65,7 @@ assets1 = [
 ]
 assets2 = [
     "Shiba Inu", "Avalanche", "TRON", "Toncoin",
-    "Wrapped stETH", "Stellar", "Polkadot", "Wrapped Bitcoin", "Chainlink", "WETH"
+    "Wrapped stETH", "Sui", "Polkadot", "Wrapped Bitcoin", "Chainlink", "Hedera"
 ]
 # assets3 = [
 #     "Agilent Technologies Inc", "Alcoa Corporation", "Alternative Access First Priority CLO Bond ETF",
@@ -84,8 +85,7 @@ assets2 = [
 #     "AIA Group LTD ORD", "Alabama Aircraft INDUS", "American AIRES INC"
 # ]
 # assets6 = [
-#     "AAK AB UNSP/ADR",
-#     "American Airlines Group Inc", "Aalberts INDUS NV ORD", "AA Mission Acquisition Corp",
+#     "AAK AB UNSP/ADR", "American Airlines Group Inc", "Aalberts INDUS NV ORD", "AA Mission Acquisition Corp",
 #     "AA Mission Acquisition Corp Units", "AA Mision Acquisition Corp Warrants", "ATLAS MARA CO NVEST ORD",
 #     "Altisource Asset MGMT", "Atlantic American Corp", "Almadex Minerals LTD"
 # ]
@@ -149,18 +149,18 @@ with open("tasks.yaml", "r") as file:
 
 def wait():
     print("Sleepy time")
-    print("Z z z ...")
-    time.sleep(10)
-    print("Z z z ...")
-    time.sleep(10)
-    print("Z z z ...")
-    time.sleep(10)
-    print("Z z z ...")
-    time.sleep(10)
-    print("Z z z ...")
-    time.sleep(10)
-    print("Z z z ...")
-    time.sleep(10)
+    # print("Z z z ...")
+    # time.sleep(10)
+    # print("Z z z ...")
+    # time.sleep(10)
+    # print("Z z z ...")
+    # time.sleep(10)
+    # print("Z z z ...")
+    # time.sleep(10)
+    # print("Z z z ...")
+    # time.sleep(10)
+    # print("Z z z ...")
+    # time.sleep(10)
     print("Awoken")
 
 
@@ -275,5 +275,6 @@ wait()
 
 final_output = (final_output1 + final_output2 + final_output3 + final_output4 + final_output5 + final_output6 + final_output7)
 
-with open("Recommendations.txt", "w") as text_file:
-    text_file.write(final_output)
+with open("Prices3.txt", "w") as text_file:
+    for result in output1 + output2 + output3 + output4 + output5 + output6 + output7:
+        text_file.write(result + "\n")
