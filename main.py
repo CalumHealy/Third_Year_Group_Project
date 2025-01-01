@@ -10,10 +10,12 @@ from langchain.tools import StructuredTool
 from crewai_tools import FileWriterTool
 from pydantic import BaseModel
 from litellm.exceptions import RateLimitError, APIError
+from flask import Flask, jsonify, request
 
 import threading
 from concurrent.futures import ThreadPoolExecutor
 
+app = Flask(__name__)
 
 load_dotenv()
 
@@ -142,8 +144,6 @@ formatter = Agent(
     tools=[OpenAI_tool]
 )
 
-print("Current working directory: ", os.getcwd())
-
 with open("tasks.yaml", "r") as file:
     tasks = yaml.safe_load(file)
 
@@ -188,7 +188,6 @@ def process_asset(item):
             )
 
             result = crew.kickoff()
-            output1.append(str(result))
             return str(result)
 
         except RateLimitError as e:
@@ -204,76 +203,49 @@ def process_asset(item):
     return f"Error processing {item}"
 
 
-# First 10 assets
-output1 = []
-with ThreadPoolExecutor() as executor:
-    results = list(executor.map(process_asset, assets1))
-final_output1 = "\n".join(results)
-print(final_output1)
-wait()
+@app.route('/api/recommendations', methods=['POST'])
+def generate_recommendations():
+    """
+    API endpoint to generate recommendations for a specific asset.
+    Clients should send a JSON payload with the 'asset' key.
+    """
+    try:
+        data = request.get_json()
+        if not data or 'asset' not in data:
+            return jsonify({"error": "Invalid input. 'asset' key is required."}), 400
+
+        asset = data['asset']
+        if not isinstance(asset, str):
+            return jsonify({"error": "'asset' must be a string."}), 400
+
+        # Process the asset
+        result = process_asset(asset)
+
+        # Return the recommendation
+        return jsonify({"asset": asset, "recommendation": result}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
-# Second 10 assets
-output2 = []
-with ThreadPoolExecutor() as executor:
-    results = list(executor.map(process_asset, assets2))
+@app.route('/api/recommendations/<asset>', methods=['GET'])
+def get_recommendation(asset):
+    try:
+        # Generate a recommendation for the specific asset
+        recommendation = process_asset(asset)
 
-final_output2 = "\n".join(results)
-print(final_output2)
-wait()
-
-
-# Third 10 assets
-output3 = []
-with ThreadPoolExecutor() as executor:
-    results = list(executor.map(process_asset, assets3))
-
-final_output3 = "\n".join(results)
-print(final_output3)
-wait()
-
-
-# Fourth 10 assets
-output4 = []
-with ThreadPoolExecutor() as executor:
-    results = list(executor.map(process_asset, assets4))
-
-final_output4 = "\n".join(results)
-print(final_output4)
-wait()
+        # Return the recommendation as a JSON response
+        return jsonify({
+            "status": "success",
+            "asset": asset,
+            "recommendation": recommendation
+        }), 200
+    except Exception as e:
+        return jsonify({
+            "status": "error",
+            "message": str(e)
+        }), 500
 
 
-# Fifth 10 assets
-output5 = []
-with ThreadPoolExecutor() as executor:
-    results = list(executor.map(process_asset, assets5))
-final_output5 = "\n".join(results)
-print(final_output5)
-wait()
-
-
-# Sixth 10 assets
-output6 = []
-with ThreadPoolExecutor() as executor:
-    results = list(executor.map(process_asset, assets6))
-
-final_output6 = "\n".join(results)
-print(final_output6)
-wait()
-
-
-# Seventh 10 assets
-output7 = []
-with ThreadPoolExecutor() as executor:
-    results = list(executor.map(process_asset, assets7))
-
-final_output7 = "\n".join(results)
-print(final_output7)
-wait()
-
-
-
-final_output = (final_output1 + final_output2 + final_output3 + final_output4 + final_output5 + final_output6 + final_output7)
-
-with open("Recommendations.txt", "w") as text_file:
-    text_file.write(final_output)
+if __name__ == '__main__':
+    app.run(debug=True)
