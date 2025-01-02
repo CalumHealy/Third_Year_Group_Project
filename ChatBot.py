@@ -67,7 +67,6 @@ def ollama_api():
 # A route to render the EJS template
 @app.route('/')
 def index():
-    return "Ollama API is running!"
     return render_template('index.ejs')
 
 # A route to handle incoming data from the frontend

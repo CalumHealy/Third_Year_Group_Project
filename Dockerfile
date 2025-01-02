@@ -1,15 +1,19 @@
-# Use a lightweight Python image
 FROM python:3.11-slim
 
-# Install dependencies
-RUN pip install flask ollama
-
-# Copy your application code into the container
 WORKDIR /app
-COPY . /app
 
-# Expose the port the app will run on
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Add Ollama binary or install steps here (if needed)
+# Example: Copy binary to `/usr/local/bin` or use a package manager.
+
+# Copy application files
+COPY . .
+
+# Expose port for Railway
 EXPOSE 11434
 
-# Run the application
+# Start the application
 CMD ["python", "ChatBot.py"]
