@@ -48,9 +48,26 @@ llama_tool = Tool(
     description="Generates responses using Llama 3.1 via Ollama API."
 )
 
+@app.route('/api', methods=['POST'])
+def ollama_api():
+    # Use the Ollama library to process the request
+    data = request.json
+    model = data.get("model", "llama3.1")
+    prompt = data.get("prompt")
+    
+    # Example Ollama interaction
+    response = ollama.chat(
+        model=model,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    
+    return jsonify({"choices": [{"text": response['message']['content']}]})
+
+
 # A route to render the EJS template
 @app.route('/')
 def index():
+    return "Ollama API is running!"
     return render_template('index.ejs')
 
 # A route to handle incoming data from the frontend
@@ -69,6 +86,5 @@ def send_data():
     return jsonify({'response': response_text})
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
-
-
+    port = int(os.environ.get("PORT", 11434))
+    app.run(host="0.0.0.0", port=port)
