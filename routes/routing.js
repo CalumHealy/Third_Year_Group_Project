@@ -121,6 +121,18 @@ router.get('/home',async (req,res) => {
                 const profitLoss = (currentPrice - stock.price) * stock.quantity;
                 const historicalData = await fetchHistoricalData(stock.name);
 
+                // Fetch AI recommendation for the stock
+                const aiRecommendation = await fetch(`https://ai-recommendations-production.up.railway.app/api/recommendations/${encodeURIComponent(stock.name)}`)
+                    .then(response => {
+                        if (!response.ok) throw new Error('Failed to fetch AI recommendation');
+                        return response.json();
+                    })
+                    .then(data => data.recommendation || "No recommendation available")
+                    .catch(err => {
+                        console.error(`Error fetching AI recommendation for ${stock.name}:`, err);
+                        return "No recommendation available";
+                    });
+
                 return{
                     key: stock.key,
                     name: stock.name,
@@ -128,7 +140,8 @@ router.get('/home',async (req,res) => {
                     quantity: stock.quantity,
                     currentPrice,
                     profitLoss,
-                    historicalData
+                    historicalData,
+                    aiRecommendation
                 };
             }catch(error){
                 console.log(`Error fetching live details for ${stock.name}`,error.message);
@@ -139,7 +152,8 @@ router.get('/home',async (req,res) => {
                     quantity: stock.quantity,
                     currentPrice: "N/A",
                     profitLoss: 0,
-                    historicalData: []
+                    historicalData: [],
+                    aiRecommendation: "No data available"
                 };
             }
         })
@@ -188,6 +202,18 @@ router.get('/home',async (req,res) => {
                 const profitLoss = (currentPrice - crypto.price) * crypto.quantity;
                 const historicalData = await fetchHistoricalData(mappedId);
 
+                // Fetch AI recommendation for the stock
+                const aiRecommendation = await fetch(`https://ai-recommendations-production.up.railway.app/api/recommendations/${encodeURIComponent(crypto.name)}`)
+                    .then(response => {
+                        if (!response.ok) throw new Error('Failed to fetch AI recommendation');
+                        return response.json();
+                    })
+                    .then(data => data.recommendation || "No recommendation available")
+                    .catch(err => {
+                        console.error(`Error fetching AI recommendation for ${crypto.name}:`, err);
+                        return "No recommendation available";
+                    });
+
                 return{
                     key: crypto.key,
                     name: crypto.name,
@@ -196,7 +222,8 @@ router.get('/home',async (req,res) => {
                     quantity: crypto.quantity,
                     currentPrice,
                     profitLoss,
-                    historicalData
+                    historicalData,
+                    aiRecommendation
                 };
             }catch (error){
                 console.log(`Error fetching live details for ${crypto.name}`,error.message);
@@ -208,7 +235,8 @@ router.get('/home',async (req,res) => {
                     quantity: crypto.quantity,
                     currentPrice: "N/A",
                     profitLoss: 0,
-                    historicalData: []
+                    historicalData: [],
+                    aiRecommendation: "No data available"
                 };
             }
         })

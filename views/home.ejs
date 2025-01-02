@@ -52,7 +52,7 @@
                                 <a href="/sell_stock/<%= stock.name %>">Sell </a>
                                 </div>
                             <div class="rec-row">
-                                <p><strong>AI Recommendation: </strong><br>AI Recommendation goes here</p>
+                                <p><strong>AI Recommendation: </strong><%= stock.aiRecommendation %></p>
                             </div>
                             <div class="chart-row">
                                 <!-- Current Price Chart -->
@@ -164,7 +164,7 @@
                                 <a href="/sell_crypto/<%= crypto.id %>">Sell</a>
                             </div>
                             <div class="rec-row">
-                                <p><strong>AI Recommendation: </strong><br>AI Recommendation goes here</p>
+                                <p><strong>AI Recommendation: </strong><%= crypto.aiRecommendation %></p>
                             </div>
                             <div class="chart-row">
                                 <!-- Current Price Chart -->

@@ -41,6 +41,10 @@ const corsOptions = {
     allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers if needed
   };
 
+
+app.set('view engine', 'ejs');
+app.set('views', './views');
+  
 //middleware 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.json());
@@ -62,12 +66,6 @@ app.use(
 
 // Use the CORS middleware with options
 app.use(cors(corsOptions));
-
-// Your API routes go here
-app.get('/api/process-text', (req, res) => {
-  // Your existing API logic
-  res.json({ message: 'API response' });
-});
 
 //Use router
 app.use('/',router);
