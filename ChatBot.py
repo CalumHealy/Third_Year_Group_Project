@@ -10,7 +10,9 @@ from flask import Flask, request, jsonify, render_template
 import ollama
 
 load_dotenv()
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
+app.jinja_env.add_extension('jinja2.ext.loopcontrols')
+
 
 search_tool = Tool(
     name="DuckDuckGo Search",
