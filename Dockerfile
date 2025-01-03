@@ -6,10 +6,6 @@ WORKDIR /app
 COPY requirements.txt .
 
 RUN pip install -r requirements.txt
-RUN pip install ollama
-
-# Add Ollama binary or install steps here (if needed)
-# Example: Copy binary to `/usr/local/bin` or use a package manager.
 
 # Copy application files
 COPY . /app

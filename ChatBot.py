@@ -13,6 +13,7 @@ load_dotenv()
 app = Flask(__name__, template_folder="templates")
 app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 
+ollama.client.base_url = " https://bbcc-78-135-167-175.ngrok-free.app"
 
 search_tool = Tool(
     name="DuckDuckGo Search",
@@ -36,7 +37,7 @@ def call_llama(user_input):
 
 def llama_ollama_api(prompt: str) -> str:
     response = requests.post(
-        "https://ai-chatbot-production-b157.up.railway.app/api",
+        " https://bbcc-78-135-167-175.ngrok-free.app",
         json={"model": "llama3.1", "prompt": prompt}
     )
     response.raise_for_status()
