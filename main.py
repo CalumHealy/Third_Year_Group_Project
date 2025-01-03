@@ -166,7 +166,7 @@ def wait():
 
 def process_asset(item):
     retries = 10
-    backoff_factor = 20
+    backoff_factor = 30
     for attempt in range(retries):
         try:
             task1 = Task(
@@ -193,12 +193,15 @@ def process_asset(item):
         except RateLimitError as e:
             print(f"Rate limit exceeded: {e}. Retrying in {backoff_factor} seconds...")
             time.sleep(backoff_factor)
+            wait()
         except APIError as e:
             print(f"API error: {e}. Retrying in {backoff_factor} seconds...")
             time.sleep(backoff_factor)
+            wait()
         except Exception as e:
             print(f"Unexpected error: {e}. Retrying in {backoff_factor} seconds...")
             time.sleep(backoff_factor)
+            wait()
     print(f"Failed to process {item} after {retries} retries.")
     return f"Error processing {item}"
 
