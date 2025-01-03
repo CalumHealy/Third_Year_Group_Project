@@ -7,13 +7,9 @@ from dotenv import load_dotenv
 from langchain_community.tools import DuckDuckGoSearchRun
 from flask import Flask, request, jsonify, render_template
 
-import ollama
-
 load_dotenv()
 app = Flask(__name__, template_folder="templates")
 app.jinja_env.add_extension('jinja2.ext.loopcontrols')
-
-ollama.client.base_url = " https://bbcc-78-135-167-175.ngrok-free.app"
 
 search_tool = Tool(
     name="DuckDuckGo Search",
@@ -21,48 +17,38 @@ search_tool = Tool(
     description="Search the web using DuckDuckGo"
 )
 
+def llama_ollama_api(prompt: str) -> str:
+    try:
+        response = requests.post(
+            "https://bbcc-78-135-167-175.ngrok-free.app/api",
+            json={"model": "llama3.1", "prompt": prompt}
+        )
+        response.raise_for_status()  # This will raise an error if the status code is 4xx or 5xx
+        return response.json()["choices"][0]["text"]
+    except requests.exceptions.HTTPError as http_err:
+        print(f"HTTP error occurred: {http_err}")
+        return "There was an error processing your request."
+    except Exception as err:
+        print(f"Other error occurred: {err}")
+        return "An unknown error occurred."
+
+
 def call_llama(user_input):
-    model = "llama3.1"
-    prompt = user_input
-    stream = ollama.chat(
-        model=model,
-        messages=[{'role': 'user', 'content': prompt}],
-        stream=True
-    )
-    response_text = ""
-    for chunk in stream:
-        print(chunk['message']['content'], end='')
-        response_text += chunk['message']['content']
+    response_text = llama_ollama_api(user_input)
+    print(f"LLM Response: {response_text}")
     return response_text
 
-def llama_ollama_api(prompt: str) -> str:
-    response = requests.post(
-        " https://bbcc-78-135-167-175.ngrok-free.app",
-        json={"model": "llama3.1", "prompt": prompt}
-    )
-    response.raise_for_status()
-    return response.json()["choices"][0]["text"]
-
-llama_tool = Tool(
-    name="Llama LLM",
-    func=llama_ollama_api,
-    description="Generates responses using Llama 3.1 via Ollama API."
-)
 
 @app.route('/api', methods=['POST'])
 def ollama_api():
     # Use the Ollama library to process the request
     data = request.json
-    model = data.get("model", "llama3.1")
-    prompt = data.get("prompt")
+    prompt = data.get("prompt", "")
     
-    # Example Ollama interaction
-    response = ollama.chat(
-        model=model,
-        messages=[{"role": "user", "content": prompt}],
-    )
+    # Call the Ollama API
+    response_text = llama_ollama_api(prompt)
     
-    return jsonify({"choices": [{"text": response['message']['content']}]})
+    return jsonify({"choices": [{"text": response_text}]})
 
 
 # A route to render the EJS template
@@ -77,10 +63,12 @@ def send_data():
     user_input = data.get('user_input')  # Get the input text
     print(f"Received from frontend: {user_input}")
 
-    # Process the input or store it as needed
-    # response_text = f"Processed: {user_input}"  # Example processing
-    # response_text = llama_ollama_api(user_input)
-    response_text = call_llama(user_input)
+    # Call the external API to process the input
+    try:
+        response_text = call_llama(user_input)  # Make an external API call to process input
+    except requests.exceptions.RequestException as e:
+        print(f"Error calling external API: {e}")
+        response_text = "There was an error processing your request."
 
     # Send back a response to the frontend
     return jsonify({'response': response_text})
