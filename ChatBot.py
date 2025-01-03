@@ -36,7 +36,7 @@ def call_llama(user_input):
 
 def llama_ollama_api(prompt: str) -> str:
     response = requests.post(
-        "http://localhost:11434/api",
+        "https://ai-chatbot-production-b157.up.railway.app/api",
         json={"model": "llama3.1", "prompt": prompt}
     )
     response.raise_for_status()
@@ -85,5 +85,4 @@ def send_data():
     return jsonify({'response': response_text})
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 11434))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
