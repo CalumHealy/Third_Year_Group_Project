@@ -158,15 +158,15 @@ def wait():
     print("Z z z ...")
     time.sleep(10)
     print("Z z z ...")
-    time.sleep(10)
-    print("Z z z ...")
-    time.sleep(10)
-    print("Awoken")
+    # time.sleep(10)
+    # print("Z z z ...")
+    # time.sleep(10)
+    # print("Awoken")
 
 
 def process_asset(item):
     retries = 10
-    backoff_factor = 30
+    backoff_factor = 20
     for attempt in range(retries):
         try:
             task1 = Task(
