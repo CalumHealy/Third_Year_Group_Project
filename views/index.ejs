@@ -27,9 +27,41 @@
         <div class="form">
             <p>Dont have an account? <a href="/register">Create One Today!</a></p>
             <p>Forgot your password? <a href="/forgotPassword">Forgot Password</a></p>
+            <p>Or log in with:</p>
+            <div id="google-signin-button"></div>
+            <script src="https://accounts.google.com/gsi/client" async defer></script>
+            <script>
+                function handleCredentialResponse(response) {
+                    const idToken = response.credential;
+                    fetch('/google-login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ token: idToken }),
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = '/home'; // Redirect to home on success
+                        } else {
+                            console.error('Failed to log in with Google');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
+
+                window.onload = function () {
+                    google.accounts.id.initialize({
+                        client_id: '826845466167-mejd10akc8gqoh6tnlovlmdogkgf54ff.apps.googleusercontent.com',
+                        callback: handleCredentialResponse
+                    });
+                    google.accounts.id.renderButton(
+                        document.getElementById("google-signin-button"),
+                        { theme: "outline", size: "large" } // Customization options
+                    );
+                };
+            </script>
         </div>
     </form>
-
-
 </body>
 </html>

@@ -1,14 +1,17 @@
 import express from 'express';
 import { db } from '../app.js';
 import { ref,set,get,update, push, getDatabase, remove } from 'firebase/database';
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail} from 'firebase/auth'
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
 import { fetchStocks, fetchStockDetails} from '../services/polygonService.js';
 import { fetchCryptoList, fetchCryptoDetails} from '../services/cryptoServices.js';
 import { fetchHistoricalData } from '../services/chartServices.js';
+import { OAuth2Client } from 'google-auth-library';
 import argon2  from 'argon2'; //for password hashing
 import e from 'express';
 
 const router = express.Router();
+const provider = new GoogleAuthProvider();
+const client = new OAuth2Client('826845466167-mejd10akc8gqoh6tnlovlmdogkgf54ff.apps.googleusercontent.com');
 
 //function to clean email address for firebase path
 const safeEmail = (email) => {
@@ -265,6 +268,40 @@ router.post('/login', async (req,res) =>{
     }catch(error){
         console.error("Error logging into website",error);
         res.status(402).send("Failed to login.");
+    }
+});
+
+// Google login route
+router.post("/google-login", async (req, res) => {
+    const token = req.body.token;
+    if (!token) {
+        return res.status(400).send("Token is required");
+    }
+
+    try {
+        // Verify the token using the Google OAuth client
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: '826845466167-mejd10akc8gqoh6tnlovlmdogkgf54ff.apps.googleusercontent.com,  // Replace with your client ID',
+        });
+        const payload = ticket.getPayload();
+
+        // Get Firebase authentication instance
+        const auth = getAuth();
+
+        // Sign in the user with the credential
+        const credential = GoogleAuthProvider.credential(token);
+        const userCredential = await signInWithCredential(auth, credential);
+
+        // Handle user info
+        const user = userCredential.user;
+        console.log("User logged in with Google:", user.displayName);
+        req.session.username = user.email;  // Store email in session
+        res.redirect("/home");
+
+    } catch (error) {
+        console.error("Google login error:", error);
+        res.status(500).send("Failed to log in with Google.");
     }
 });
 

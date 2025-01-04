@@ -39,7 +39,7 @@ const corsOptions = {
     origin: 'http://localhost:3000', // Change this to your frontend URL
     methods: ['GET', 'POST'], // Specify allowed HTTP methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers if needed
-  };
+};
 
 
 app.set('view engine', 'ejs');
