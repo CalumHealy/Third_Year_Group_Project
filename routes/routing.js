@@ -273,35 +273,23 @@ router.post('/login', async (req,res) =>{
 
 // Google login route
 router.post("/google-login", async (req, res) => {
-    const token = req.body.token;
-    if (!token) {
-        return res.status(400).send("Token is required");
-    }
-
+    const token = req.body.token; // Get the token from the client
     try {
-        // Verify the token using the Google OAuth client
-        const ticket = await client.verifyIdToken({
-            idToken: token,
-            audience: '826845466167-mejd10akc8gqoh6tnlovlmdogkgf54ff.apps.googleusercontent.com,  // Replace with your client ID',
-        });
-        const payload = ticket.getPayload();
-
-        // Get Firebase authentication instance
-        const auth = getAuth();
-
-        // Sign in the user with the credential
-        const credential = GoogleAuthProvider.credential(token);
-        const userCredential = await signInWithCredential(auth, credential);
-
-        // Handle user info
-        const user = userCredential.user;
-        console.log("User logged in with Google:", user.displayName);
-        req.session.username = user.email;  // Store email in session
-        res.redirect("/home");
-
+      // Verify the token using the Google OAuth client
+      const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: 'YOUR_CORRECT_CLIENT_ID', // Replace with your client ID
+      });
+      const payload = ticket.getPayload();
+  
+      // Handle user info
+      console.log("User info from token:", payload);
+  
+      req.session.username = payload.email; // Store email in session
+      res.redirect("/home");
     } catch (error) {
-        console.error("Google login error:", error);
-        res.status(500).send("Failed to log in with Google.");
+      console.error("Google login error:", error);
+      res.status(500).send("Failed to log in with Google.");
     }
 });
 
